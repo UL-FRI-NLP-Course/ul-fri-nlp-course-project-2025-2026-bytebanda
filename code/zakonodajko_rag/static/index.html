@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="sl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zakonodajko</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/app.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">Ž</div>
+          <div>
+            <p class="eyebrow">Slovenska davčna zakonodaja</p>
+            <h1>Zakonodajko</h1>
+          </div>
+        </div>
+        <p class="sidebar-copy">
+          Lokalni davčni chatbot nad PISRS zakonodajo in FURS pojasnili. Odgovori skušajo ločiti pravno podlago od upravne razlage in vedno pokažejo vire.
+        </p>
+        <div class="status-card">
+          <p class="status-label">Stanje</p>
+          <div class="status-row">
+            <span class="status-dot" id="health-dot"></span>
+            <span id="health-text">Preverjam strežnik …</span>
+          </div>
+        </div>
+        <section class="prompt-panel">
+          <p class="panel-title">Poskusi vprašanja</p>
+          <button class="prompt-chip" data-prompt="Kaj določa 395. člen ZDavP-2?">Kaj določa 395. člen ZDavP-2?</button>
+          <button class="prompt-chip" data-prompt="Kdaj je rok predložitve obračuna davčnega odtegljaja?">Kdaj je rok predložitve obračuna davčnega odtegljaja?</button>
+          <button class="prompt-chip" data-prompt="Katere so stopnje dohodnine?">Katere so stopnje dohodnine?</button>
+          <button class="prompt-chip" data-prompt="Izračunaj DDV na neto znesek 1.200 EUR po 22%.">Izračunaj DDV na neto znesek 1.200 EUR po 22%.</button>
+          <button class="prompt-chip" data-prompt="V kateri dohodninski razred padem pri neto letni davčni osnovi 30.000 EUR?">V kateri dohodninski razred padem pri neto letni davčni osnovi 30.000 EUR?</button>
+          <button class="prompt-chip" data-prompt="Kaj pomeni davčna tajnost?">Kaj pomeni davčna tajnost?</button>
+        </section>
+        <section class="notes-panel">
+          <p class="panel-title">Opomba</p>
+          <p class="note-copy">
+            To je informativno orodje. Za zanesljiv odgovor postavljaj čim bolj konkretna vprašanja in po možnosti navedi zakon ali člen.
+          </p>
+        </section>
+        <footer class="site-credit">
+          <p>© Zakonodajko</p>
+          <p>Marko Praček, Matic Šinigoj, Vid Koncilja</p>
+        </footer>
+      </aside>
+
+      <main class="workspace">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">Chat UI</p>
+            <h2>Zakonodajko</h2>
+          </div>
+          <div class="hero-badge">
+            <span class="hero-badge-label">Lokalno</span>
+            <span id="chunk-count">…</span>
+          </div>
+        </header>
+
+        <section class="conversation-layout">
+          <section class="chat-frame">
+            <div class="messages" id="messages" aria-live="polite"></div>
+
+            <form class="composer" id="chat-form">
+              <label class="composer-label" for="chat-input">Vprašanje</label>
+              <div class="composer-row">
+                <textarea
+                  id="chat-input"
+                  name="message"
+                  rows="3"
+                  maxlength="4000"
+                  placeholder="Vprašaj na primer: Kdo mora varovati davčno tajnost?"
+                ></textarea>
+                <button type="submit" id="send-button">Pošlji</button>
+              </div>
+              <p class="composer-hint">`Shift + Enter` za novo vrstico, `Enter` za pošiljanje.</p>
+            </form>
+          </section>
+
+          <aside class="sources-drawer" id="sources-drawer" aria-live="polite">
+            <div class="drawer-head">
+              <p class="eyebrow">Dokazna Podlaga</p>
+              <h3 id="drawer-title">Odpri vire ob odgovoru</h3>
+              <p class="drawer-copy" id="drawer-copy">
+                Tukaj se prikažejo uporabljeni členi, podporni stavki in interpretacija follow-up vprašanja.
+              </p>
+            </div>
+            <div class="drawer-content" id="drawer-content">
+              <div class="drawer-empty">
+                <p>Pošlji vprašanje ali odpri vire ob odgovoru, da vidiš točno pravno podlago.</p>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <template id="welcome-template">
+      <article class="message assistant">
+        <div class="message-head">
+          <span class="message-role">Zakonodajko</span>
+          <span class="message-meta">Pripravljen za vprašanja</span>
+        </div>
+        <div class="message-body">
+          <p>
+            Vprašaj me o zakonih `ZDavP-2`, `ZDoh-2`, `ZDDV-1`, pripadajočih pravilnikih in javno objavljenih FURS pojasnilih. Znam tudi osnovne deterministične izračune za DDV in dohodninsko lestvico.
+          </p>
+        </div>
+      </article>
+    </template>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

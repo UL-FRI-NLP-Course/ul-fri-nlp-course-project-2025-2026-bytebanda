@@ -1,0 +1,102 @@
+[
+  {
+    "title": "Evidenci obračunanega DDV in odbitka DDV, ter predizpolnitev obračuna DDV",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Evidenci_obracunanega_DDV_in_odbitka_DDV_ter_predizpolnitev_obracuna_DDV.doc",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Evidenci_obracunanega_DDV_in_odbitka_DDV_ter_predizpolnitev_obracuna_DDV.doc",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".doc",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Prikaz evidentiranja za atipične davčne zavezance v aplikaciji miniBLAGAJNA",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Prikaz_evidentiranja_za_atipicne_davcne_zavezance_v_aplikaciji_miniBLAGAJNA.docx",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Prikaz_evidentiranja_za_atipicne_davcne_zavezance_v_aplikaciji_miniBLAGAJNA.docx",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".docx",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Vzorec XML sporočila za poročanje plačilnih podatkov",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_za_zunanje_PSP.zip",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_za_zunanje_PSP.zip",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".zip",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Navodilo za registracijo strežniškega certifikata",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Navodilo_za_registracijo_strezniskega_potrdila_v_sistemu_eDavki.docx",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Navodilo_za_registracijo_strezniskega_potrdila_v_sistemu_eDavki.docx",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".docx",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Primeri izpolnjevanja evidenc obračunanega DDV in odbitka DDV",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_izpolnjevanja_evidenc_obracunanega_DDV_in_odbitka_DDV.zip",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_izpolnjevanja_evidenc_obracunanega_DDV_in_odbitka_DDV.zip",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".zip",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Uvoz pripravljenih evidenc preko portala eDavki",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Uvoz_pripravljenih_evidenc_preko_portala_eDavki.docx",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Uvoz_pripravljenih_evidenc_preko_portala_eDavki.docx",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".docx",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Primeri izpolnjevanja evidenc obračunanega DDV in odbitka DDV – atipični davčni zavezanci",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_izpolnjevanja_evidenc_obracunanega_DDV_in_odbitka_DDV_-_atipicni_davcni_zavezanci.zip",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_izpolnjevanja_evidenc_obracunanega_DDV_in_odbitka_DDV_-_atipicni_davcni_zavezanci.zip",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".zip",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Primeri evidenc – stornacije 88.b člen",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_evidenc_-_stornacije_-_88b_clen.docx",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Primeri_evidenc_-_stornacije_-_88b_clen.docx",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".docx",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "Navodila za vpogled in preverjanje evidenc obračunanega DDV in odbitka DDV v eDavkih",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Navodila_za_vpogled_in_preverjanje_evidenc_obracunanega_DDV_in_odbitka_DDV_v_eDavkih.docx",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Podrocja/Davek_na_dodano_vrednost/Opis/Navodila_za_vpogled_in_preverjanje_evidenc_obracunanega_DDV_in_odbitka_DDV_v_eDavkih.docx",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".docx",
+    "source_type": "furs_guidance"
+  },
+  {
+    "title": "4230-145/2017: Popravljanje napak iz preteklih obdobij v tekočem obračunu DDV po 88.b členu ZDDV-1",
+    "source_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Poslovanje_z_nami/Novodila_in_pojasnila/2017/4230-145_2017_Popravljanje_napak_iz_preteklih_obdobij_v_tekocem_obracunu_DDV.zip",
+    "download_url": "https://www.fu.gov.si/fileadmin/Internet/Davki_in_druge_dajatve/Poslovanje_z_nami/Novodila_in_pojasnila/2017/4230-145_2017_Popravljanje_napak_iz_preteklih_obdobij_v_tekocem_obracunu_DDV.zip",
+    "year": null,
+    "year_label": "",
+    "guidance_kind": "ddv_technical",
+    "extension": ".zip",
+    "source_type": "furs_guidance"
+  }
+]

@@ -1,0 +1,25 @@
+{"query_id":"q01","query":"Kaj določa 395. člen ZDavP-2?","category":"explicit_citation","targets":[{"law_id":"ZAKO4703","article_number":"395. člen"}]}
+{"query_id":"q02","query":"Kakšna je globa za hujši davčni prekršek posameznika?","category":"penalty","targets":[{"law_id":"ZAKO4703","article_number":"395. člen"}]}
+{"query_id":"q03","query":"Kaj pomeni davčna tajnost?","category":"plain_language","targets":[{"law_id":"ZAKO4703","article_number":"15. člen"}]}
+{"query_id":"q04","query":"Kdo mora varovati davčno tajnost?","category":"plain_language","targets":[{"law_id":"ZAKO4703","article_number":"16. člen"}]}
+{"query_id":"q05","query":"Kaj pobiranje davka vključuje?","category":"plain_language","targets":[{"law_id":"ZAKO4703","article_number":"3. člen"}]}
+{"query_id":"q06","query":"Kaj določa 1. člen ZDavP-2?","category":"explicit_citation","targets":[{"law_id":"ZAKO4703","article_number":"1. člen"}]}
+{"query_id":"q07","query":"Kdaj mora ponudnik INR sporočiti podatke davčnemu organu?","category":"deadline","targets":[{"law_id":"ZAKO4703","article_number":"338.a člen"}]}
+{"query_id":"q08","query":"Kdaj mora geodetski organ poslati podatke o zemljiščih davčnemu organu?","category":"deadline","targets":[{"law_id":"ZAKO4703","article_number":"340. člen"}]}
+{"query_id":"q09","query":"Kdaj je rok predložitve obračuna davčnega odtegljaja?","category":"deadline","targets":[{"law_id":"ZAKO4703","article_number":"284. člen"}]}
+{"query_id":"q10","query":"Katere so stopnje dohodnine?","category":"plain_language","targets":[{"law_id":"ZAKO4697","article_number":"122. člen"}]}
+{"query_id":"q11","query":"Kaj določa 122. člen ZDoh-2?","category":"explicit_citation","targets":[{"law_id":"ZAKO4697","article_number":"122. člen"}]}
+{"query_id":"q12","query":"Kdo se šteje za vzdrževanega družinskega člana?","category":"plain_language","targets":[{"law_id":"ZAKO4697","article_number":"115. člen"}]}
+{"query_id":"q13","query":"Kako se uskladijo olajšave po ZDoh-2?","category":"plain_language","targets":[{"law_id":"ZAKO4697","article_number":"118. člen"}]}
+{"query_id":"q14","query":"Kolikšna je olajšava za prostovoljno dodatno pokojninsko zavarovanje?","category":"plain_language","targets":[{"law_id":"ZAKO4697","article_number":"117. člen"}]}
+{"query_id":"q15","query":"Kakšna je stopnja DDV?","category":"plain_language","targets":[{"law_id":"ZAKO4701","article_number":"41. člen"}]}
+{"query_id":"q16","query":"Kaj določa 41. člen ZDDV-1?","category":"explicit_citation","targets":[{"law_id":"ZAKO4701","article_number":"41. člen"}]}
+{"query_id":"q17","query":"Kdaj je treba predložiti obračun DDV?","category":"deadline","targets":[{"law_id":"ZAKO4701","article_number":"88. člen"}]}
+{"query_id":"q18","query":"Kaj je davčno obdobje za DDV?","category":"plain_language","targets":[{"law_id":"ZAKO4701","article_number":"89. člen"}]}
+{"query_id":"q19","query":"Kdaj nastane pravica do odbitka DDV?","category":"plain_language","targets":[{"law_id":"ZAKO4701","article_number":"62. člen"}]}
+{"query_id":"q20","query":"Kolikšna je splošna stopnja davka od dohodkov pravnih oseb?","category":"plain_language","targets":[{"law_id":"ZAKO4687","article_number":"60. člen"}]}
+{"query_id":"q21","query":"Pod katerimi pogoji se dividende izvzamejo iz davčne osnove po ZDDPO-2?","category":"plain_language","targets":[{"law_id":"ZAKO4687","article_number":"24. člen"}]}
+{"query_id":"q22","query":"Kako se izvzemajo dobički iz odsvojitve lastniških deležev?","category":"plain_language","targets":[{"law_id":"ZAKO4687","article_number":"25. člen"}]}
+{"query_id":"q23","query":"Kaj pomeni bančna garancija po pravilniku ZDDPO-2?","category":"plain_language","targets":[{"law_id":"PRAV8299","article_number":"12. člen"}]}
+{"query_id":"q24","query":"Kako se pošiljajo informacije FATCA?","category":"plain_language","targets":[{"law_id":"PRAV7927","article_number":"86.a člen"}]}
+{"query_id":"q25","query":"Kaj vsebuje bančna garancija po pravilniku ZDavP-2?","category":"plain_language","targets":[{"law_id":"PRAV7927","article_number":"47. člen"}]}
