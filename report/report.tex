@@ -1,240 +1,210 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FRI Data Science_report LaTeX Template
-% Version 1.0 (28/1/2020)
-% 
-% Jure Demšar (jure.demsar@fri.uni-lj.si)
-%
-% Based on MicromouseSymp article template by:
-% Mathias Legrand (legrand.mathias@gmail.com) 
-% With extensive modifications by:
-% Antonio Valente (antonio.luis.valente@gmail.com)
-%
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
+% Project report for the NLP course
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-%----------------------------------------------------------------------------------------
 \documentclass[fleqn,moreauthors,10pt]{ds_report}
 \usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{tabularx}
+\usepackage{array}
 
 \graphicspath{{fig/}}
 
-
-
-
-%----------------------------------------------------------------------------------------
-%	ARTICLE INFORMATION
-%----------------------------------------------------------------------------------------
-
-% Header
-\JournalInfo{FRI Natural language processing course 2021}
-
-% Interim or final report
-\Archive{Project report} 
-%\Archive{Final report} 
-
-% Article title
-\PaperTitle{Natural language processing course Latex Template} 
-
-% Authors (student competitors) and their info
-\Authors{John Doe, Jane Doe, and Mike Smith}
-
-% Advisors
-\affiliation{\textit{Advisors: Slavko Žitnik}}
-
-% Keywords
-\Keywords{Keyword1, Keyword2, Keyword3 ...}
+\JournalInfo{FRI Natural Language Processing Course 2025/2026}
+\Archive{Project report}
+\PaperTitle{Zakonodajko: Retrieval-Augmented Question Answering over Slovenian Tax Legislation}
+\Authors{ByteBanda project team}
+\affiliation{\textit{Advisor: Slavko Žitnik}}
+\Keywords{retrieval-augmented generation, Slovenian legislation, tax law, FAISS, sentence embeddings}
 \newcommand{\keywordname}{Keywords}
-
-
-%----------------------------------------------------------------------------------------
-%	ABSTRACT
-%----------------------------------------------------------------------------------------
-
-\Abstract{
-The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here.
+\newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\hypersetup{
+    pdftitle={Zakonodajko: Retrieval-Augmented Question Answering over Slovenian Tax Legislation},
+    pdfauthor={ByteBanda project team}
 }
 
-%----------------------------------------------------------------------------------------
+\Abstract{
+Zakonodajko is a domain-specific question-answering assistant for Slovenian tax legislation. The system uses Retrieval-Augmented Generation (RAG): legal documents are extracted from local PISRS HTML files, split into chunks, embedded with a multilingual sentence-transformer, indexed with FAISS, and retrieved as grounded context for a local instruction-tuned language model. We implemented two retrieval pipelines. The baseline uses fixed-size character chunks and dense FAISS retrieval. Version 2 adds article-aware legal chunking and a hybrid reranker that combines dense similarity, lexical overlap, and a legal-source boost. On a 20-question evaluation set covering DDV, dohodnina, corporate income tax, and tax procedure, the Version 2 retriever improves source hit@3 from 40.0\% to 95.0\%, article hit@3 from 0.0\% to 30.0\%, and expected phrase hit@3 from 0.0\% to 35.0\%. Manual generation assessment shows that the strict prompt is slightly more correct than the baseline prompt, but correctness remains limited at 0.65/2 on average because many failures originate from retrieval of related but not exact legal articles.
+}
 
 \begin{document}
 
-% Makes all text pages the same height
-\flushbottom 
-
-% Print the title and abstract box
-\maketitle 
-
-% Removes page numbering from the first page
-\thispagestyle{empty} 
-
-%----------------------------------------------------------------------------------------
-%	ARTICLE CONTENTS
-%----------------------------------------------------------------------------------------
+\flushbottom
+\maketitle
+\thispagestyle{empty}
 
 \section*{Introduction}
-	Our project, Zakonodajko, will be a domain-specific conversational AI assistant for Slovenian legislation. It will be designed to answer legal questions more reliably than general-purpose language models by grounding responses in official sources. The system will be built using a Retrieval-Augmented Generation (RAG) pipeline, where it will first retrieve relevant legal documents and then generate an answer based on that context.
 
-    The assistant will be based on trusted Slovenian legal and public-administration data. Our knowledge base will include documents from PISRS, the Uradni list Republike Slovenije, and supporting information from FURS and GOV.SI. In particular, we will focus on key tax-related legal acts such as ZDDV-1, ZDoh-2, and ZDavP-2, which will provide the factual basis for retrieval and answer generation.
+Legal question answering is a difficult application for general-purpose language models because answers must be grounded in precise and current source material. For tax questions, small differences in article number, exception, threshold, or legal act can change the answer. Our project, \textit{Zakonodajko}, addresses this problem by building a Retrieval-Augmented Generation system for Slovenian tax law. Instead of relying only on model memory, the assistant first retrieves relevant legal passages and then generates an answer from those passages.
 
-    For the development of our project, we will examine several existing approaches for adapting large language models to specialized domains. One important direction is Retrieval-Augmented Generation (RAG), which improves answer quality by combining generation with retrieval from external documents \cite{DBLP:journals/corr/abs-2005-11401}. We will also look at parameter-efficient fine-tuning methods such as LoRA, which make it possible to adapt large models with fewer trainable parameters \cite{DBLP:journals/corr/abs-2106-09685}, and at approaches like Toolformer, which extend language models with the ability to use external tools \cite{schick2023toolformerlanguagemodelsteach}.
+The current prototype focuses on Slovenian tax legislation from PISRS. The main source documents are the Value Added Tax Act (ZDDV-1), the Personal Income Tax Act (ZDoh-2), the Corporate Income Tax Act (ZDDPO-2), the Tax Procedure Act (ZDavP-2), and related rulebooks. These documents are suitable for a RAG system because they are long, structured into articles, and contain many definitions and procedural rules that users may ask about.
 
-
-%------------------------------------------------
+The project follows the standard RAG approach introduced by Lewis et al.~\cite{DBLP:journals/corr/abs-2005-11401}. We also considered more complex adaptation methods such as LoRA fine-tuning~\cite{DBLP:journals/corr/abs-2106-09685} and tool-using language models~\cite{schick2023toolformerlanguagemodelsteach}, but for this stage we chose a transparent retrieval-first pipeline. This decision makes the system easier to inspect, easier to run on the course HPC environment, and easier to evaluate with explicit source-level diagnostics.
 
 \section*{Methods}
 
-Use the Methods section to describe what you did an how you did it -- in what way did you prepare the data, what algorithms did you use, how did you test various solutions ... Provide all the required details for a reproduction of your work.
+\subsection*{Data}
 
-Below are \LaTeX examples of some common elements that you will probably need when writing your report (e.g. figures, equations, lists, code examples ...).
-
-
-\subsection*{Equations}
-
-You can write equations inline, e.g. $\cos\pi=-1$, $E = m \cdot c^2$ and $\alpha$, or you can include them as separate objects. The Bayes’s rule is stated mathematically as:
-
-\begin{equation}
-	P(A|B) = \frac{P(B|A)P(A)}{P(B)},
-	\label{eq:bayes}
-\end{equation}
-
-where $A$ and $B$ are some events. You can also reference it -- the equation \ref{eq:bayes} describes the Bayes's rule.
-
-\subsection*{Lists}
-
-We can insert numbered and bullet lists:
-
-% the [noitemsep] option makes the list more compact
-\begin{enumerate}[noitemsep] 
-	\item First item in the list.
-	\item Second item in the list.
-	\item Third item in the list.
-\end{enumerate}
-
-\begin{itemize}[noitemsep] 
-	\item First item in the list.
-	\item Second item in the list.
-	\item Third item in the list.
-\end{itemize}
-
-We can use the description environment to define or describe key terms and phrases.
-
-\begin{description}
-	\item[Word] What is a word?.
-	\item[Concept] What is a concept?
-	\item[Idea] What is an idea?
-\end{description}
-
-
-\subsection*{Random text}
-
-This text is inserted only to make this template look more like a proper report. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam blandit dictum facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam convallis tellus velit, quis ornare ipsum aliquam id. Maecenas tempus mauris sit amet libero elementum eleifend. Nulla nunc orci, consectetur non consequat ac, consequat non nisl. Aenean vitae dui nec ex fringilla malesuada. Proin elit libero, faucibus eget neque quis, condimentum laoreet urna. Etiam at nunc quis felis pulvinar dignissim. Phasellus turpis turpis, vestibulum eget imperdiet in, molestie eget neque. Curabitur quis ante sed nunc varius dictum non quis nisl. Donec nec lobortis velit. Ut cursus, libero efficitur dictum imperdiet, odio mi fermentum dui, id vulputate metus velit sit amet risus. Nulla vel volutpat elit. Mauris ex erat, pulvinar ac accumsan sit amet, ultrices sit amet turpis.
-
-Phasellus in ligula nunc. Vivamus sem lorem, malesuada sed pretium quis, varius convallis lectus. Quisque in risus nec lectus lobortis gravida non a sem. Quisque et vestibulum sem, vel mollis dolor. Nullam ante ex, scelerisque ac efficitur vel, rhoncus quis lectus. Pellentesque scelerisque efficitur purus in faucibus. Maecenas vestibulum vulputate nisl sed vestibulum. Nullam varius turpis in hendrerit posuere.
-
-
-\subsection*{Figures}
-
-You can insert figures that span over the whole page, or over just a single column. The first one, \figurename~\ref{fig:column}, is an example of a figure that spans only across one of the two columns in the report.
-
-\begin{figure}[ht]\centering
-	\includegraphics[width=\linewidth]{single_column.pdf}
-	\caption{\textbf{A random visualization.} This is an example of a figure that spans only across one of the two columns.}
-	\label{fig:column}
-\end{figure}
-
-On the other hand, \figurename~\ref{fig:whole} is an example of a figure that spans across the whole page (across both columns) of the report.
-
-% \begin{figure*} makes the figure take up the entire width of the page
-\begin{figure*}[ht]\centering 
-	\includegraphics[width=\linewidth]{whole_page.pdf}
-	\caption{\textbf{Visualization of a Bayesian hierarchical model.} This is an example of a figure that spans the whole width of the report.}
-	\label{fig:whole}
-\end{figure*}
-
-
-\subsection*{Tables}
-
-Use the table environment to insert tables.
+The document collection contains seven local HTML files downloaded from PISRS. Table~\ref{tab:data} lists the legal sources used in the current experiments. The files are kept in the project downloads directory for the local and HPC runs. Generated chunks, indexes, and evaluation files are written separately to \code{data/} and \code{logs/}.
 
 \begin{table}[hbt]
-	\caption{Table of grades.}
-	\centering
-	\begin{tabular}{l l | r}
-		\toprule
-		\multicolumn{2}{c}{Name} \\
-		\cmidrule(r){1-2}
-		First name & Last Name & Grade \\
-		\midrule
-		John & Doe & $7.5$ \\
-		Jane & Doe & $10$ \\
-		Mike & Smith & $8$ \\
-		\bottomrule
-	\end{tabular}
-	\label{tab:label}
+\caption{Legal documents used in the current RAG evaluation.}
+\centering
+\small
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+Identifier & Document \\
+\midrule
+ZDDV-1 & Value Added Tax Act and implementing rulebook \\
+ZDoh-2 & Personal Income Tax Act \\
+ZDDPO-2 & Corporate Income Tax Act and implementing rulebook \\
+ZDavP-2 & Tax Procedure Act and implementing rulebook \\
+\bottomrule
+\end{tabularx}
+\label{tab:data}
 \end{table}
 
+The ingestion module supports HTML, PDF, Markdown, and plain text. For the evaluated run, all source files were HTML. The pipeline removes scripts, styles, and non-visible HTML content with BeautifulSoup, decodes entities, normalizes whitespace, and stores one document record per source file.
 
-\subsection*{Code examples}
+\subsection*{Chunking}
 
-You can also insert short code examples. You can specify them manually, or insert a whole file with code. Please avoid inserting long code snippets, advisors will have access to your repositories and can take a look at your code there. If necessary, you can use this technique to insert code (or pseudo code) of short algorithms that are crucial for the understanding of the manuscript.
+We implemented and evaluated two chunking strategies.
 
-\lstset{language=Python}
-\lstset{caption={Insert code directly from a file.}}
-\lstset{label={lst:code_file}}
-\lstinputlisting[language=Python]{code/example.py}
+\begin{description}[noitemsep]
+\item[Fixed chunking] The baseline splits each document into overlapping character windows of 1,200 characters with 200 characters of overlap. This is simple and robust, but it ignores the article structure of legislation.
+\item[Legal chunking] Version 2 detects article headings such as \code{3. člen} and \code{113.a člen}. The chunker splits text into legal sections and adds metadata for the source file, law identifier, document role, article number, article title, and section position. Long articles are still split into subchunks, but continuation chunks receive an explicit law/article prefix.
+\end{description}
 
-\lstset{language=R}
-\lstset{caption={Write the code you want to insert.}}
-\lstset{label={lst:code_direct}}
-\begin{lstlisting}
-import(dplyr)
-import(ggplot)
+The legal chunking strategy was added because the first evaluation showed that fixed chunks often retrieved passages from the correct general topic but not the exact legal article. Article metadata also makes evaluation more meaningful: after changing chunking, exact old chunk identifiers are no longer stable, but source and article hits remain interpretable.
 
-ggplot(diamonds,
-	   aes(x=carat, y=price, color=cut)) +
-  geom_point() +
-  geom_smooth()
-\end{lstlisting}
+\subsection*{Embeddings and Dense Retrieval}
 
-%------------------------------------------------
+All chunks are embedded with a multilingual MiniLM sentence-transformer. The resulting vectors are normalized and stored in a FAISS \code{IndexFlatIP} index. Since both document and query vectors are normalized, inner product search is equivalent to cosine similarity. For a user question $q$ and chunk $c_i$, dense retrieval ranks chunks by
+
+\begin{equation}
+s_{\mathrm{dense}}(q, c_i) = \frac{f(q) \cdot f(c_i)}{\|f(q)\| \|f(c_i)\|},
+\end{equation}
+
+where $f(\cdot)$ is the embedding model. The default final context size is \code{top\_k=3}.
+
+\subsection*{Hybrid Retrieval}
+
+The Version 2 retriever uses dense retrieval as a candidate generator and then reranks candidates. FAISS first returns a larger set of candidates, \code{candidate\_k=100}. Each candidate is then scored with
+
+\begin{equation}
+s(q,c) = s_{\mathrm{dense}}(q,c) + 0.25 \cdot s_{\mathrm{lexical}}(q,c) + s_{\mathrm{law}}(q,c).
+\end{equation}
+
+The lexical component is normalized token overlap between the question and a combined representation of chunk text plus metadata. The law component gives a 0.20 boost when the question mentions or strongly implies a legal act such as ZDDV-1, ZDoh-2, ZDDPO-2, or ZDavP-2 and the chunk metadata matches that law. The purpose is to reduce cases where the dense model retrieves semantically similar but legally wrong material from another act.
+
+\subsection*{Generation}
+
+The answer generator loads the local course model from the shared HPC project directory. Retrieved chunks are rendered into a prompt with source filename, chunk ID, retrieval score, law ID, article number, and article title. We evaluated two prompt variants that completed in the available logs:
+
+\begin{description}[noitemsep]
+\item[Baseline prompt] Instructs the model to answer only from retrieved context and cite sources.
+\item[Strict prompt] Adds stronger instructions to prefer the chunk whose legal act and article directly answer the question, ignore merely related chunks, and say that the answer is not found if the exact rule is missing.
+\end{description}
+
+The strict prompt was introduced after the first evaluation showed that the generator often produced fluent answers from related but wrong retrieved passages. The prompt comparison is controlled because both prompt variants use the same retrieved chunks for every question in the Version 2 run.
+
+\subsection*{Evaluation}
+
+The evaluation set contains 20 Slovenian tax questions. Each case contains a question, expected source files, expected legal locations, expected phrases, previous expected chunk IDs, and a reference answer. The questions cover VAT definitions and obligations, personal income tax, corporate income tax, and tax procedure.
+
+We report automatic retrieval metrics and manual generation scores:
+
+\begin{description}[noitemsep]
+\item[Source hit@3] At least one retrieved chunk comes from an expected source file.
+\item[Article hit@3] At least one retrieved chunk matches the expected legal article.
+\item[Phrase hit@3] All expected key phrases are present in the retrieved top-3 context.
+\item[Context relevance] Manual 0--2 score for whether retrieved context contains the exact rule.
+\item[Faithfulness] Manual 0--2 score for whether the generated answer is supported by retrieved context.
+\item[Correctness] Manual 0--2 score for whether the generated answer answers the question correctly.
+\end{description}
+
+Exact old chunk ID hit is still shown in the logs, but it is not a primary Version 2 metric because article-aware chunking changes chunk boundaries and therefore changes chunk IDs.
 
 \section*{Results}
 
-Use the results section to present the final results of your work. Present the results in a objective and scientific fashion. Use visualisations to convey your results in a clear and efficient manner. When comparing results between various techniques use appropriate statistical methodology.
+\subsection*{Retrieval}
 
-\subsection*{More random text}
+Table~\ref{tab:retrieval} compares the old baseline and the Version 2 retrieval pipeline. The original dense/fixed setup retrieved the correct source for 8 of 20 questions, but never retrieved the exact expected article or all expected phrases. Legal chunking and hybrid reranking substantially improved source-level retrieval and produced exact phrase coverage for 7 of 20 questions.
 
-This text is inserted only to make this template look more like a proper report. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam blandit dictum facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam convallis tellus velit, quis ornare ipsum aliquam id. Maecenas tempus mauris sit amet libero elementum eleifend. Nulla nunc orci, consectetur non consequat ac, consequat non nisl. Aenean vitae dui nec ex fringilla malesuada. Proin elit libero, faucibus eget neque quis, condimentum laoreet urna. Etiam at nunc quis felis pulvinar dignissim. Phasellus turpis turpis, vestibulum eget imperdiet in, molestie eget neque. Curabitur quis ante sed nunc varius dictum non quis nisl. Donec nec lobortis velit. Ut cursus, libero efficitur dictum imperdiet, odio mi fermentum dui, id vulputate metus velit sit amet risus. Nulla vel volutpat elit. Mauris ex erat, pulvinar ac accumsan sit amet, ultrices sit amet turpis.
+\begin{table*}[hbt]
+\caption{Automatic evaluation metrics. Generation scores are zero for retrieval-only runs because no answer was generated.}
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Run & n & Source@3 & Article@3 & Chunk@3 & Phrase@3 & Context/2 & Faith./2 & Corr./2 \\
+\midrule
+V1 old dense run & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+V2 fixed dense & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.40 & 0.00 & 0.00 \\
+V2 legal hybrid retrieval & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 0.00 & 0.00 \\
+V2 legal hybrid + baseline prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.45 & 0.65 \\
+V2 legal hybrid + strict prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.05 & 0.80 \\
+\bottomrule
+\end{tabular}
+\label{tab:retrieval}
+\end{table*}
 
-Phasellus in ligula nunc. Vivamus sem lorem, malesuada sed pretium quis, varius convallis lectus. Quisque in risus nec lectus lobortis gravida non a sem. Quisque et vestibulum sem, vel mollis dolor. Nullam ante ex, scelerisque ac efficitur vel, rhoncus quis lectus. Pellentesque scelerisque efficitur purus in faucibus. Maecenas vestibulum vulputate nisl sed vestibulum. Nullam varius turpis in hendrerit posuere.
+The strongest improvement is source hit@3, which rises from 40.0\% to 95.0\%. This shows that the law-source boost and metadata-aware reranking usually select the correct act. The weaker result is article hit@3, which reaches only 30.0\%. This means that the system often finds the correct law but still retrieves a related article instead of the exact definitional article. For example, several ZDDV-1 definition questions retrieved rulebook articles or later VAT procedure articles rather than the expected core definition articles.
 
-Nulla rhoncus tortor eget ipsum commodo lacinia sit amet eu urna. Cras maximus leo mauris, ac congue eros sollicitudin ac. Integer vel erat varius, scelerisque orci eu, tristique purus. Proin id leo quis ante pharetra suscipit et non magna. Morbi in volutpat erat. Vivamus sit amet libero eu lacus pulvinar pharetra sed at felis. Vivamus non nibh a orci viverra rhoncus sit amet ullamcorper sem. Ut nec tempor dui. Aliquam convallis vitae nisi ac volutpat. Nam accumsan, erat eget faucibus commodo, ligula dui cursus nisi, at laoreet odio augue id eros. Curabitur quis tellus eget nunc ornare auctor.
+\subsection*{Prompt Comparison}
 
+The baseline and strict prompts used identical retrieved top-3 chunks in all 20 Version 2 prompt cases. Therefore differences in generated answers are caused by the prompt, not by retrieval variation. Manual scoring is shown in Table~\ref{tab:manual}.
 
-%------------------------------------------------
+\begin{table}[hbt]
+\caption{Manual generation assessment over 20 questions. Scores use a 0--2 scale.}
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Metric & Baseline prompt & Strict prompt \\
+\midrule
+Context relevance & 1.25 & 1.25 \\
+Faithfulness & 1.55 & 1.55 \\
+Correctness & 0.60 & 0.65 \\
+\bottomrule
+\end{tabular}
+\label{tab:manual}
+\end{table}
+
+The strict prompt gives a small improvement in correctness, but the change is not large. The main reason is that generation quality is bounded by retrieval quality. When the retrieved context contains the exact rule, both prompts can produce a good answer. When retrieval contains only related material, both prompts either answer the wrong legal question or correctly say that the exact answer was not found. The strict prompt is more cautious, but it cannot recover missing articles.
+
+\subsection*{Qualitative Error Analysis}
+
+The evaluation logs show four common error patterns.
+
+\begin{enumerate}[noitemsep]
+\item \textbf{Correct law, wrong article.} The retriever often identifies the correct legal act but chooses a related article. This occurs in questions about the object of VAT, taxable persons, tax base, and tax rates.
+\item \textbf{Rulebook instead of statute.} Several VAT questions retrieve implementing rulebook provisions that contain the same terms but not the primary statutory definition.
+\item \textbf{Cross-law semantic confusion.} Questions about resident and non-resident obligations can retrieve similar wording from ZDDPO-2 when the question asks about ZDoh-2.
+\item \textbf{Faithful wrong answers.} The language model usually follows the retrieved context. This is positive for faithfulness, but it means wrong retrieval directly produces wrong answers.
+\end{enumerate}
+
+Successful cases include ZDoh-2 source of income, ZDDPO-2 transfer pricing, ZDavP-2 taxpayers, and the right to information. In these cases, the correct article is retrieved and the generated answers are mostly complete. Failed cases include several definition questions where the expected answer is in an early article, but retrieval selects later articles containing overlapping tax vocabulary.
 
 \section*{Discussion}
 
-Use the Discussion section to objectively evaluate your work, do not just put praise on everything you did, be critical and exposes flaws and weaknesses of your solution. You can also explain what you would do differently if you would be able to start again and what upgrades could be done on the project in the future.
+The Version 2 pipeline is a clear improvement over the initial baseline. Article-aware chunking gives the index more legally meaningful units, and hybrid reranking significantly improves source-level retrieval. The system is now able to demonstrate the full RAG loop on the HPC: ingest documents, build an index, retrieve legal context, generate answers with a local model, and evaluate the results with structured logs.
 
+However, the current system is not yet reliable enough for production legal question answering. Article hit@3 is only 30.0\%, and manual correctness remains below 1.0/2. The main bottleneck is retrieval precision, not model fluency. The generator frequently produces answers that are faithful to retrieved context, but if the context is not the exact article, the answer is legally wrong or incomplete.
 
-%------------------------------------------------
+The most important next improvement is to add a stronger sparse retrieval component. The current hybrid method reranks dense candidates, so it cannot recover an exact article if that article is not included among dense candidates. A BM25-style retriever over all chunks, combined with dense retrieval, would likely improve definition questions where exact legal wording matters. A second improvement is to index article titles separately and boost matches between question terms and article titles. Finally, the evaluation set should be updated so that expected chunks are defined for the legal chunking scheme, or replaced entirely by source+article+phrase expectations.
+
+\section*{Conclusion}
+
+We built a reproducible RAG prototype for Slovenian tax legislation and evaluated it on 20 manually designed questions. The baseline dense retriever was too weak for legal question answering, but Version 2 article-aware chunking and hybrid reranking improved source hit@3 to 95.0\%. The remaining failures show that legal RAG requires exact article retrieval, not only topical similarity. Future work should focus on sparse retrieval, stronger article matching, and stricter answer abstention when the exact legal rule is not present.
 
 \section*{Acknowledgments}
 
-Here you can thank other persons (advisors, colleagues ...) that contributed to the successful completion of your project.
+We thank the course staff for providing access to the ARNES HPC environment and the shared project model directory. The system was developed for the FRI Natural Language Processing course project.
 
-
-%----------------------------------------------------------------------------------------
-%	REFERENCE LIST
-%----------------------------------------------------------------------------------------
 \bibliographystyle{unsrt}
 \bibliography{report}
-
 
 \end{document}
