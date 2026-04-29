@@ -101,7 +101,7 @@ def load_llm(model_path: Path = DEFAULT_LOCAL_MODEL_PATH):
 
     dtype = preferred_torch_dtype(torch)
     print(f"Loading local LLM from {model_path} with dtype={dtype}")
-    tokenizer = AutoTokenizer.from_pretrained(str(model_path))
+    tokenizer = AutoTokenizer.from_pretrained(str(model_path), use_fast=False)
     model = AutoModelForCausalLM.from_pretrained(
         str(model_path),
         torch_dtype=dtype,
