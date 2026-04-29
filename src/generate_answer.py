@@ -5,7 +5,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Dict, Iterable, List
 
-from .retrieve import DEFAULT_TOP_K, retrieve
+from .build_index import DEFAULT_EMBEDDING_MODEL, DEFAULT_INDEX_CHUNKS, DEFAULT_INDEX_PATH
+from .retrieve import (
+    DEFAULT_CANDIDATE_K,
+    DEFAULT_LEXICAL_WEIGHT,
+    DEFAULT_RETRIEVAL_MODE,
+    DEFAULT_SOURCE_BOOST,
+    DEFAULT_TOP_K,
+    retrieve,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -46,9 +54,21 @@ def format_context(chunks: Iterable[Dict]) -> str:
     for chunk in chunks:
         page = chunk.get("page")
         page_text = f", page {page}" if page is not None else ""
+        metadata = chunk.get("metadata") or {}
+        metadata_parts = []
+        if metadata.get("law_id"):
+            metadata_parts.append(f"law={metadata.get('law_id')}")
+        if metadata.get("document_role"):
+            metadata_parts.append(f"role={metadata.get('document_role')}")
+        if metadata.get("article_number"):
+            metadata_parts.append(f"article={metadata.get('article_number')}. člen")
+        if metadata.get("article_title"):
+            metadata_parts.append(f"title={metadata.get('article_title')}")
+        metadata_text = f", {'; '.join(metadata_parts)}" if metadata_parts else ""
         blocks.append(
             f"[{chunk['rank']}] source={chunk.get('source')}, "
-            f"chunk_id={chunk.get('chunk_id')}{page_text}, score={chunk.get('score'):.4f}\n"
+            f"chunk_id={chunk.get('chunk_id')}{page_text}, score={chunk.get('score'):.4f}"
+            f"{metadata_text}\n"
             f"{chunk.get('text', '')}"
         )
     return "\n\n".join(blocks)
@@ -63,9 +83,11 @@ def build_messages(question: str, chunks: List[Dict], system_prompt: str) -> Lis
 User question:
 {question}
 
-Answer using only the retrieved context. If the retrieved context does not contain
-the answer, say that the answer was not found in the provided sources. Cite source
-filenames and chunk IDs."""
+Answer using only the retrieved context. Prefer the chunk whose legal act, article,
+and wording directly answer the question. Ignore merely related chunks if they do
+not contain the exact rule being asked about. If the retrieved context does not
+contain the answer, say that the answer was not found in the provided sources.
+Cite source filenames, articles when available, and chunk IDs."""
 
     return [
         {"role": "system", "content": system_prompt},
@@ -183,17 +205,29 @@ def append_sources(answer: str, chunks: List[Dict], slovenian: bool) -> str:
 def answer_question(
     question: str,
     top_k: int = DEFAULT_TOP_K,
+    index_path: Path = DEFAULT_INDEX_PATH,
+    chunks_path: Path = DEFAULT_INDEX_CHUNKS,
     model_path: Path = DEFAULT_LOCAL_MODEL_PATH,
     system_prompt_path: Path = DEFAULT_SYSTEM_PROMPT,
-    embedding_model: str | None = None,
+    embedding_model: str = DEFAULT_EMBEDDING_MODEL,
+    retrieval_mode: str = DEFAULT_RETRIEVAL_MODE,
+    candidate_k: int = DEFAULT_CANDIDATE_K,
+    lexical_weight: float = DEFAULT_LEXICAL_WEIGHT,
+    source_boost: float = DEFAULT_SOURCE_BOOST,
     max_new_tokens: int = 512,
 ) -> str:
     """Retrieve context and generate a grounded answer."""
-    retrieve_kwargs = {"top_k": top_k}
-    if embedding_model:
-        retrieve_kwargs["embedding_model"] = embedding_model
-
-    chunks = retrieve(question, **retrieve_kwargs)
+    chunks = retrieve(
+        question,
+        top_k=top_k,
+        index_path=index_path,
+        chunks_path=chunks_path,
+        embedding_model=embedding_model,
+        retrieval_mode=retrieval_mode,
+        candidate_k=candidate_k,
+        lexical_weight=lexical_weight,
+        source_boost=source_boost,
+    )
     if not chunks:
         if looks_slovenian(question):
             return "V indeksu nisem našel relevantnih virov za to vprašanje."

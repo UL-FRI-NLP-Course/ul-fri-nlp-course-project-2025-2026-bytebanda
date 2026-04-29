@@ -118,6 +118,8 @@ data/processed/*
 !data/processed/.gitkeep
 data/index/*
 !data/index/.gitkeep
+data/eval/*
+!data/eval/.gitkeep
 *.sif
 
 # Spyder project settings

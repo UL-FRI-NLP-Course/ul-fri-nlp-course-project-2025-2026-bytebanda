@@ -137,6 +137,25 @@ questions for manual testing and future evaluation of factuality and relevance.
 For Submission 2, these can be used to record retrieved sources, generated
 answers, and observed failure modes.
 
+The main evaluation set is `evaluation/tax_eval_questions.jsonl`. To run the
+new side-by-side evaluation on the HPC, submit:
+
+```bash
+sbatch slurm/run_rag_eval_v2.sh
+```
+
+The script builds two indexes:
+
+```text
+baseline: fixed character chunks + dense FAISS retrieval
+new:      article-aware legal chunks + dense candidates reranked with lexical/source signals
+```
+
+It writes separate JSONL logs for baseline retrieval, improved retrieval, and
+three prompt variants. The end of the SLURM `.out` file prints a comparison
+table with source hit, article hit, phrase hit, context relevance, faithfulness,
+and answer correctness scores.
+
 ## Reproducibility Notes
 
 - Keep raw datasets, generated chunks, FAISS indexes, logs, containers, and

@@ -1,0 +1,467 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black
+}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\textbf{Evaluation Report for the Slovenian Tax RAG Assistant}\\
+\large Current Baseline, Retrieval Diagnostics, and Recommendations}
+\author{ByteBanda NLP Course Project}
+\date{29 April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report documents the current version of the Slovenian tax Retrieval-Augmented
+Generation (RAG) assistant and summarizes an evaluation run performed on the ARNES
+HPC environment. The system ingests Slovenian tax legislation, chunks extracted
+text, builds a FAISS vector index using multilingual sentence embeddings, retrieves
+the top ranked chunks for a user question, and generates grounded answers with a
+local Mistral-style language model. The evaluation uses 20 manually written
+questions with expected sources, expected legal locations, expected chunk
+identifiers, key phrases, and reference answers. The current generation stack runs
+successfully without runtime failures, but retrieval quality is limited: source
+hit@3 is 40.0\%, exact expected chunk hit@3 is 0.0\%, and exact phrase coverage is
+0.0\%. A second manual answer assessment gives average scores of 0.70/2.00 for
+context relevance, 1.05/2.00 for faithfulness, and 0.20/2.00 for answer
+correctness. These results indicate that the present baseline is technically
+functional but retrieval is not yet reliable enough for legal question answering.
+\end{abstract}
+
+\section{System Overview}
+
+The current system is a deliberately simple RAG baseline for Slovenian tax
+questions. The implementation is organized as a transparent Python pipeline rather
+than a larger framework-based application. Its main execution path is:
+
+\begin{center}
+\code{HTML tax documents} $\rightarrow$ \code{text extraction} $\rightarrow$
+\code{character chunks} $\rightarrow$ \code{embeddings} $\rightarrow$
+\code{FAISS retrieval} $\rightarrow$ \code{local LLM generation}.
+\end{center}
+
+The important source modules are listed in Table~\ref{tab:modules}.
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{@{}lY@{}}
+\toprule
+\textbf{Module} & \textbf{Role} \\
+\midrule
+\code{src/ingest.py} & Loads HTML, PDF, Markdown, and text files; extracts and normalizes visible text. \\
+\code{src/chunking.py} & Splits documents into overlapping character-based chunks. \\
+\code{src/build\_index.py} & Embeds chunks and writes \code{data/index/faiss.index} and \code{data/index/chunks.jsonl}. \\
+\code{src/retrieve.py} & Loads the FAISS index and returns top-k chunks for a question. \\
+\code{src/generate\_answer.py} & Builds the grounded prompt, loads the local LLM, generates an answer, and appends sources. \\
+\code{src/evaluate\_rag.py} & Runs the current evaluation suite and writes readable logs plus structured JSONL results. \\
+\bottomrule
+\end{tabularx}
+\caption{Main modules in the current RAG implementation.}
+\label{tab:modules}
+\end{table}
+
+\subsection{Data}
+
+The evaluation uses seven Slovenian tax-law HTML files from PISRS:
+
+\begin{itemize}[leftmargin=*]
+  \item \code{ZAKO4701\_zddv-1\_NPB20.html}: Value Added Tax Act (ZDDV-1).
+  \item \code{PRAV7542\_pravilnik-zddv-1\_NPB30.html}: Rules related to ZDDV-1.
+  \item \code{ZAKO4697\_zdoh-2\_NPB36.html}: Personal Income Tax Act (ZDoh-2).
+  \item \code{ZAKO4687\_zddpo-2\_NPB23.html}: Corporate Income Tax Act (ZDDPO-2).
+  \item \code{PRAV8299\_pravilnik-zddpo-2\_NPB2.html}: Rules related to ZDDPO-2.
+  \item \code{ZAKO4703\_zdavp-2\_NPB31.html}: Tax Procedure Act (ZDavP-2).
+  \item \code{PRAV7927\_pravilnik-zdavp-2\_NPB25.html}: Rules related to ZDavP-2.
+\end{itemize}
+
+During the recorded HPC run, these files produced 1,897 text chunks from seven
+document records. The chunker uses a default chunk size of 1,200 characters and
+an overlap of 200 characters.
+
+\subsection{Embedding and Retrieval}
+
+The embedding model is \code{sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2}.
+Chunk embeddings are normalized, and FAISS \code{IndexFlatIP} is used for inner
+product search. Because embeddings are normalized, this is equivalent to cosine
+similarity ranking. The current default retrieval depth is \code{top\_k=3}.
+
+\subsection{Technical Retrieval Mechanics}
+
+The retrieval component maps both documents and questions into the same vector
+space. During index construction, every chunk text $c_i$ is encoded by the
+SentenceTransformers model:
+
+\[
+  \mathbf{v}_i = f(c_i)
+\]
+
+The implementation then normalizes each embedding:
+
+\[
+  \hat{\mathbf{v}}_i = \frac{\mathbf{v}_i}{\lVert \mathbf{v}_i \rVert_2}.
+\]
+
+At query time, the user question $q$ is encoded and normalized in the same way:
+
+\[
+  \hat{\mathbf{u}} = \frac{f(q)}{\lVert f(q) \rVert_2}.
+\]
+
+FAISS ranks chunks by inner product:
+
+\[
+  s_i = \hat{\mathbf{u}}^\top \hat{\mathbf{v}}_i.
+\]
+
+Because both vectors are unit-normalized, this score is cosine similarity. A
+higher score means that the question and chunk are closer in the embedding
+space. The system returns the three chunks with the highest scores and passes
+their raw text, source filenames, chunk IDs, ranks, and scores to the generator.
+
+This design is simple and reproducible, but it has an important limitation for
+legal text: dense semantic similarity often finds topically related passages
+rather than the exact statutory article. For example, a question about a ZDDV-1
+definition can retrieve a nearby implementing-rule passage because it contains
+many of the same tax terms. The current implementation does not yet use article
+metadata, lexical matching, source-type boosting, or reranking.
+
+\subsection{Answer Generation}
+
+Answer generation uses the local model path:
+
+\begin{center}
+\code{/d/hpc/projects/onj\_fri/models/intent}
+\end{center}
+
+The prompt instructs the model to answer only from retrieved context, cite source
+filenames and chunk IDs, avoid definitive legal advice, and answer in the
+language of the question. The current tokenizer is loaded with \code{use\_fast=False}
+to support the local Llama/Mistral tokenizer files, and the environment includes
+\code{sentencepiece} and \code{protobuf}. The default maximum generation length is
+1,024 new tokens in the CLI, while the full evaluation job used 512 new tokens
+per question to keep runtime bounded.
+
+\section{Evaluation Design}
+
+The evaluation suite is stored in:
+
+\begin{center}
+\code{evaluation/tax\_eval\_questions.jsonl}
+\end{center}
+
+It contains 20 manually constructed questions across four legal domains:
+VAT (DDV), personal income tax (ZDoh-2), corporate income tax (ZDDPO-2), and tax
+procedure (ZDavP-2). Each example contains:
+
+\begin{itemize}[leftmargin=*]
+  \item the user question,
+  \item expected source file(s),
+  \item expected chunk ID(s),
+  \item expected legal location(s), such as article names,
+  \item key phrases that should appear in retrieved context,
+  \item a concise reference answer.
+\end{itemize}
+
+The HPC evaluation script is:
+
+\begin{center}
+\code{slurm/run\_rag\_eval.sh}
+\end{center}
+
+It rebuilds the FAISS index and runs:
+
+\begin{center}
+\code{python -m src.evaluate\_rag --questions evaluation/tax\_eval\_questions.jsonl --top-k 3}
+\end{center}
+
+The recorded run wrote human-readable results to
+\code{logs/tax-rag-eval-14619040.out} and structured results to
+\code{logs/tax-rag-eval-14619040.jsonl}.
+
+\section{Metrics}
+
+Three retrieval-oriented metrics are used:
+
+\begin{description}[leftmargin=*]
+  \item[Source hit@3] Whether at least one retrieved chunk comes from an expected source file.
+  \item[Chunk hit@3] Whether at least one retrieved chunk exactly matches an expected chunk ID.
+  \item[Expected phrase coverage] Whether all manually specified key phrases are present in the retrieved context.
+\end{description}
+
+The generation step is also monitored for runtime failures. No automatic semantic
+answer grading is used in the pipeline itself. For this report, the generated
+answers were additionally reviewed manually with three 0--2 scores:
+
+\begin{description}[leftmargin=*]
+  \item[Context relevance] 0 means the retrieved context is unrelated to the
+  expected legal rule; 1 means it is topically related but misses the exact rule;
+  2 means it contains the expected legal rule.
+  \item[Faithfulness] 0 means the answer introduces unsupported claims; 1 means
+  it mostly follows the retrieved context but overgeneralizes or misuses it; 2
+  means it is well grounded in the retrieved context.
+  \item[Answer correctness] 0 means the answer is wrong for the reference
+  question; 1 means partially correct; 2 means correct.
+\end{description}
+
+\section{Results}
+
+Table~\ref{tab:overall} summarizes the full 20-question run.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Metric} & \textbf{Count} & \textbf{Rate} \\
+\midrule
+Questions & 20 & -- \\
+Source hit@3 & 8 / 20 & 40.0\% \\
+Expected chunk hit@3 & 0 / 20 & 0.0\% \\
+All expected phrases found@3 & 0 / 20 & 0.0\% \\
+Generation failures & 0 / 20 & 0.0\% \\
+\bottomrule
+\end{tabular}
+\caption{Overall evaluation results from \code{tax-rag-eval-14619040}.}
+\label{tab:overall}
+\end{table}
+
+Table~\ref{tab:domain} aggregates source-level retrieval by broad legal domain.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Domain} & \textbf{Questions} & \textbf{Source hits} & \textbf{Source hit rate} \\
+\midrule
+DDV / ZDDV-1 & 7 & 3 & 42.9\% \\
+ZDoh-2 & 5 & 4 & 80.0\% \\
+ZDDPO-2 & 5 & 0 & 0.0\% \\
+ZDavP-2 & 3 & 1 & 33.3\% \\
+\bottomrule
+\end{tabular}
+\caption{Source hit@3 by broad legal domain.}
+\label{tab:domain}
+\end{table}
+
+The exact chunk metric is intentionally strict. None of the 20 cases retrieved
+the manually expected chunk ID in the top three results. In several cases the
+retriever found the correct source document but an adjacent or procedurally
+related chunk. This is still insufficient for statutory question answering
+because the generator can only answer from the text that was actually passed in
+the prompt.
+
+\subsection{Manual Answer Scores}
+
+Table~\ref{tab:manualscores} summarizes the manual 0--2 scoring pass over the
+generated answers in \code{logs/tax-rag-eval-14619040.jsonl}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Manual metric} & \textbf{Score sum} & \textbf{Mean} & \textbf{Normalized} \\
+\midrule
+Context relevance & 14 / 40 & 0.70 / 2 & 35.0\% \\
+Faithfulness & 21 / 40 & 1.05 / 2 & 52.5\% \\
+Answer correctness & 4 / 40 & 0.20 / 2 & 10.0\% \\
+\bottomrule
+\end{tabular}
+\caption{Manual assessment of generated answers.}
+\label{tab:manualscores}
+\end{table}
+
+The distribution of manual scores is also informative. Context relevance was
+never scored 2 because no retrieved context contained the exact expected chunk.
+Fourteen cases received context relevance 1, meaning the retrieved text was
+tax-related but not the exact statutory rule. Faithfulness is higher than
+correctness because the model often stays close to the wrong retrieved context.
+Only four answers were partially correct, and none were fully correct under this
+strict reference-answer evaluation.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}lcccY@{}}
+\toprule
+\textbf{ID} & \textbf{Ctx.} & \textbf{Faith.} & \textbf{Corr.} & \textbf{Judgement} \\
+\midrule
+ddv\_01 & 1 & 1 & 0 & VAT-related rulebook chunks, but not the statutory object of VAT. \\
+ddv\_02 & 1 & 1 & 0 & Confuses taxpayer definition with persons liable to pay VAT. \\
+ddv\_03 & 1 & 1 & 0 & Uses partial-supply invoice context instead of the definition of supply of goods. \\
+ddv\_04 & 1 & 1 & 0 & Retrieves a ZDDV-1 chunk, but not the service-definition article. \\
+ddv\_05 & 1 & 1 & 1 & Near miss: special Article 33.a context instead of the general Article 33 rule. \\
+ddv\_06 & 0 & 2 & 0 & Faithfully refuses because rates are absent from retrieved context. \\
+ddv\_07 & 1 & 1 & 1 & Partially useful, but over-expanded with rulebook details. \\
+doh\_01 & 1 & 2 & 0 & Correct statute, wrong chunk; model refuses exact definition. \\
+doh\_02 & 1 & 1 & 0 & Uses dependent-family/resident-relief context, not taxpayer scope. \\
+doh\_03 & 0 & 1 & 0 & Retrieved context is unrelated to source-of-income rule. \\
+doh\_04 & 1 & 1 & 0 & Lists a narrow special case instead of Article 18 income categories. \\
+doh\_05 & 1 & 1 & 0 & Describes special relief for new residents, not general relief. \\
+ddpo\_01 & 1 & 1 & 0 & Uses procedural withholding context, not ZDDPO-2 taxpayer definition. \\
+ddpo\_02 & 0 & 0 & 0 & Unsupported answer with unrelated context. \\
+ddpo\_03 & 1 & 1 & 1 & Partially captures the tax-base idea, but imprecisely. \\
+ddpo\_04 & 0 & 2 & 0 & Faithfully says the rate is missing from retrieved sources. \\
+ddpo\_05 & 0 & 0 & 0 & Unrelated context and hallucinated description of ZDDPO-2. \\
+zdavp\_01 & 1 & 1 & 0 & Rulebook context, not Article 11 list of tax authorities. \\
+zdavp\_02 & 1 & 1 & 1 & Partially relevant taxpayer/payer terminology, but too narrow. \\
+zdavp\_03 & 0 & 1 & 0 & Context is about security instruments, not right to information. \\
+\bottomrule
+\end{tabularx}
+\caption{Per-case manual scores: context relevance, faithfulness, and answer correctness.}
+\label{tab:percase}
+\end{table}
+
+The best domain-level retrieval performance is observed for ZDoh-2 questions,
+where four of five questions retrieved at least one chunk from the expected
+source document. The weakest area is ZDDPO-2, where none of the five questions
+retrieved the expected source file in the top three chunks.
+
+\section{Qualitative Analysis}
+
+\subsection{Generation Works but Depends Strongly on Retrieved Context}
+
+The local LLM loaded successfully on the GPU and produced an answer for every
+question. This is an important engineering milestone: the container, dependencies,
+tokenizer configuration, GPU execution, and model loading now work end to end.
+However, the answer quality follows the quality of retrieved chunks. When the
+retrieved chunks are off-topic, the generated answer is also off-topic or
+explicitly says that the requested information is not available.
+
+\subsection{Example: Near Miss for DDV Obračun}
+
+For the question:
+
+\begin{quote}
+When does the taxable event and VAT accounting obligation arise for supplies of
+goods or services?
+\end{quote}
+
+the expected legal location was ZDDV-1, Article 33, and the expected answer was:
+the event arises when goods are supplied or services are performed. The top
+retrieved source was still \code{ZAKO4701\_zddv-1\_NPB20.html}, but it returned
+\code{chunk\_000904} rather than the expected \code{chunk\_000902}. The generated
+answer therefore focused on a narrower special case around Article 33.a instead
+of the general rule from Article 33. This illustrates that source-level retrieval
+can be correct while local chunk selection is still too imprecise for legal QA.
+
+\subsection{Example: Miss for Basic Dohodnina Definition}
+
+For the question:
+
+\begin{quote}
+What is dohodnina according to ZDoh-2?
+\end{quote}
+
+the expected answer was the simple definition: dohodnina is a tax on the income
+of natural persons. The retrieved chunks came from the correct ZDoh-2 document,
+but they were earlier preamble chunks rather than the exact chunk containing the
+definition. The model consequently answered that the exact information was not
+present in the retrieved context. This is a desirable behavior from a grounding
+perspective, but it exposes a retrieval failure.
+
+\subsection{Example: Failure on ZDDPO-2 Tax Rate}
+
+For the question about the general corporate income tax rate, the expected source
+was \code{ZAKO4687\_zddpo-2\_NPB23.html}, Article 60. The retrieved chunks instead
+came from the ZDDPO-2 rulebook and ZDavP-2. The generated answer correctly avoided
+inventing the missing rate, but it could not answer the question. This is a clear
+case where retrieval, not generation, is the limiting component.
+
+\subsection{Why the Chunks Differ from the Expected Chunks}
+
+For each evaluation item, the expected chunk IDs were derived from the current
+chunking configuration by locating the statutory article or phrase that contains
+the reference answer. The retrieved chunks are not the same as these expected
+chunks in any of the 20 examples. This does not mean that FAISS is broken; it
+means that the dense embedding model ranks broader semantic similarity above the
+specific legal citation needed for the answer. The retrieved passages often
+share terms such as ``davčni zavezanec'', ``DDV'', ``ZDavP-2'', or ``olajšava'',
+but they refer to a different article or an implementing rule. The problem is
+therefore retrieval precision at the legal-provision level.
+
+\subsection{Systematic Retrieval Pattern}
+
+Several errors show that semantically related procedural or rulebook documents
+are often ranked above the exact statutory article. This is especially visible
+for ZDavP-2 and ZDDPO-2 questions. The embedding model captures broad tax
+relatedness, but it does not reliably distinguish:
+
+\begin{itemize}[leftmargin=*]
+  \item primary law from implementing rules,
+  \item definitions from procedural mentions,
+  \item article-specific facts from nearby but different provisions.
+\end{itemize}
+
+\section{Limitations of the Current Evaluation}
+
+The evaluation is useful as a diagnostic baseline, but it has several limitations.
+First, expected chunk IDs are tied to the current chunking configuration. If chunk
+size, overlap, or file ordering changes, exact chunk-hit metrics must be refreshed.
+Second, phrase matching is strict. It is useful for checking grounded context, but
+it does not capture semantically correct paraphrases. Third, generation quality is
+not scored automatically. A future version should add manual answer grades or an
+LLM-as-judge protocol with strict source-grounding checks.
+
+\section{Recommendations}
+
+The next iteration should focus on retrieval before changing the generator.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Article-aware chunking.} Split legal documents by article headings
+  such as \emph{3. člen}, \emph{41. člen}, and \emph{60. člen}, instead of using
+  only fixed character windows.
+  \item \textbf{Metadata-aware retrieval.} Add metadata fields for law ID, article
+  number, article title, and document type. Use these fields to filter or boost
+  primary statutes over rulebooks when the question names a statute.
+  \item \textbf{Hybrid retrieval.} Combine dense retrieval with BM25 or lexical
+  matching. Many legal questions contain exact anchors such as ``41. člen'',
+  ``stopnja DDV'', or ``ZDDPO-2'', which lexical retrieval should capture.
+  \item \textbf{Reranking.} Retrieve a larger candidate pool, for example top 20,
+  then rerank with a cross-encoder or a stronger local reranker before passing
+  the final top three chunks to the LLM.
+  \item \textbf{Evaluation expansion.} Keep the current 20-question diagnostic set,
+  but add answer-level grading and separate retrieval-only runs for top-k values
+  3, 5, 10, and 20.
+  \item \textbf{Use explicit citations in questions.} When a question names a law
+  such as ZDDPO-2, use this as a retrieval filter or source boost so that ZDavP-2
+  and rulebook chunks do not outrank the primary law.
+  \item \textbf{Add chunk-neighborhood expansion.} If a high-scoring chunk is near
+  an expected article boundary, include neighboring chunks before generation.
+  This may recover definitions split across chunk boundaries.
+\end{enumerate}
+
+\section{Conclusion}
+
+The current RAG assistant is operational on HPC: it can build the index, load the
+local LLM, retrieve context, and generate cited answers. The evaluation shows that
+the main bottleneck is retrieval precision. With source hit@3 at 40.0\%, exact
+chunk hit@3 at 0.0\%, and answer correctness averaging only 0.20/2.00, the system
+is not yet reliable for factual legal answers. The generator is not the primary
+engineering failure: it produced an answer for every question and often remained
+faithful to the retrieved context. The issue is that the retrieved context is
+frequently the wrong legal provision. The most valuable next step is therefore
+to improve retrieval through article-aware chunking, metadata extraction, hybrid
+search, source filtering, chunk-neighborhood expansion, and reranking.
+
+\end{document}

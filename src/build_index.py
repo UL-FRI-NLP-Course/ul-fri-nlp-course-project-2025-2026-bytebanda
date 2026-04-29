@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
-from .chunking import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP, make_chunks
+from .chunking import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_STRATEGY, DEFAULT_OVERLAP, make_chunks
 from .ingest import DEFAULT_RAW_DIR, load_documents
 
 
@@ -33,6 +33,7 @@ def build_index(
     embedding_model: str = DEFAULT_EMBEDDING_MODEL,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     overlap: int = DEFAULT_OVERLAP,
+    chunk_strategy: str = DEFAULT_CHUNK_STRATEGY,
     batch_size: int = 32,
 ) -> Dict:
     """Ingest documents, chunk text, embed chunks, and save a FAISS index."""
@@ -50,11 +51,19 @@ def build_index(
     print(f"Loading raw documents from {raw_dir}")
     documents = load_documents(raw_dir)
 
-    chunks = make_chunks(documents, chunk_size=chunk_size, overlap=overlap)
+    chunks = make_chunks(
+        documents,
+        chunk_size=chunk_size,
+        overlap=overlap,
+        strategy=chunk_strategy,
+    )
     if not chunks:
         raise ValueError("No chunks were created. Check that raw documents contain extractable text.")
 
-    print(f"Created {len(chunks)} chunk(s) from {len(documents)} document record(s)")
+    print(
+        f"Created {len(chunks)} chunk(s) from {len(documents)} document record(s) "
+        f"with chunk_strategy={chunk_strategy}"
+    )
     write_jsonl(chunks, processed_chunks_path)
     write_jsonl(chunks, index_chunks_path)
 
@@ -85,6 +94,7 @@ def build_index(
     return {
         "documents": len(documents),
         "chunks": len(chunks),
+        "chunk_strategy": chunk_strategy,
         "index_path": str(index_path),
         "chunks_path": str(index_chunks_path),
     }
