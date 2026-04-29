@@ -1,0 +1,47 @@
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Batches:   0%|          | 0/60 [00:00<?, ?it/s]Batches:   2%|▏         | 1/60 [00:00<00:32,  1.80it/s]Batches:   7%|▋         | 4/60 [00:00<00:08,  6.94it/s]Batches:  12%|█▏        | 7/60 [00:00<00:04, 11.05it/s]Batches:  17%|█▋        | 10/60 [00:00<00:03, 14.37it/s]Batches:  22%|██▏       | 13/60 [00:01<00:02, 16.97it/s]Batches:  27%|██▋       | 16/60 [00:01<00:02, 18.99it/s]Batches:  32%|███▏      | 19/60 [00:01<00:02, 20.44it/s]Batches:  37%|███▋      | 22/60 [00:01<00:01, 21.24it/s]Batches:  42%|████▏     | 25/60 [00:01<00:01, 21.92it/s]Batches:  47%|████▋     | 28/60 [00:01<00:01, 22.80it/s]Batches:  52%|█████▏    | 31/60 [00:01<00:01, 23.42it/s]Batches:  57%|█████▋    | 34/60 [00:01<00:01, 23.87it/s]Batches:  62%|██████▏   | 37/60 [00:02<00:00, 23.97it/s]Batches:  67%|██████▋   | 40/60 [00:02<00:00, 24.00it/s]Batches:  72%|███████▏  | 43/60 [00:02<00:00, 23.86it/s]Batches:  77%|███████▋  | 46/60 [00:02<00:00, 24.23it/s]Batches:  82%|████████▏ | 49/60 [00:02<00:00, 24.43it/s]Batches:  87%|████████▋ | 52/60 [00:02<00:00, 24.82it/s]Batches:  92%|█████████▏| 55/60 [00:02<00:00, 25.38it/s]Batches:  97%|█████████▋| 58/60 [00:02<00:00, 26.12it/s]Batches: 100%|██████████| 60/60 [00:02<00:00, 20.35it/s]
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Batches:   0%|          | 0/64 [00:00<?, ?it/s]Batches:   2%|▏         | 1/64 [00:00<00:16,  3.72it/s]Batches:   5%|▍         | 3/64 [00:00<00:06,  8.87it/s]Batches:   8%|▊         | 5/64 [00:00<00:04, 11.89it/s]Batches:  11%|█         | 7/64 [00:00<00:04, 13.86it/s]Batches:  14%|█▍        | 9/64 [00:00<00:03, 15.35it/s]Batches:  17%|█▋        | 11/64 [00:00<00:03, 16.66it/s]Batches:  20%|██        | 13/64 [00:00<00:02, 17.43it/s]Batches:  25%|██▌       | 16/64 [00:01<00:02, 18.61it/s]Batches:  30%|██▉       | 19/64 [00:01<00:02, 19.64it/s]Batches:  34%|███▍      | 22/64 [00:01<00:02, 20.69it/s]Batches:  39%|███▉      | 25/64 [00:01<00:01, 21.59it/s]Batches:  44%|████▍     | 28/64 [00:01<00:01, 21.90it/s]Batches:  48%|████▊     | 31/64 [00:01<00:01, 22.52it/s]Batches:  53%|█████▎    | 34/64 [00:01<00:01, 23.35it/s]Batches:  58%|█████▊    | 37/64 [00:01<00:01, 24.34it/s]Batches:  62%|██████▎   | 40/64 [00:02<00:00, 25.37it/s]Batches:  67%|██████▋   | 43/64 [00:02<00:00, 26.33it/s]Batches:  72%|███████▏  | 46/64 [00:02<00:00, 27.32it/s]Batches:  78%|███████▊  | 50/64 [00:02<00:00, 28.67it/s]Batches:  84%|████████▍ | 54/64 [00:02<00:00, 30.72it/s]Batches:  92%|█████████▏| 59/64 [00:02<00:00, 35.16it/s]Batches: 100%|██████████| 64/64 [00:02<00:00, 23.66it/s]
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [05:01<10:02, 301.36s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [10:50<05:29, 329.40s/it]Loading checkpoint shards: 100%|██████████| 3/3 [13:10<00:00, 242.93s/it]Loading checkpoint shards: 100%|██████████| 3/3 [13:10<00:00, 263.47s/it]
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:03<00:07,  3.84s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:07<00:03,  3.82s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:11<00:00,  3.65s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:11<00:00,  3.70s/it]
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:03<00:07,  3.82s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:07<00:03,  3.81s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:11<00:00,  3.64s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:11<00:00,  3.69s/it]
