@@ -27,6 +27,8 @@ logs/         SLURM/runtime logs, not committed
 report/       course report material
 ```
 
+test
+
 ## Dataset Placement
 
 Put raw tax documents into:
