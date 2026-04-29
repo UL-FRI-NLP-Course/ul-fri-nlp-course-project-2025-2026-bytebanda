@@ -1,0 +1,15 @@
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Batches:   0%|          | 0/60 [00:00<?, ?it/s]Batches:   2%|▏         | 1/60 [00:00<00:40,  1.45it/s]Batches:   5%|▌         | 3/60 [00:00<00:12,  4.50it/s]Batches:   8%|▊         | 5/60 [00:00<00:07,  7.38it/s]Batches:  12%|█▏        | 7/60 [00:01<00:05,  9.87it/s]Batches:  15%|█▌        | 9/60 [00:01<00:04, 12.09it/s]Batches:  18%|█▊        | 11/60 [00:01<00:03, 13.98it/s]Batches:  22%|██▏       | 13/60 [00:01<00:03, 15.41it/s]Batches:  27%|██▋       | 16/60 [00:01<00:02, 17.19it/s]Batches:  32%|███▏      | 19/60 [00:01<00:02, 18.34it/s]Batches:  37%|███▋      | 22/60 [00:01<00:01, 19.26it/s]Batches:  42%|████▏     | 25/60 [00:01<00:01, 19.90it/s]Batches:  47%|████▋     | 28/60 [00:02<00:01, 20.80it/s]Batches:  52%|█████▏    | 31/60 [00:02<00:01, 21.45it/s]Batches:  57%|█████▋    | 34/60 [00:02<00:01, 21.84it/s]Batches:  62%|██████▏   | 37/60 [00:02<00:01, 22.17it/s]Batches:  67%|██████▋   | 40/60 [00:02<00:00, 22.44it/s]Batches:  72%|███████▏  | 43/60 [00:02<00:00, 22.56it/s]Batches:  77%|███████▋  | 46/60 [00:02<00:00, 22.80it/s]Batches:  82%|████████▏ | 49/60 [00:02<00:00, 22.95it/s]Batches:  87%|████████▋ | 52/60 [00:03<00:00, 23.25it/s]Batches:  92%|█████████▏| 55/60 [00:03<00:00, 23.67it/s]Batches:  97%|█████████▋| 58/60 [00:03<00:00, 24.16it/s]Batches: 100%|██████████| 60/60 [00:03<00:00, 17.81it/s]
+INFO:    Setting 'NVIDIA_VISIBLE_DEVICES=all' to emulate legacy GPU binding.
+INFO:    Setting --writable-tmpfs (required by nvidia-container-cli)
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/d/hpc/home/mp77516/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers
+Error: Cannot instantiate this tokenizer from a slow version. If it's based on sentencepiece, make sure you have sentencepiece installed.
