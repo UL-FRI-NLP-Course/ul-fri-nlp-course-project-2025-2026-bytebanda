@@ -1,0 +1,11 @@
+transformers
+accelerate
+sentence-transformers
+faiss-cpu
+torch
+numpy
+pandas
+scikit-learn
+pypdf
+beautifulsoup4
+tqdm
