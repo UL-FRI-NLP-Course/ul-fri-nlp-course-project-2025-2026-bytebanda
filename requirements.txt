@@ -4,6 +4,7 @@ sentence-transformers==2.6.1
 faiss-cpu
 torch>=2.2,<2.4
 sentencepiece
+protobuf
 numpy
 pandas
 scikit-learn
