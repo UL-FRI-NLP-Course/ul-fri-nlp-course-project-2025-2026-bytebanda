@@ -1,0 +1,1218 @@
+Running evaluation in project root: /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda
+Using container: /d/hpc/home/mp77516/containers/pytorch.sif
+Writing structured results to: logs/tax-rag-eval-14619040.jsonl
+Loading raw documents from downloads/pisrs
+Ingested PRAV7542_pravilnik-zddv-1_NPB30.html: 1 document record(s)
+Ingested PRAV7927_pravilnik-zdavp-2_NPB25.html: 1 document record(s)
+Ingested PRAV8299_pravilnik-zddpo-2_NPB2.html: 1 document record(s)
+Ingested ZAKO4687_zddpo-2_NPB23.html: 1 document record(s)
+Ingested ZAKO4697_zdoh-2_NPB36.html: 1 document record(s)
+Ingested ZAKO4701_zddv-1_NPB20.html: 1 document record(s)
+Ingested ZAKO4703_zdavp-2_NPB31.html: 1 document record(s)
+Created 1897 chunk(s) from 7 document record(s)
+Loading embedding model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Encoding chunks
+Saved processed chunks to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/processed/chunks.jsonl
+Saved FAISS index to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/faiss.index
+Saved indexed chunk metadata to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/chunks.jsonl
+Loaded 20 evaluation question(s) from evaluation/tax_eval_questions.jsonl
+top_k=3 generate=True max_new_tokens=512
+results_jsonl=logs/tax-rag-eval-14619040.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16
+====================================================================================================
+CASE 1/20: ddv_01 [ddv_predmet]
+QUESTION: Kaj je predmet obdavčitve z DDV po ZDDV-1?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 3. člen (predmet obdavčitve)
+EXPECTED CHUNKS: chunk_000853
+EXPECTED ANSWER: Predmet DDV so dobave blaga, pridobitve blaga znotraj Unije, opravljanje storitev in uvoz blaga, kot jih določa 3. člen ZDDV-1.
+
+HITS: source=False chunk=False phrases=0/5 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7884 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000143
+ek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec oziroma kot prejemnik blaga ali storitev plačal v skladu z 2., 4. in 5. točko prvega odstavka in tretjim odstavkom 76. člena ter 76.a členom ZDDV‑1. Kot odbitek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec, identificiran za namene DDV, kot prejemnik storitve plačal v skladu s 3. točko prvega odstavka 76. člena ZDDV‑1, razen zneska DDV, ki ga je plačala oseba iz d) točke prvega odstavka 4. člena ZDDV‑1
+(5) Davčni zavezanec iz prejšnjega odstavka, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev, mora za uveljavljanje pravice do odbitka DDV do roka za predložitev obračuna DDV imeti račun ali drug dokument, ki vsebuje podatke, potrebne za zagotovitev pravilnega obračuna DDV, in v obračunu DDV izkazati podatek o znesku DDV, ki ga je dolžan plačati.
+(6) Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+(7) Davčni zavezanec, ki izvrši plačilo računa davčnemu zavezancu, ki uporablja posebno ureditev po plačani realizaciji, mora za uveljavljanje pravice do odbitka DDV v svojem knjigovodstvu ali drugi evidenci zagotoviti podatke o odbitku DDV na podlagi izvršenih
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7489 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000019
+, ki ni identificiran za namene DDV, ali pravna oseba, ki ni davčni zavezanec, nastane, tudi če vrednost teh izdelkov, ki jih pridobi v koledarskem letu, ne presega zneska iz drugega odstavka 4. člena ZDDV-1.
+(2) Če trošarinske izdelke pridobiva davčni zavezanec, identificiran za namene DDV, je taka pridobitev predmet DDV v skladu z 2.a) točko prvega odstavka 3. člena ZDDV-1.
+21. člen
+(črtan)
+22. člen
+(Pridobitev blaga znotraj Unije – točka d) prvega odstavka 4. člena ZDDV-1)
+Oseba iz točke d) prvega odstavka
+4. člena ZDDV-1, ki pridobiva blago znotraj Unije, mora, ob izpolnjevanju pogoja iz točke b) drugega odstavka 4. člena ZDDV-1, obračunati DDV od pridobitev blaga znotraj Unije že za pridobitev, s katero v tekočem koledarskem letu preseže vrednost pridobitev 10.000 eurov.
+23. člen
+(Pridobitev rabljenega prevoznega sredstva znotraj Unije)
+(1) DDV se obračuna in plača od pridobitve rabljenega prevoznega sredstva iz druge države članice, če davčni zavezanec, ki je identificiran za namene DDV v Sloveniji, prevozno sredstvo pridobi pod pogoji iz drugega odstavka 93.a člena ZDDV-1.
+(2) DDV se od pridobitve rabljenega prevoznega sredstva ne obračuna in ne plača, če je prodajalec:
+-
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7475 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000134
+ene DDV, ki obračunava DDV le od prejetih storitev in je plačnica DDV na podlagi 3. točke prvega odstavka 76. člena ZDDV-1,
+- davčni zavezanec iz 94. člena ZDDV-1, ki je identificiran za namene DDV na podlagi četrtega odstavka 78. člena ZDDV-1, ker opravlja storitve, za katere je prejemnik storitev dolžan plačati DDV v drugi državi članici.
+(5) Zahtevku iz drugega odstavka tega člena mora davčni zavezanec priložiti:
+- dokazilo o nakupu (račun ali uvozna listina);
+- dokazilo, da je bil DDV plačan ob nakupu;
+- dokazilo o prodaji (račun ali dokazilo o prejetem plačilu) in
+- dokazilo, da je bilo novo prevozno sredstvo prepeljano v drugo državo članico.
+103. člen
+(Priložnostne finančne transakcije pri izračunu odbitnega deleža)
+(1) V izračun odbitnega deleža se v skladu s točko c) tretjega odstavka 65. člena ZDDV-1 ne všteva znesek prometa finančnih transakcij, če se opravljajo priložnostno. Šteje se, da je promet finančnih transakcij opravljen priložnostno, če finančne transakcije ne predstavljajo dejavnosti davčnega zavezanca.
+(2) V izračun odbitnega deleža se v nobenem primeru ne vštevajo donosi iz naložb v vrednostne papirje (na primer dividende, obresti, kapitalski dobički) in
+
+GENERATED ANSWER:
+Po ZDDV-1 je predmet obdavčitve z DDV blago ali storitve, ki jih pridobi ali opravi davčni zavezanec, razen tistih, ki so navedene v točki 22. in 23. člena ZDDV-1. ([1] chunk_000143, [2] chunk_000019)
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000134)
+
+====================================================================================================
+CASE 2/20: ddv_02 [ddv_zavezanec]
+QUESTION: Kdo je davčni zavezanec po ZDDV-1?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 5. člen (definicija)
+EXPECTED CHUNKS: chunk_000859
+EXPECTED ANSWER: Davčni zavezanec je vsaka oseba, ki kjerkoli neodvisno opravlja ekonomsko dejavnost, ne glede na namen ali rezultat te dejavnosti.
+
+HITS: source=False chunk=False phrases=0/2 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7589 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000242
+um začetka uporabe posebne ureditve.
+(6) Davčni organ vključi posrednika v posebno ureditev z dodelitvijo individualne identifikacijske številke in z dodelitvijo individualne identifikacijske številke DDV za vsakega davčnega zavezanca, ki ga zastopa.
+174.e člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec ali posrednik davčnega zavezanca iz 130.j člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+174.f člen
+(Zahtevek za vračilo DDV)
+Davčni zavezanec, ki na ozemlju Slovenije nabavi blago ali storitve za namene dejavnosti, zajete v posebni ureditvi v skladu s 4. oddelkom 6. poglavja XII. naslova
+Direktive Sveta 2006/112/ES
+, v katero je vključen v drugi držav članici, uveljavlja pravico do vračila DDV, ki ga je plačal ob nabavi blaga oziroma storitev ali ob uvozu blaga, v skladu s 74.i členom ZDDV-1 in 115.b členom tega pravilnika, ne glede na točko a) drugega odstavka in šesti odstavek 74.i člena ZDDV-1.«.
+3.c Predložitev posebnega obračuna DDV po prenehanju uporabe posebnih ureditev
+174.g člen
+(Predložitev posebnega obračuna DDV po prenehanju uporabe
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7385 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000143
+ek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec oziroma kot prejemnik blaga ali storitev plačal v skladu z 2., 4. in 5. točko prvega odstavka in tretjim odstavkom 76. člena ter 76.a členom ZDDV‑1. Kot odbitek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec, identificiran za namene DDV, kot prejemnik storitve plačal v skladu s 3. točko prvega odstavka 76. člena ZDDV‑1, razen zneska DDV, ki ga je plačala oseba iz d) točke prvega odstavka 4. člena ZDDV‑1
+(5) Davčni zavezanec iz prejšnjega odstavka, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev, mora za uveljavljanje pravice do odbitka DDV do roka za predložitev obračuna DDV imeti račun ali drug dokument, ki vsebuje podatke, potrebne za zagotovitev pravilnega obračuna DDV, in v obračunu DDV izkazati podatek o znesku DDV, ki ga je dolžan plačati.
+(6) Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+(7) Davčni zavezanec, ki izvrši plačilo računa davčnemu zavezancu, ki uporablja posebno ureditev po plačani realizaciji, mora za uveljavljanje pravice do odbitka DDV v svojem knjigovodstvu ali drugi evidenci zagotoviti podatke o odbitku DDV na podlagi izvršenih
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7276 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000199
+računanega DDV, ki jo vodi davčni zavezanec v skladu s šestim odstavkom 85. člena ZDDV-1, vsebuje ime in naslov davčnega zavezanca in njegovo identifikacijsko številko za DDV ter zaporedno številko in naslednje podatke o posamezni listini:
+- davčno obdobje;
+- datum knjiženja listine;
+- številko listine;
+- datum listine;
+- ime in sedež davčnega zavezanca – prejemnika in njegovo davčno številko oziroma identifikacijsko številko za DDV, če je identificiran za namene DDV in davčni zavezanec razpolaga z njo;
+- vrednost dobav blaga in storitev brez DDV;
+- vrednost dobav blaga in storitev v Sloveniji, od katerih obračuna DDV prejemnik;
+- vrednost dobav blaga znotraj Unije in opravljenih storitev v druge države članice;
+- vrednost oproščenih dobav, ločeno s pravico do odbitka oziroma brez pravice do odbitka;
+- vrednost oproščenih tristranskih dobav blaga znotraj Unije;
+- vrednost prodaje blaga na daljavo;
+- vrednost dobav blaga z montažo ali instaliranjem v drugi državi članici;
+- znesek obračunanega DDV, izkazan po predpisanih stopnjah, ločeno za domače dobave in za dobave, prejete iz drugih držav članic, od katerih mora prejemnik obračunati DDV, ter za DDV obračunan na podlagi
+
+GENERATED ANSWER:
+Davčni zavezanec po ZDDV-1 je oseba, ki mora plačati davke na dodane vrednosti (DDV). To lahko je naročnik, kupec ali prejemnik blaga ali storitev ([1] chunk_000143, [2] chunk_00005, [3] chunk_000199).
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000242)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000199)
+
+====================================================================================================
+CASE 3/20: ddv_03 [ddv_dobava_blaga]
+QUESTION: Kaj pomeni dobava blaga po ZDDV-1?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 6. člen (splošno)
+EXPECTED CHUNKS: chunk_000862
+EXPECTED ANSWER: Dobava blaga pomeni prenos pravice do razpolaganja z opredmetenimi stvarmi, kot da bi bil prejemnik lastnik.
+
+HITS: source=False chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7620 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000247
+. člena ZDDV-1 se ne nanaša na primere, ko je opravljena delna dobava blaga ali storitev in se račun nanaša le na to delno dobavo blaga ali delno dobavo storitev.
+(3) Če davčni zavezanec za opravljeno dobavo blaga ali storitev, od katere obračunava DDV po plačani realizaciji, prejme le delno plačilo, obračuna DDV od delnega plačila po preračunani stopnji.
+(4) Če davčni zavezanec za njemu opravljeno dobavo blaga ali storitev, od katere uveljavlja odbitek DDV po plačani realizaciji, izvrši le delno plačilo, lahko uveljavlja odbitek DDV le od delnega plačila, pri čemer uporabi preračunano stopnjo DDV.
+179. člen
+(Podatki v obračunu)
+Davčni zavezanec v obračun DDV vpisuje podatke za transakcije po posebni ureditvi po plačani realizaciji na podlagi prejetih in izvršenih plačil ter podatke na podlagi izdanih in prejetih računov za transakcije iz 132. člena ZDDV-1 in za transakcije, ki so oproščene plačila DDV.
+180. člen
+(črtan)
+181. člen
+(Poročanje o neplačanih računih na dan 31. decembra tekočega leta)
+(1) Davčni zavezanec v popis računov iz drugega odstavka 136. člena ZDDV-1 vključi vse izdane in prejete raču­ne po plačani realizaciji, ki niso bili plačani do 31. decem­bra tekočega
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7426 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000143
+ek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec oziroma kot prejemnik blaga ali storitev plačal v skladu z 2., 4. in 5. točko prvega odstavka in tretjim odstavkom 76. člena ter 76.a členom ZDDV‑1. Kot odbitek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec, identificiran za namene DDV, kot prejemnik storitve plačal v skladu s 3. točko prvega odstavka 76. člena ZDDV‑1, razen zneska DDV, ki ga je plačala oseba iz d) točke prvega odstavka 4. člena ZDDV‑1
+(5) Davčni zavezanec iz prejšnjega odstavka, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev, mora za uveljavljanje pravice do odbitka DDV do roka za predložitev obračuna DDV imeti račun ali drug dokument, ki vsebuje podatke, potrebne za zagotovitev pravilnega obračuna DDV, in v obračunu DDV izkazati podatek o znesku DDV, ki ga je dolžan plačati.
+(6) Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+(7) Davčni zavezanec, ki izvrši plačilo računa davčnemu zavezancu, ki uporablja posebno ureditev po plačani realizaciji, mora za uveljavljanje pravice do odbitka DDV v svojem knjigovodstvu ali drugi evidenci zagotoviti podatke o odbitku DDV na podlagi izvršenih
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7196 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000017
+ega odstavka 5. člena ZDDV-1 in hkrati opravlja dejavnost oziroma transakcije, navedene v petem odstavku 5. člena ZDDV-1, se obračuna DDV od dela članarine, ki se nanaša na obdavčeno dejavnost.
+(3) Od članarin, ki jih prejemajo nepridobitne organizacije iz 11. točke prvega odstavka 42. člena ZDDV-1, se DDV ne plačuje, če ni verjetno, da oprostitev DDV vodi k izkrivljanju konkurence, razen če članarina predstavlja plačilo za dobavo blaga oziroma storitev iz drugega odstavka 42. člena ZDDV‑1.
+(4) Če članarino prejme davčni zavezanec, ki izpolnjuje pogoje iz prvega odstavka 43. člena ZDDV-1, lahko uveljavlja oprostitev plačila DDV tudi od članarin, razen če članarina predstavlja plačilo za dobavo blaga oziroma storitev iz drugega odstavka 42. člena ZDDV-1.
+17. člen
+(Primanjkljaj blaga)
+Primanjkljaj blaga se šteje za dobavo blaga v skladu s 7. členom ZDDV-1, razen:
+- primanjkljaja in uničenj, nastalih zaradi višje sile;
+- primanjkljaja, ki je neločljivo povezan s procesom izdelave in predelave blaga;
+- primanjkljaja in uničenja iz naslova kala, razsipa, razbitja in okvare blaga, ki sta neločljivo povezana s skladiščenjem in prevozom blaga v dejanskem obsegu, ki pa ne sme biti večji od
+
+GENERATED ANSWER:
+Dobava blaga po ZDDV-1 pomeni, da je bila dobava blaga opravljena in plačana, vendar je bil DDV plačan le za delno plačano dobavo blaga. To je opisano v členu 3 in 4 ZDDV-1 [1]. Vsebina se nanaša na primer, ko je davčni zavezanec prejel le delno plačilo za opravljeno dobavo blaga in mora obračunati DDV le po delnem plačilu po preračunani stopnji [1]. Vsebina je pridobljena iz viru PRAV7542_pravilnik-zddv-1_NPB30.html, chunk_id=chunk_000247.
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000247)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000017)
+
+====================================================================================================
+CASE 4/20: ddv_04 [ddv_storitve]
+QUESTION: Kaj pomeni opravljanje storitev po ZDDV-1?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 14. člen (splošno)
+EXPECTED CHUNKS: chunk_000877
+EXPECTED ANSWER: Opravljanje storitev pomeni vsako transakcijo, ki ni dobava blaga.
+
+HITS: source=True chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7112 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000247
+. člena ZDDV-1 se ne nanaša na primere, ko je opravljena delna dobava blaga ali storitev in se račun nanaša le na to delno dobavo blaga ali delno dobavo storitev.
+(3) Če davčni zavezanec za opravljeno dobavo blaga ali storitev, od katere obračunava DDV po plačani realizaciji, prejme le delno plačilo, obračuna DDV od delnega plačila po preračunani stopnji.
+(4) Če davčni zavezanec za njemu opravljeno dobavo blaga ali storitev, od katere uveljavlja odbitek DDV po plačani realizaciji, izvrši le delno plačilo, lahko uveljavlja odbitek DDV le od delnega plačila, pri čemer uporabi preračunano stopnjo DDV.
+179. člen
+(Podatki v obračunu)
+Davčni zavezanec v obračun DDV vpisuje podatke za transakcije po posebni ureditvi po plačani realizaciji na podlagi prejetih in izvršenih plačil ter podatke na podlagi izdanih in prejetih računov za transakcije iz 132. člena ZDDV-1 in za transakcije, ki so oproščene plačila DDV.
+180. člen
+(črtan)
+181. člen
+(Poročanje o neplačanih računih na dan 31. decembra tekočega leta)
+(1) Davčni zavezanec v popis računov iz drugega odstavka 136. člena ZDDV-1 vključi vse izdane in prejete raču­ne po plačani realizaciji, ki niso bili plačani do 31. decem­bra tekočega
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.6820 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000143
+ek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec oziroma kot prejemnik blaga ali storitev plačal v skladu z 2., 4. in 5. točko prvega odstavka in tretjim odstavkom 76. člena ter 76.a členom ZDDV‑1. Kot odbitek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec, identificiran za namene DDV, kot prejemnik storitve plačal v skladu s 3. točko prvega odstavka 76. člena ZDDV‑1, razen zneska DDV, ki ga je plačala oseba iz d) točke prvega odstavka 4. člena ZDDV‑1
+(5) Davčni zavezanec iz prejšnjega odstavka, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev, mora za uveljavljanje pravice do odbitka DDV do roka za predložitev obračuna DDV imeti račun ali drug dokument, ki vsebuje podatke, potrebne za zagotovitev pravilnega obračuna DDV, in v obračunu DDV izkazati podatek o znesku DDV, ki ga je dolžan plačati.
+(6) Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+(7) Davčni zavezanec, ki izvrši plačilo računa davčnemu zavezancu, ki uporablja posebno ureditev po plačani realizaciji, mora za uveljavljanje pravice do odbitka DDV v svojem knjigovodstvu ali drugi evidenci zagotoviti podatke o odbitku DDV na podlagi izvršenih
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6759 source=ZAKO4701_zddv-1_NPB20.html chunk_id=chunk_000962
+d storitev, opravljenih po opravljeni zadnji dobavi blaga.
+IX. ODBITEK DDV
+1. Nastanek in obseg pravice do odbitka
+62. člen
+(nastanek pravice do odbitka DDV)
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV.
+63. člen
+(obseg pravice)
+(1) Davčni zavezanec ima pravico, da od DDV, ki ga je dolžan plačati, odbije DDV, ki ga je dolžan plačati ali ga je plačal pri nabavah blaga oziroma storitev, če je to blago oziroma storitve uporabil oziroma jih bo uporabil za namene svojih obdavčenih transakcij, in sicer:
+a) DDV, ki ga je dolžan plačati ali ga je plačal v Sloveniji za blago ali storitve, ki mu jih je ali mu jih bo dobavil drug davčni zavezanec;
+b) DDV, ki ga je dolžan plačati za transakcije, ki se obravnavajo kot dobave blaga ali storitev v skladu s točko a) 8. člena tega zakona;
+c) DDV, ki ga je dolžan plačati za pridobitve blaga znotraj Unije v skladu z 2. a) točko prvega odstavka 3. člena tega zakona;
+d) DDV, ki ga je dolžan plačati za transakcije, ki se obravnavajo kot pridobitve blaga znotraj Unije v skladu z 12. in 13. členom tega zakona;
+e) DDV, ki ga je dolžan plačati ali ga je plačal v Sloveniji v zvezi z uvozom blaga.
+(2) Ne glede na prvi odstavek
+
+GENERATED ANSWER:
+Opravljanje storitev po ZDDV-1 pomeni, da se storitve opravljajo po opravljeni zadnji dobavi blaga (izvirnik: [3], chunk_id=chunk_000962).
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000247)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- ZAKO4701_zddv-1_NPB20.html (chunk_000962)
+
+====================================================================================================
+CASE 5/20: ddv_05 [ddv_obracun]
+QUESTION: Kdaj nastane obdavčljivi dogodek in obveznost obračuna DDV pri dobavi blaga ali storitev?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 33. člen (dobave blaga ali storitev)
+EXPECTED CHUNKS: chunk_000902
+EXPECTED ANSWER: Pri dobavi blaga ali storitev obdavčljivi dogodek in obveznost obračuna DDV nastaneta, ko je blago dobavljeno ali so storitve opravljene.
+
+HITS: source=True chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.8494 source=ZAKO4701_zddv-1_NPB20.html chunk_id=chunk_000904
+akona nastane obveznost obračuna DDV v davčnem obdobju, v katerem je nastal obdavčljivi dogodek.
+(8) Za dobave blaga, opravljene v drugo državo članico pod pogoji iz 46. člena tega zakona in za prenos blaga, ki ga opravi davčni zavezanec za namene svojega podjetja v drugo državo članico z oprostitvijo DDV, nastane obveznost obračuna DDV na dan izdaje računa, ali če račun ni bil izdan, 15. dan v mesecu, ki sledi mesecu, v katerem nastane obdavčljivi dogodek.
+(9) Drugi in peti odstavek tega člena se ne uporabljata za dobave blaga, opravljene v drugo državo članico pod pogoji iz 46. člena tega zakona in za prenose blaga, ki jih opravi davčni zavezanec za namene svojega podjetja v drugo državo članico z oprostitvijo DDV.
+(10) Ne glede na prvi do peti odstavek tega člena nastaneta obdavčljivi dogodek in obveznost obračuna DDV pri dobavi blaga, ki jo opravi davčni zavezanec, za katerega se šteje, da je prejel in dobavil blago v skladu s 6.a členom tega zakona, ob prejemu plačila.
+33.a člen
+(predplačila pri opravljanju dobav blaga in storitev po 76.a členu ZDDV-1)
+(1) Davčni zavezanec, ki je identificiran za namene DDV in je določen kot plačnik DDV na podlagi 76.a člena tega zakona, mora
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.8064 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000038
+da se vrednost teh storitev izključi iz davčne osnove za obračun DDV od uvoza blaga.
+(9) Če se za uvoz blaga, za katerega je bil izkazan obračunani DDV od uvoza blaga v obračunu DDV v skladu s šestim ali sedmim odstavkom 77. člena ZDDV-1, zahteva vložitev dopolnilne deklaracije in je ta bila vložena po roku za predložitev obračuna DDV za davčno obdobje, v katerem je bilo blago uvoženo, ter se davčna osnova za to uvoženo blago spremeni, se za davčno obdobje, v katerem je vložena dopolnilna deklaracija, davčna osnova določi kot razlika med davčno osnovo po dopolnilni deklaraciji in davčno osnovo po poenostavljeni deklaraciji.
+43. člen
+(Davčna osnova pri ponovnem uvozu blaga, ki je bilo v postopku pasivnega oplemenitenja)
+(1) V skladu s petim odstavkom 38. člena ZDDV-1 se davčna osnova pri ponovnem uvozu blaga ugotovi v skladu s carinskimi predpisi, tako da se od carinske vrednosti ponovno uvoženega blaga odšteje vrednost začasno izvoženega blaga.
+(2) Carinska vrednost ponovno uvoženega blaga in vrednost začasno izvoženega blaga se ugotovita v skladu s carinskimi predpisi.
+(3) Če se v skladu s carinskimi predpisi carinska vrednost blaga, ki se ponovno uvaža, določa na podlagi
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.8053 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000132
+s katero je bil obračunan DDV od uvoza blaga, razveljavljena prej, preden je bil uveljavljen odbitek DDV. Če je bil na podlagi razveljavljene carinske deklaracije ali razveljavljene odločbe carinskega organa DDV že plačan, se ta znesek vrne v skladu z zakonom, ki ureja davčni postopek.
+101.a člen
+(Uvoz blaga, kadar se DDV plačuje preko obračuna DDV)
+(1) Pravico do odbitka DDV za uvoženo blago lahko davčni zavezanec uveljavi ne prej kot v davčnem obdobju, v katerem je obračunal DDV od uvoza blaga.
+(2) Za odbitni DDV se šteje znesek DDV, ki ga je prejemnik blaga, identificiran za namene DDV v Sloveniji, plačal v skladu s šestim ali sedmim odstavkom 77. člena ZDDV-1. Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+102. člen
+(Nova prevozna sredstva)
+(1) Davčni zavezanec iz tretjega odstavka 5. člena ZDDV-1 sme odbiti DDV, ki je vključen v nabavni ceni ali plačan pri uvozu ali pridobitvi novega prevoznega sredstva znotraj Unije, do zneska, ki ne presega davka, ki bi ga moral plačati, če dobava ne bi bila oproščena. Pravica do odbitka nastane in se lahko uveljavi, ne prej kot v trenutku dobave.
+(2) Davčni zavezanec iz prejšnjega odstavka tega člena lahko uveljavlja odbitek DDV
+
+GENERATED ANSWER:
+Obdavčljivi dogodek in obveznost obračuna DDV pri dobavi blaga ali storitev nastaneta pri prejemu plačila po dobavi blaga, ki jo opravi davčni zavezanec, za katerega se šteje, da je prejel in dobavil blago v skladu s 6.a členom ZDDV-1 (33.a člen). Če je identificiran za namene DDV in je določen kot plačnik DDV na podlagi 76.a člena tega zakona, mora plačati DDV (33.a člen).
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_000904)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000038)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000132)
+
+====================================================================================================
+CASE 6/20: ddv_06 [ddv_stopnje]
+QUESTION: Kakšne stopnje DDV določa ZDDV-1?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 41. člen (stopnja DDV)
+EXPECTED CHUNKS: chunk_000916
+EXPECTED ANSWER: ZDDV-1 določa splošno stopnjo 22 %, nižjo stopnjo 9,5 % in posebno nižjo stopnjo 5 % za določene dobave iz prilog.
+
+HITS: source=False chunk=False phrases=0/3 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7340 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000143
+ek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec oziroma kot prejemnik blaga ali storitev plačal v skladu z 2., 4. in 5. točko prvega odstavka in tretjim odstavkom 76. člena ter 76.a členom ZDDV‑1. Kot odbitek DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec, identificiran za namene DDV, kot prejemnik storitve plačal v skladu s 3. točko prvega odstavka 76. člena ZDDV‑1, razen zneska DDV, ki ga je plačala oseba iz d) točke prvega odstavka 4. člena ZDDV‑1
+(5) Davčni zavezanec iz prejšnjega odstavka, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev, mora za uveljavljanje pravice do odbitka DDV do roka za predložitev obračuna DDV imeti račun ali drug dokument, ki vsebuje podatke, potrebne za zagotovitev pravilnega obračuna DDV, in v obračunu DDV izkazati podatek o znesku DDV, ki ga je dolžan plačati.
+(6) Šteje se, da je DDV plačan, ko je izkazan v obračunu DDV.
+(7) Davčni zavezanec, ki izvrši plačilo računa davčnemu zavezancu, ki uporablja posebno ureditev po plačani realizaciji, mora za uveljavljanje pravice do odbitka DDV v svojem knjigovodstvu ali drugi evidenci zagotoviti podatke o odbitku DDV na podlagi izvršenih
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7012 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000134
+ene DDV, ki obračunava DDV le od prejetih storitev in je plačnica DDV na podlagi 3. točke prvega odstavka 76. člena ZDDV-1,
+- davčni zavezanec iz 94. člena ZDDV-1, ki je identificiran za namene DDV na podlagi četrtega odstavka 78. člena ZDDV-1, ker opravlja storitve, za katere je prejemnik storitev dolžan plačati DDV v drugi državi članici.
+(5) Zahtevku iz drugega odstavka tega člena mora davčni zavezanec priložiti:
+- dokazilo o nakupu (račun ali uvozna listina);
+- dokazilo, da je bil DDV plačan ob nakupu;
+- dokazilo o prodaji (račun ali dokazilo o prejetem plačilu) in
+- dokazilo, da je bilo novo prevozno sredstvo prepeljano v drugo državo članico.
+103. člen
+(Priložnostne finančne transakcije pri izračunu odbitnega deleža)
+(1) V izračun odbitnega deleža se v skladu s točko c) tretjega odstavka 65. člena ZDDV-1 ne všteva znesek prometa finančnih transakcij, če se opravljajo priložnostno. Šteje se, da je promet finančnih transakcij opravljen priložnostno, če finančne transakcije ne predstavljajo dejavnosti davčnega zavezanca.
+(2) V izračun odbitnega deleža se v nobenem primeru ne vštevajo donosi iz naložb v vrednostne papirje (na primer dividende, obresti, kapitalski dobički) in
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6868 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000239
+bno ureditev, pri čemer za identifikacijo uporabi že dodeljeno identifikacijsko številko za DDV davčnemu zavezancu, in določi datum začetka uporabe posebne ureditve.
+174.b člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec iz 130.b člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+174.c člen
+(Zahtevek za vračilo DDV)
+Davčni zavezanec iz tretjega odstavka 130.g člena ZDDV-1 vloži zahtevek za vračilo DDV prek elektronskega portala v državi članici, v kateri je pridobil identifikacijsko številko za DDV ali davčno sklicno številko, na podlagi katere zahteva vračilo.
+3.b Posebna ureditev za prodajo na daljavo s tretjih ozemelj ali iz tretjih držav uvoženega blaga
+174.d člen
+(Prijava uporabe posebne ureditve davčnemu organu)
+(1) Davčni zavezanec, ki izpolnjuje pogoje iz 130.j člena ZDDV-1 in bo uporabljal posebno ureditev brez posrednika, v prijavi za identifikacijo navede poleg podatkov iz drugega odstavka 130.l člena ZDDV-1 še tržna imena družbe, če se razlikujejo od njenega imena, državo, v kateri ima sedež, kontaktno osebo, telefonsko številko kontaktne
+
+GENERATED ANSWER:
+V ZDDV-1 ni navedenih posebnih stopenj DDV. DDV se izračuna na osnovi določenih pravil, ki so opisana v pravilniku. ([1] chunk_000143)
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000134)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000239)
+
+====================================================================================================
+CASE 7/20: ddv_07 [ddv_identifikacija]
+QUESTION: Kaj mora oseba prijaviti davčnemu organu glede identifikacije za DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 78. člen (obveznost prijavljanja)
+EXPECTED CHUNKS: chunk_001009
+EXPECTED ANSWER: Oseba mora davčnemu organu prijaviti začetek opravljanja dejavnosti kot davčni zavezanec in predložiti zahtevek za izdajo identifikacijske številke za DDV; prijaviti mora tudi spremembe in prenehanje dejavnosti.
+
+HITS: source=True chunk=False phrases=0/2 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.8172 source=ZAKO4701_zddv-1_NPB20.html chunk_id=chunk_001013
+za DDV prej samostojnim davčnim zavezancem, identificiranim za namene DDV, preneha identifikacija za namene DDV po uradni dolžnosti. Davčni zavezanec, ki mu preneha samostojna identifikacija za namene DDV, predloži obračun DDV v rokih in na način, ki je določen za primer prenehanja identifikacije za namene DDV.
+79. člen
+(identifikacijska številka za DDV)
+(1) Davčni organ mora s posamično identifikacijsko številko za DDV identificirati naslednje osebe:
+Opomba:
+Spremenjeni prvi odstavek 79. člena se začne uporabljati 1. 1. 2026.
+a) vsakega davčnega zavezanca, razen davčnih zavezancev iz tretjega odstavka 5. člena tega zakona, ki na ozemlju Slovenije opravlja dobave blaga ali storitev, od katerih se DDV lahko odbije, razen davčnega zavezanca, ki dobavlja blago ali opravlja storitve, za katere je, v skladu z 2. do 4. točko prvega odstavka 76. člena tega zakona, plačnik DDV izključno kupec oziroma naročnik ali oseba, kateri je blago ali so storitve namenjene;
+b) vsakega davčnega zavezanca ali pravno osebo, ki ni davčni zavezanec, ki opravi pridobitev blaga, ki je predmet DDV v skladu z 2. točko prvega odstavka 3. člena tega zakona, in vsakega davčnega zavezanca ali pravno osebo, ki ni
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.8123 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000173
+e davčnega zastopnika in njegova identifikacijska številka za DDV,
+- čas trajanja pooblastila o zastopanju, ki ga davčni zavezanec priloži zahtevku za izdajo identifikacijske številke za DDV,
+- ime in priimek ter davčna številka odgovorne osebe davčnega zastopnika,
+- ime in priimek ter davčna in telefonska številka kontaktne osebe davčnega zastopnika;
+c) drugi podatki:
+- carinski postopek 42 ali 63,
+- priložena dokazila (potrdilo pristojnega organa država, kjer ima sedež, da je dolžna obračunavati DDV v tej državi, ali izpis iz sodnega ali drugega registra, ki dokazuje, da opravlja dejavnost v državi sedeža, ter pogodbo ali predpogodbo ali drugo dokazilo, iz katere ali katerega je razvidno, da namerava opravljati dejavnost v Sloveniji),
+- posebna ureditev za mednarodni občasni cestni prevoz potnikov (priložena dokazila),
+- prostovoljna vključitev po četrtem odstavku 30.f člena ZDDV-1.
+(5) Oseba iz točke d) prvega odstavka 4. člena ZDDV-1, ki pridobiva blago znotraj Unije, katere skupni znesek pridobitev v tekočem koledarskem letu preseže 10.000 eurov, vloži zahtevek za izdajo identifikacijske številke za DDV s podatki iz tretjega odstavka tega člena.
+(6) Vsak davčni zavezanec, ki
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7862 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000242
+um začetka uporabe posebne ureditve.
+(6) Davčni organ vključi posrednika v posebno ureditev z dodelitvijo individualne identifikacijske številke in z dodelitvijo individualne identifikacijske številke DDV za vsakega davčnega zavezanca, ki ga zastopa.
+174.e člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec ali posrednik davčnega zavezanca iz 130.j člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+174.f člen
+(Zahtevek za vračilo DDV)
+Davčni zavezanec, ki na ozemlju Slovenije nabavi blago ali storitve za namene dejavnosti, zajete v posebni ureditvi v skladu s 4. oddelkom 6. poglavja XII. naslova
+Direktive Sveta 2006/112/ES
+, v katero je vključen v drugi držav članici, uveljavlja pravico do vračila DDV, ki ga je plačal ob nabavi blaga oziroma storitev ali ob uvozu blaga, v skladu s 74.i členom ZDDV-1 in 115.b členom tega pravilnika, ne glede na točko a) drugega odstavka in šesti odstavek 74.i člena ZDDV-1.«.
+3.c Predložitev posebnega obračuna DDV po prenehanju uporabe posebnih ureditev
+174.g člen
+(Predložitev posebnega obračuna DDV po prenehanju uporabe
+
+GENERATED ANSWER:
+Oseba mora davčnemu organu predložiti zahtevko za izdajo identifikacijske številke za DDV. To vključuje podatke o sebi, kot so ime in priimek, davčna številka, ter podatke o dejavnosti, ki jo opravlja (npr. carinski postopek, priložena dokazila, itd.). Če je oseba davčni zastopnik, mora tudi podati čas trajanja pooblastila o zastopanju in podatke o odgovorni in kontaktni osebi. Če oseba pridobiva blago znotraj Unije in skupni znesek pridobitev v tekočem koledarskem letu preseže 10.000 eurov, mora vložiti zahtevko za izdajo identifikacijske številke za DDV s podatki, ki so določeni v pravilniku ZDDV-1 (člen 4.c). Če oseba uporablja posebno ureditev, mora predložiti posebni obračun DDV v elektronski obliki prek sistema eDavki (člen 174.e). Če je oseba vključena v posebno ureditev in jo preneha uporabljati, mora predložiti posebni obračun DDV po prenehanju uporabe posebnih ureditev (člen 174.g).
+
+Vir:
+- [1] ZAKO4701_zddv-1_NPB20.html, chunk_id=chunk_001013
+- [2] PRAV7542_pravilnik-zddv-1_NPB30.html, chunk_id=chunk_000173, chunk_id=chunk_000242
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001013)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000173)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000242)
+
+====================================================================================================
+CASE 8/20: doh_01 [dohodnina_osnove]
+QUESTION: Kaj je dohodnina po ZDoh-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 1. člen (vsebina zakona)
+EXPECTED CHUNKS: chunk_000569
+EXPECTED ANSWER: Dohodnina je davek od dohodkov fizičnih oseb.
+
+HITS: source=True chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.5757 source=ZAKO4697_zdoh-2_NPB36.html chunk_id=chunk_000566
+odnini – uradno prečiščeno besedilo – ZDoh-2-UPB5 (Uradni list RS, št. 28/10 z dne 6. 4. 2010),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2G
+(Uradni list RS, št. 43/10 z dne 31. 5. 2010),
+-
+Zakon o dohodnini – uradno prečiščeno besedilo – ZDoh-2-UPB6 (Uradni list RS, št. 51/10 z dne 28. 6. 2010),
+-
+Zakon o spremembah in dopolnitvah Zakona o dohodnini
+– ZDoh-2H
+(Uradni list RS, št. 106/10 z dne 27. 12. 2010),
+-
+Zakon o ugotavljanju katastrskega dohodka – ZUKD-1
+(Uradni list RS, št. 9/11 z dne 11. 2. 2011),
+-
+Zakon o dohodnini – uradno prečiščeno besedilo – ZDoh-2-UPB7 (Uradni list RS, št. 13/11 z dne 28. 2. 2011),
+-
+Odločbo o ugotovitvi, da so bili prvi do tretji odstavek 154. člena Zakona o dohodnini v neskladju z Ustavo (Uradni list RS, št. 9/12 z dne 6. 2. 2012),
+-
+Zakon o spremembi Zakona o spremembah in dopolnitvah Zakona o dohodnini
+– ZDoh-2I
+(Uradni list RS, št. 24/12 z dne 30. 3. 2012),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2J
+(Uradni list RS, št. 30/12 z dne 26. 4. 2012),
+-
+Zakon za uravnoteženje javnih financ – ZUJF
+(Uradni list RS, št. 40/12 z dne 30. 5. 2012),
+-
+Zakon o spremembi Zakona o spremembah in dopolnitvah Zakona o
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.5615 source=ZAKO4697_zdoh-2_NPB36.html chunk_id=chunk_000568
+mbah in dopolnitvah Zakona o dohodnini – ZDoh-2R
+(Uradni list RS, št. 63/16 z dne 7. 10. 2016),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2S
+(Uradni list RS, št. 69/17 z dne 8. 12. 2017),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2T
+(Uradni list RS, št. 21/19 z dne 4. 4. 2019),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2U
+(Uradni list RS, št. 28/19 z dne 3. 5. 2019),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2V
+(Uradni list RS, št. 66/19 z dne 5. 11. 2019),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2Z
+(Uradni list RS, št. 39/22 z dne 21. 3. 2022),
+-
+Odločbo o ugotovitvi, da je 5. točka 27. člena Zakona o dohodnini v neskladju z Ustavo (Uradni list RS, št. 132/22 z dne 14. 10. 2022),
+-
+Zakon
+o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2AA
+(Uradni list RS, št. 158/22 z dne 19. 12. 2022),
+-
+Zakon o obnovi, razvoju in zagotavljanju finančnih sredstev – ZORZFS (Uradni list RS, št. 131/23 z dne 22. 12. 2023),
+- Zakon o spremembah in dopolnitvah Zakona o dohodnini – ZDoh-2AB (Uradni list RS, št. 104/24 z dne 10. 12. 2024),
+- Zakon o začasni zaščiti razseljenih oseb - ZZZRO-1
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.5550 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000377
+vni vrednosti odsvojenih delnic oziroma deležev, ki se določi v skladu z 98. členom ZDoh-2, če so bile delnice ali deleži družbe pridobljeni pred 1. januarjem 2003 pa v skladu s četrtim odstavkom 152. člena ZDoh-2 (v eurih);
+- podatek o datumu odsvojitve delnic oziroma deležev;
+- podatek o znesku (bruto) izplačane vrednosti odsvojenih delnic oziroma deležev (v eurih).
+(2) Obrazec »Zahtevek za uveljavljanje zmanjšanja izplačane vrednosti delnic ali deležev v primeru odsvojitve delnic ali deležev v okviru pridobivanja lastnih delnic oziroma deležev družbe za nabavno vrednost odsvojenih delnic ali deležev« se objavi na spletni strani finančne uprave.
+86.s člen
+(vsebina obvestila o uveljavljanju osebne olajšave za rezidente, ki prostovoljno in nepoklicno opravljajo naloge zaščite, reševanja in pomoči, pri izračunu akontacije dohodnine)
+(1) Davčni zavezanec – rezident, ki v skladu z osmim odstavkom 112. člena ZDoh-2 uveljavlja osebno olajšavo za prostovoljno in nepoklicno opravljanje operativnih nalog zaščite, reševanja in pomoči na podlagi tretjega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja oziroma pokojnine, ki se izplačuje za
+
+GENERATED ANSWER:
+Zakon o dohodnini – uradno prečiščeno besedilo – ZDoh-2-UPB6 (Uradni list RS, št. 51/10 z dne 28. 6. 2010) je eden od virov, kjer je opisan Zakon o dohodnini. V tem viru ni navedeno natančno, kaj je dohodnina po ZDoh-2, vendar je to splošen zakon o dohodnini v Sloveniji. Za natančne informacije o dohodnini po ZDoh-2 bi morali prebrati celoten zakon.
+
+Viri:
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000566)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000568)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000377)
+
+====================================================================================================
+CASE 9/20: doh_02 [dohodnina_zavezanec]
+QUESTION: Kdo je zavezanec za dohodnino in kakšen je obseg obveznosti rezidenta ter nerezidenta?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 4. in 5. člen
+EXPECTED CHUNKS: chunk_000569, chunk_000570
+EXPECTED ANSWER: Zavezanec za dohodnino je fizična oseba. Rezident plača dohodnino od dohodkov z virom v Sloveniji in zunaj Slovenije, nerezident pa od dohodkov z virom v Sloveniji.
+
+HITS: source=True chunk=False phrases=0/3 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7426 source=ZAKO4697_zdoh-2_NPB36.html chunk_id=chunk_000787
+po predpisih o prijavi prebivališča prijavljeno isto stalno prebivališče kot zavezanec ali so v institucionalnem varstvu v socialno varstvenem zavodu in zavezanec krije stroške teh storitev ali imajo zavezanec in starši oziroma posvojitelji sklenjen sporazum o preživnini v obliki izvršljivega notarskega zapisa v skladu z zakonom, ki ureja družinska razmerja, ter pod enakimi pogoji tudi starši oziroma posvojitelji zavezančevega zakonca, če zakonec ni zavezanec za dohodnino. Za lastne dohodke iz prejšnjega stavka se štejejo vsi dohodki po tem zakonu.
+(10) Za vzdrževanega družinskega člana zavezanca, katerega pretežni del dohodka je iz osnovne kmetijske in osnovne gozdarske dejavnosti, se šteje tudi član kmečkega gospodinjstva, če sodeluje pri doseganju dohodka iz osnovne kmetijske in osnovne gozdarske dejavnosti in če nima lastnih dohodkov za preživljanje oziroma so ti manjši od posebne olajšave za vzdrževanega družinskega člana, določene v 3. točki prvega odstavka 114. člena tega zakona, in pod pogojem, da njegov otrok, zakonec, starši ali posvojitelji zanj ne uveljavljajo posebne olajšave za vzdrževanega družinskega člana. V takem primeru se kot vzdrževani družinski član
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.6885 source=ZAKO4687_zddpo-2_NPB23.html chunk_id=chunk_000434
+čin, ki se razlikuje od razmerij med nepovezanimi osebami.
+(2) Za povezani osebi se štejeta tudi rezident in fizična oseba, ki opravlja dejavnost, če ima ista fizična oseba ali njeni družinski člani v rezidentu najmanj 25% vrednosti ali števila delnic ali deležev v kapitalu, upravljanju ali nadzoru oziroma glasovalnih pravic ali obvladuje rezidenta na podlagi pogodbe na način, ki se razlikuje od razmerij med nepovezanimi osebami.
+(3) Za družinske člane se po tem členu šteje zakonec ali oseba, s katero fizična oseba živi v dalj časa trajajoči življenjski skupnosti, ki ima po zakonu, ki ureja zakonsko zvezo in družinska razmerja, enake pravne posledice kot zakonska zveza, ali partner, s katerim fizična oseba živi v registrirani istospolni partnerski skupnosti, po zakonu, ki ureja registracijo istospolne partnerske skupnosti, otrok, posvojenec in pastorek ali otrok osebe, s katero fizična oseba živi v dalj časa trajajoči življenjski skupnosti, ki ima po zakonu, ki ureja zakonsko zvezo in družinska razmerja, enake pravne posledice kot zakonska zveza, ali otrok partnerja, s katerim fizična oseba živi v registrirani istospolni partnerski skupnosti, po zakonu, ki ureja registracijo
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6753 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000379
+uveljavljanju posebne osebne olajšave za nove rezidente)
+(1) Davčni zavezanec – rezident, ki v skladu s 113.a členom ZDoh-2 uveljavlja posebno osebno olajšavo za nove rezidente na podlagi petnajstega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja, ki se izplačuje za mesečno obdobje, o tem pisno obvesti delodajalca.
+(2) Obvestilo iz prejšnjega odstavka vsebuje naslednje podatke:
+- identifikacijske podatke o davčnem zavezancu rezidentu, ki uveljavlja posebno osebno olajšavo pri izračunu akontacije dohodnine,
+- identifikacijske podatke o delodajalcu,
+- podpisano izjavo rezidenta, da izpolnjuje pogoje za posebno osebno olajšavo iz 113.a člena ZDoh-2.
+86.u člen
+(obvestilo o vračilu tujega davka imetniku individualnega naložbenega računa)
+Obvestilo imetnika individualnega naložbenega računa (v nadaljnjem besedilu: INR) o prejetem vračilu tujega davka iz prvega odstavka 329.c člena ZDavP-2 vsebuje naslednje podatke:
+1. identifikacijske podatke o zavezancu za dohodnino (imetniku INR): ime in priimek, naslov, davčna številka;
+2. identifikacijske podatke INR:
+– številka INR;
+– identifikacijski podatki ponudnika INR: naziv, naslov, država,
+
+GENERATED ANSWER:
+Zavezanec za dohodnino je oseba, ki je po zakonu zavezana k plačilu dohodne. Po prvem viru [1], to je oseba, ki je zavezana za dohodnino, če je njeno stalno prebivališče prijavljeno, ali pa je v institucionalnem varstvu v socialno varstvenem zavodu in krije stroške teh storitev. V drugem viru [2] se pojasnjuje, da so družinske člane štejejo tudi zakonec ali oseba, s katero fizična oseba živi v dalj časa trajajoči življenjski skupnosti, ki ima po zakonu enake pravne posledice kot zakonska zveza, ali partner, s katerim fizična oseba živi v registrirani istospolni partnerski skupnosti, ali otrok, posvojenec in pastorek ali otrok osebe, s katero fizična oseba živi v dalj časa trajajoči življenjski skupnosti.
+
+Obseg obveznosti rezidenta in nerezidenta se ne pojasnjuje v zadanih virih. Za to bi bilo potrebno pregledati druge zakonske predpise.
+
+Viri:
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000787)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000434)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000379)
+
+====================================================================================================
+CASE 10/20: doh_03 [dohodnina_vir]
+QUESTION: Kdaj ima dohodek vir v Sloveniji po ZDoh-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 8. člen (splošno o virih dohodka)
+EXPECTED CHUNKS: chunk_000574
+EXPECTED ANSWER: Dohodek ima vir v Sloveniji, če je po katerikoli določbi ustreznega poglavja mogoče določiti vir dohodka v Sloveniji.
+
+HITS: source=False chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.6805 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000381
+enom ZDavP-2 pošilja Finančni upravi Republike Slovenije (v nadaljnjem besedilu: davčni organ) poročila s podatki, ki so potrebni za izvajanje nalog davčnega organa, in sicer:
+- iz poslovnega registra Republike Slovenije;
+- iz drugih registrov, evidenc in zbirk podatkov, določenih z drugimi predpisi, ki jih za potrebe Republike Slovenije oziroma državnih organov vodi AJPES;
+- iz letnih poročil poslovnih subjektov;
+- iz letnih poročil o premoženjskem in finančnem položaju ter poslovnem izidu družb in podjetnikov ter drugih poslovnih subjektov;
+- izplačanih plačah;
+- rezultatih drugih statističnih raziskav, ki jih opravlja AJPES.
+88. člen
+(podatki, ki jih posreduje AJPES)
+(1) Iz poslovnega registra Republike Slovenije posreduje AJPES davčnemu organu naslednje podatke o posameznem poslovnem subjektu:
+- identifikacijsko številko;
+- firmo oziroma ime (tudi skrajšano firmo oziroma ime);
+- sedež in naslov;
+- datum akta o ustanovitvi;
+- podatke o vpisu pri registrskem organu (organ, datum, in zaporedno številko vpisa);
+- glavno dejavnost;
+- pravno organizacijsko obliko;
+- datum začetka poslovanja;
+- ime in priimek ustanovitelja;
+- poreklo ustanovitvenega kapitala (domači, tuji, mešani);
+-
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.6706 source=ZAKO4687_zddpo-2_NPB23.html chunk_id=chunk_000485
+renesena sredstva iz Slovenije, ki se v 12 mesecih od dneva prenosa vrnejo v Slovenijo, če so ta sredstva povezana s financiranjem vrednostnih papirjev, dana kot zavarovanje s premoženjem ali kadar se prenos sredstev opravi zaradi izpolnjevanja bonitetnih kapitalskih zahtev ali zaradi upravljanja likvidnosti.
+(10) Za sredstva iz prvega odstavka tega člena, ki so prenesena v Slovenijo iz druge države članice EU ali EGP, se upošteva vrednost, ki jo je določila druga država članica EU ali EGP. Če tako določena vrednost ne odraža vrednosti, določene v skladu s 16. členom tega zakona, se mora tako prenesenemu sredstvu določiti vrednost v skladu s 16. členom tega zakona.
+54.b člen
+(odlog plačila davka)
+(1) Zavezanec lahko plača davek od vključenih skritih rezerv iz 54.a člena tega zakona v največ petih enakih letnih obrokih.
+(2) Prvi odstavek tega člena se uporablja za zavezance, ki prenesejo sredstva, davčno rezidentstvo ali poslovanje poslovne enote po prvem odstavku 54.a člena tega zakona v državo članico EU ali v tretjo državo, ki je pogodbenica Sporazuma EGP, če ima s Slovenijo ali z EU sklenjen sporazum o vzajemni pomoči pri izterjavi davčnih terjatev, ki je enakovredna vzajemni
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6689 source=PRAV7542_pravilnik-zddv-1_NPB30.html chunk_id=chunk_000172
+tev v tekočem koledarskem letu, ki preseže 10.000 eurov,
+- opravljanje in/ali prejem storitev po četrtem odstavku 78. člena ZDDV-1,
+- opravljanje dobav/storitev po 130.c členu ZDDV-1 (unijska ureditev VEM).
+(4) Davčni zavezanec, ki nima sedeža v Sloveniji, vloži zahtevek za izdajo identifikacijske številke za DDV (obrazec DDV-P3), ki vsebuje naslednje podatke:
+a) splošni podatki:
+- davčna številka v Sloveniji,
+- ime in sedež matičnega podjetja ter identifikacijska številka za DDV ali podobna številka v državi sedeža,
+- ime in naslov podružnice v Sloveniji,
+- elektronski naslov in telefonske številke,
+- številke računov pri bankah in hranilnicah,
+- ime in priimek odgovorne osebe,
+- ime in priimek kontaktne osebe,
+- šifra in naziv dejavnosti, ki se opravlja v Sloveniji,
+- datum predvidenega začetka identifikacije za DDV,
+- datum predvidenega konca identifikacije za DDV;
+b) podatki o davčnem zastopniku (če ga davčni zavezanec imenuje):
+- ime oziroma firma ter sedež ali stalno prebivališče davčnega zastopnika in njegova identifikacijska številka za DDV,
+- čas trajanja pooblastila o zastopanju, ki ga davčni zavezanec priloži zahtevku za izdajo identifikacijske številke za DDV,
+- ime in
+
+GENERATED ANSWER:
+Po ZDavP-2 dohodek vir v Sloveniji lahko ima poslovni subjekt, saj davčni organ prejme podatke o posameznem poslovnem subjektu iz poslovnega registra Republike Slovenije, med katerimi so tudi podatki o glavni dejavnosti ([1], chunk_000381). Vendar pa ni navedeno, kako se definira dohodek v tem zakonu. Za to bi bilo potrebno preveriti druge predpiske, kot so ZDDV-1 in ZDDPO-2.
+
+Viri:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000381)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000485)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000172)
+
+====================================================================================================
+CASE 11/20: doh_04 [dohodnina_vrste]
+QUESTION: Katere vrste dohodkov našteva ZDoh-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 18. člen (dohodek)
+EXPECTED CHUNKS: chunk_000584, chunk_000585
+EXPECTED ANSWER: ZDoh-2 našteva dohodek iz zaposlitve, dohodek iz dejavnosti, dohodek iz osnovne kmetijske in gozdarske dejavnosti, dohodek iz oddajanja premoženja v najem in prenosa premoženjske pravice, dohodek iz kapitala ter druge dohodke.
+
+HITS: source=True chunk=False phrases=0/5 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.6236 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001748
+ega delodajalca, v zvezi s katerimi se po 45.b členu ZDoh-2 uveljavlja posebna davčna obravnava tega dohodka, najkasneje do 31. januarja tekočega leta za preteklo leto posredovati podatke, potrebne za pobiranje davka iz tega dohodka, in sicer:
+1. Podatki o podelitvi opcij ter odsvojitvi opcij vsebujejo podatke o:
+– delavcu, potrebne za identifikacijo (osebno ime in davčna številka),
+– času podelitve opcij in
+– času odsvojitve opcije.
+2. Podatki o pridobitvi in odsvojitvi delnic ali deležev vsebujejo podatke o:
+– delavcu, potrebne za identifikacijo (osebno ime in davčna številka),
+– količini in vrednosti delnic ali deležev ob pridobitvi,
+– času pridobitve delnic ali deležev,
+– plačilu za pridobitev delnic ali deležev ter o tem, ali so pridobljeni na podlagi opcijske pogodbe,
+– količini in vrednosti delnic ali deležev ob odsvojitvi in
+– času odsvojitve delnic ali deležev.
+3. Podatki o prenehanju delovnega razmerja vsebujejo podatke o:
+– delavcu, potrebne za identifikacijo (osebno ime in davčna številka) in
+– datumu sklenitve pogodbe o zaposlitvi in prenehanja delovnega razmerja.
+4. Podatki o prenehanju ali preoblikovanju delodajalca ali prenehanju štetja delodajalca za plačnika
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.6199 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000378
+e operativnih nalog zaščite, reševanja in pomoči na podlagi tretjega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja oziroma pokojnine, ki se izplačuje za mesečno obdobje, ali na podlagi drugega odstavka 131. člena ZDoh-2 pri izračunu akontacije dohodnine od drugega dohodka, ki ga prejema redno za mesečno obdobje, o tem pisno obvesti glavnega delodajalca, izplačevalca pokojnine ali izplačevalca drugega dohodka.
+(2) Obvestilo iz prejšnjega odstavka vsebuje naslednje podatke:
+- identifikacijske podatke o davčnem zavezancu rezidentu, ki uveljavlja osebno olajšavo pri izračunu akontacije dohodnine,
+- identifikacijske podatke o glavnem delodajalcu/ izplačevalcu pokojnine/ izplačevalcu drugega dohodka,
+- podpisano izjavo rezidenta, da izpolnjuje pogoje za osebno olajšavo iz osmega odstavka 112. člena ZDoh-2 za prostovoljno in nepoklicno opravljanje operativnih nalog zaščite, reševanja in pomoči.
+86.š člen
+(črtan)
+86.t člen
+(vsebina obvestila o uveljavljanju posebne osebne olajšave za nove rezidente)
+(1) Davčni zavezanec – rezident, ki v skladu s 113.a členom ZDoh-2 uveljavlja posebno osebno olajšavo za nove rezidente na podlagi petnajstega
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6089 source=ZAKO4697_zdoh-2_NPB36.html chunk_id=chunk_000844
+zdnih zemljiščih (Uradni list RS, št. 130/04),
+5. Pravilnik o načinu valorizacije vrednosti kapitala pri obdavčevanju dobička iz kapitala po ZDoh-1 (Uradni list RS, št. 34/06 in 73/06),
+6. Pravilnik o metodologiji za izračun razlike med prihodki iz dohodnine, ki pripadajo občinam po ZDoh-1 in prihodki iz dohodnine, ki pripadajo občinam po ZDoh (Uradni list RS, št. 89/04),
+7. Odredba o določitvi olajšav in lestvice za odmero dohodnine za leto 2006 (Uradni list RS, št. 117/05).
+(2) Ne glede na prvi odstavek tega člena, se podzakonski akti iz prvega odstavka tega člena uporabljajo za odmero dohodnine za leto 2006.
+158. člen
+(posebna olajšava za duševno in telesno prizadete otroke pri odmeri dohodnine za leti 2005 in 2006)
+(1) Ne glede na 2. točko prvega odstavka 108. člena ZDoh-1, se olajšava, določena po tej točki, pri odmeri dohodnine za leti 2005 in 2006 prizna za otroka, ki je skladno s predpisi o družbenem varstvu duševno in telesno prizadetih oseb za delo nezmožen, ne glede na njegovo starost.
+(2) Ne glede na pravna sredstva, določena z zakonom, ki ureja davčni postopek in zakonom, ki ureja splošni upravni postopek, organ prve stopnje v primeru, če je bila davčnemu zavezancu že
+
+GENERATED ANSWER:
+ZDoh-2 navaja naslednje vrste dohodkov:
+1. Dohodek iz opcij in odsvojitve opcij ([1], chunk_001748)
+2. Dohodek iz pridobitve in odsvojitve delnic ali deležev ([1], chunk_001748)
+3. Dohodek iz prenehanja delovnega razmerja ([1], chunk_001748)
+4. Dohodek iz prenehanja ali preoblikovanju delodajalca ali prenehanju štetja delodajalca za plačnika ([1], chunk_001748)
+
+Vzeto iz virov:
+[1] ZAKO4703_zdavp-2_NPB31.html, chunk_id=chunk_001748, score=0.6236
+
+Viri:
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001748)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000378)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000844)
+
+====================================================================================================
+CASE 12/20: doh_05 [dohodnina_olajsava]
+QUESTION: Kakšna splošna olajšava pripada rezidentu po ZDoh-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 111. člen (splošna olajšava)
+EXPECTED CHUNKS: chunk_000769
+EXPECTED ANSWER: Vsakemu rezidentu se prizna zmanjšanje letne davčne osnove v višini 5.000 eurov letno, če drug rezident zanj ne uveljavlja posebne olajšave za vzdrževanega družinskega člana.
+
+HITS: source=True chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.6454 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000379
+uveljavljanju posebne osebne olajšave za nove rezidente)
+(1) Davčni zavezanec – rezident, ki v skladu s 113.a členom ZDoh-2 uveljavlja posebno osebno olajšavo za nove rezidente na podlagi petnajstega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja, ki se izplačuje za mesečno obdobje, o tem pisno obvesti delodajalca.
+(2) Obvestilo iz prejšnjega odstavka vsebuje naslednje podatke:
+- identifikacijske podatke o davčnem zavezancu rezidentu, ki uveljavlja posebno osebno olajšavo pri izračunu akontacije dohodnine,
+- identifikacijske podatke o delodajalcu,
+- podpisano izjavo rezidenta, da izpolnjuje pogoje za posebno osebno olajšavo iz 113.a člena ZDoh-2.
+86.u člen
+(obvestilo o vračilu tujega davka imetniku individualnega naložbenega računa)
+Obvestilo imetnika individualnega naložbenega računa (v nadaljnjem besedilu: INR) o prejetem vračilu tujega davka iz prvega odstavka 329.c člena ZDavP-2 vsebuje naslednje podatke:
+1. identifikacijske podatke o zavezancu za dohodnino (imetniku INR): ime in priimek, naslov, davčna številka;
+2. identifikacijske podatke INR:
+– številka INR;
+– identifikacijski podatki ponudnika INR: naziv, naslov, država,
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.5428 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000363
+trani finančne uprave.
+86.j člen
+(vsebina obvestila o uveljavljanju olajšave za vzdrževane družinske člane pri izračunu akontacije dohodnine)
+(1) Davčni zavezanec – rezident, ki v skladu s 114. členom ZDoh-2 uveljavlja olajšavo za vzdrževane družinske člane pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja, pokojnine, ki se izplačuje za mesečno obdobje, ali od drugega dohodka, ki ga prejema redno za mesečno obdobje, o tem pisno obvesti glavnega delodajalca, izplačevalca pokojnine ali izplačevalca drugega dohodka.
+(2) Obvestilo o uveljavljanju olajšave za vzdrževane družinske člane pri izračunu akontacije dohodnine v skladu z drugim odstavkom 287. člena ZDavP-2 vsebuje naslednje podatke:
+- identifikacijski podatki o davčnem zavezancu,
+- identifikacijski podatki o glavnem delodajalcu/ izplačevalcu pokojnine/ izplačevalcu drugega dohodka,
+- podatki o uveljavljanih vzdrževanih družinskih članih (ime in priimek uveljavljanega vzdrževanega družinskega člana, leto rojstva, davčna številka, sorodstveno razmerje).
+86.k člen
+(zahtevek za zmanjšanje davčne osnove od dohodka iz drugega pogodbenega razmerja zaradi uveljavljanja dejanskih stroškov pri informativnem izračunu
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.5013 source=ZAKO4697_zdoh-2_NPB36.html chunk_id=chunk_000836
+ave, uveljavljene po 47. in 48. členu ZDoh in po 47. in 48. členu ZDoh-1, obravnavajo pod pogoji, kot bi veljali, če do prenehanja opravljanja dejavnosti ne bi prišlo.
+(5) Določbe drugega odstavka 25. člena ter 26., 29., 30., 31. in 34. člena ZDoh in določbe 61., 62. in 63. člena ZDoh-1, se za oprostitve, znižanja in olajšave, uveljavljene po teh členih, upoštevajo do poteka roka iz teh členov, oziroma za posamezne oprostitve smiselno upoštevajo do poteka rokov, določenih v 73. členu tega zakona.
+148. člen
+(pokrivanje izgub)
+Določbe 60. člena tega zakona se lahko uporabljajo tudi za pokrivanje izgub iz davčnih obdobij 2000 do 2005.
+149. člen
+(uporaba 81. člena tega zakona)
+(1) Ne glede na 81. člen tega zakona, se obresti, razen obresti na posojila, dana fizičnim in pravnim osebam, obračunane do 1. januarja 2005, ne obdavčujejo.
+(2) Ne glede na 81. člen tega zakona, se dohodek, dosežen na podlagi življenjskega zavarovanja, sklenjenega pred 1. januarjem 2005, ne obdavčuje.
+150. člen
+(predpis o sledljivosti prehodov med podskladi)
+Minister, pristojen za finance, predpiše način sledljivosti prehodov med podskladi iz 100. člena tega zakona v šestih mesecih po uveljavitvi zakona o
+
+GENERATED ANSWER:
+V skladu s ZDoh-2 ima rezident splošno olajšavo pri izračunu akontacije dohodnine, ki jo uveljavlja posebno osebno olajšavo za nove rezidente (113.a člen ZDoh-2). Obvestilo o uveljavljanju te olajšave mora vsebovati identifikacijske podatke o davčnem zavezancu rezidentu, identifikacijske podatke o delodajalcu in podpisano izjavo rezidenta, da izpolnjuje pogoje za olajšavo (86.u člen). Izvirni vir: PRAV7927_pravilnik-zdavp-2_NPB25.html, chunk_id=chunk_000379.
+
+Priporočujem, da se v primeru pomembnih odločitev o davčnih zadevah preveri uradna virila.
+
+Viri:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000379)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000363)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000836)
+
+====================================================================================================
+CASE 13/20: ddpo_01 [ddpo_zavezanec]
+QUESTION: Kdo je zavezanec za davek od dohodkov pravnih oseb po ZDDPO-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 3. člen (zavezanec za davek)
+EXPECTED CHUNKS: chunk_000411
+EXPECTED ANSWER: Zavezanec za DDPO je pravna oseba domačega ali tujega prava; zakon posebej določa tudi nekatere družbe oziroma združenja oseb po tujem pravu brez pravne osebnosti.
+
+HITS: source=False chunk=False phrases=0/1 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7775 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001801
+ilo davčnih oblasti države, v kateri se nahaja poslovna enota, o obstoju te poslovne enote v času izplačila ter dokazilo o zavezanosti za davek od dohodka oziroma dobička, ki je primerljiv z davkom po ZDDPO-2.
+(2) Davčni zavezanec, ki je izvzel dobičke iz odsvojitve lastniških deležev iz davčne osnove po 25. členu ZDDPO‑2, mora zagotavljati in na zahtevo davčnega organa predložiti dokazilo o minimalni neposredni udeležbi, obdobju (trajanju) udeležbe po prvem odstavku 25. člena ZDDPO‑2 v času izplačila ter dokazilo o pogoju po prvem odstavku 25. člena ZDDPO‑2 glede zaposlenosti.
+377. člen
+(postopek v zvezi z obdavčenjem, ki velja v zvezi s plačili obresti in plačili uporabe premoženjskih pravic med povezanimi družbami iz različnih držav članic EU)
+(1) Vlogo iz desetega odstavka 72. člena ZDDPO-2 vloži plačnik davka pri davčnem organu.
+(2) Vloga iz desetega odstavka 72. člena ZDDPO-2 mora vsebovati:
+- dokazilo o rezidentstvu družbe prejemnice za davčne namene oziroma potrdilo davčnih oblasti države članice EU, v kateri je družba prejemnica rezident za davčne namene, ali v kateri se poslovna enota nahaja, o obstoju poslovne enote;
+- dokazilo o upravičenem lastništvu družbe prejemnice
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7764 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001788
+sestavi in predloži tudi obračun davčnega odtegljaja, v katerega vključi skrite rezerve po ZDDPO‑2, ki so predmet za obračun davčnega odtegljaja v skladu s 70. členom in 74. členom ZDDPO‑2.
+(8) Davčne obračune po tem členu mora za davčnega zavezanca sestaviti in davčnemu organu predložiti upravitelj.
+369. člen
+(davčni obračun pri postopku prenehanja davčnega zavezanca po skrajšanem postopku)
+(1) Davčni zavezanec sestavi davčni obračun na dan pred izbrisom zavezanca iz ustreznega registra.
+(2) Davčni zavezanec predloži davčni obračun iz prvega odstavka tega člena davčnemu organu v 30 dneh od dneva izbrisa iz ustreznega registra. Sestavni del davčnega obračuna so v tem primeru tudi notarsko overjene izjave družbenikov oziroma delničarjev o prevzemu obveznosti plačila morebitnih preostalih obveznosti družbe.
+(3) Plačilo davka se opravi hkrati s predložitvijo davčnega obračuna. Zahtevek za vračilo davka se predloži skupaj z davčnim obračunom. V zahtevku mora davčni zavezanec navesti razmerje oziroma deleže, na podlagi katerih davčni organ opravi vračilo davka delničarjem oziroma družbenikom, v primeru, ko na dan vračila davka predlagatelj davčnega obračuna nima več statusa davčnega
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7554 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000292
+. točke prvega odstavka 58. člena ZDavP-2 se šteje oseba, ki za račun upravičenca do dohodka, ki je zavezanec za davek po zakonu o obdavčenju, prejme dohodek, od katerega se v skladu s tem zakonom ali zakonom o obdavčenju izračunava, odteguje in plačuje davčni odtegljaj, ko oseba, ki jo tak dohodek bremeni in davčnega odtegljaja ni izračunala, odtegnila in plačala, ne pozna in glede na okoliščine primera ne more poznati upravičenca do dohodka.
+(2) Za osebo iz prvega odstavka tega člena se šteje pravna oseba oziroma združenje oseb, vključno z družbo civilnega prava po tujem pravu, ki je brez pravne osebnosti, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji).
+(3) Za osebo iz prvega odstavka tega člena, ki jo dohodek bremeni, ne velja obveznost dostave podatkov davčnemu organu o plačilu dohodka osebi, ki se po 1. točki drugega odstavka 58. člena ZDavP-2 šteje za plačnika davka.
+26.b člen
+(izjeme glede predlaganja izjav iz 58. člena ZDavP-2)
+Obveznost predlaganja
+
+GENERATED ANSWER:
+Zavezanec za davek od dohodkov pravnih oseb po ZDDPO-2 je oseba, ki prejme dohodek, od katerega se v skladu s tem zakonom izračunava in odteguje in plačuje davčni odtegljaj. To lahko je pravna oseba, združenje oseb, družba civilnega prava po tujem pravu, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji). (3) source=PRAV7927_pravilnik-zdavp-2_NPB25.html, chunk_id=chunk_000292, score=0.7554
+
+Viri:
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001801)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001788)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000292)
+
+====================================================================================================
+CASE 14/20: ddpo_02 [ddpo_rezident]
+QUESTION: Kako ZDDPO-2 določa davčno obveznost rezidenta in nerezidenta?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 4. člen (obseg davčne obveznosti)
+EXPECTED CHUNKS: chunk_000412
+EXPECTED ANSWER: Rezident je zavezan za davek od vseh dohodkov z virom v Sloveniji in zunaj Slovenije, nerezident pa od dohodkov z virom v Sloveniji.
+
+HITS: source=False chunk=False phrases=0/2 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7776 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000379
+uveljavljanju posebne osebne olajšave za nove rezidente)
+(1) Davčni zavezanec – rezident, ki v skladu s 113.a členom ZDoh-2 uveljavlja posebno osebno olajšavo za nove rezidente na podlagi petnajstega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja, ki se izplačuje za mesečno obdobje, o tem pisno obvesti delodajalca.
+(2) Obvestilo iz prejšnjega odstavka vsebuje naslednje podatke:
+- identifikacijske podatke o davčnem zavezancu rezidentu, ki uveljavlja posebno osebno olajšavo pri izračunu akontacije dohodnine,
+- identifikacijske podatke o delodajalcu,
+- podpisano izjavo rezidenta, da izpolnjuje pogoje za posebno osebno olajšavo iz 113.a člena ZDoh-2.
+86.u člen
+(obvestilo o vračilu tujega davka imetniku individualnega naložbenega računa)
+Obvestilo imetnika individualnega naložbenega računa (v nadaljnjem besedilu: INR) o prejetem vračilu tujega davka iz prvega odstavka 329.c člena ZDavP-2 vsebuje naslednje podatke:
+1. identifikacijske podatke o zavezancu za dohodnino (imetniku INR): ime in priimek, naslov, davčna številka;
+2. identifikacijske podatke INR:
+– številka INR;
+– identifikacijski podatki ponudnika INR: naziv, naslov, država,
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7637 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001792
+rugega odstavka 54.b člena ZDDPO-2;
+3. se davčno rezidentstvo ali poslovanje poslovne enote zavezanca naknadno prenese v državo, ki ni država iz drugega odstavka 54.b člena ZDDPO-2;
+4. gre zavezanec v stečaj ali preneha poslovati ali
+5. posameznega obroka ali njegovega dela ne plača v 12 mesecih od njegove zapadlosti.
+371. člen
+(akontiranje davka po davčnem obračunu)
+(1) Davčni zavezanec med davčnim obdobjem plačuje akontacijo davka.
+(2) Akontacija davka se plača v mesečnih ali trimesečnih obrokih. Akontacija se plača v mesečnih obrokih, če znesek akontacije presega 400 eurov, oziroma trimesečnih obrokih, če znesek akontacije ne presega 400 eurov.
+(3) Obroki akontacije dospejo v plačilo na zadnji dan obdobja, na katerega se nanašajo in morajo biti plačani v dvajsetih dneh po dospelosti.
+(4) Akontacija davka je enaka znesku davka, ki se izračuna od davčne osnove po davčnem obračunu za predhodno davčno obdobje in po stopnji, ki velja za tekoče davčno obdobje. Pri zavezancih, ki imajo davčno obdobje različno od koledarskega leta, je stopnja iz tega odstavka stopnja za leto, ko se predhodno davčno obdobje zaključi, in stopnja za leto, ko se naslednje davčno obdobje začne, navedeni
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7256 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000270
+, katere rezident je povezana oseba, se uporabijo določbe iz mednarodne pogodbe o izogibanju dvojnega obdavčevanja.
+6.e člen
+(spremljanje APA sporazuma)
+(1) Če so na podlagi prvega odstavka 14.c člena ZDavP-2 odmiki od kritičnih predpostavk v skladu z merili, določenimi z APA sporazumom, davčni zavezanec opravi prilagoditev in o tem poroča davčnemu organu hkrati s predložitvijo obračuna davka od dohodkov pravnih oseb v skladu s 358. členom ZDavP-2.
+(2) Če na podlagi drugega odstavka 14.c člena ZDavP-2 odmiki od kritičnih predpostavk niso v skladu z merili, določenimi v APA sporazumu, davčni zavezanec v 30 dneh od ugotovitve odmikov o njih poroča davčnemu organu.
+(3) Davčni zavezanec v skladu s prvim odstavkom tega člena poroča o veljavnosti kritičnih predpostavk tako, da davčnemu organu pošlje podatke, ki izkazujejo:
+- uporabo dogovorjene metodologije pri dejanskih podatkih davčnega zavezanca za posamezno leto,
+- izpolnjevanje kritičnih predpostavk in izračune zaradi morebitnih prilagoditev.
+6.f člen
+(sprememba APA sporazuma)
+(1) Davčni organ s sodelovanjem davčnega zavezanca v fazi spremljanja izvajanja APA sporazuma preuči, če je zaradi odmika pri posamezni kritični predpostavki
+
+GENERATED ANSWER:
+V ZDDPO-2 je določeno, kako se izračuna davčna obveznost rezidenta in nerezidenta.
+
+Davčna obveznost rezidenta je določena v 371. členu ZDDPO-2. Davčni zavezanec med davčnim obdobjem plačuje akontacijo davka, ki se plača v mesečnih ali trimesečnih obrokih. Akontacija se plača v mesečnih obrokih, če znesek akontacije presega 400 eurov, oziroma trimesečnih obrokih, če znesek akontacije ne presega 400 eurov. Obroki akontacije dospejo v plačilo na zadnji dan obdobja, na katerega se nanašajo in morajo biti plačani v dvajsetih dneh po dospelosti.
+
+Davčna obveznost nerezidenta je določena v 329.c členu ZDDPO-2. Nerezident, ki v Sloveniji prejme dohodek iz delovnega razmerja, mora plačati davke na to dohodko. V tem primeru mora davčni zavezanec rezidentu, ki uveljavlja posebno osebno olajšavo pri izračunu akontacije dohodnine, pisno obvestiti delodajalca o tem (113.a člen ZDoh-2). Obvestilo vsebuje identifikacijske podatke o davčnem zavezancu rezidentu, identifikacijske podatke o delodajalcu in podpisano izjavo rezidenta, da izpolnjuje pogoje za posebno osebno olajšavo iz 113.a člena ZDoh-2 ([1]).
+
+V primeru, ko ima nerez
+
+Viri:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000379)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001792)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000270)
+
+====================================================================================================
+CASE 15/20: ddpo_03 [ddpo_davcna_osnova]
+QUESTION: Kaj je davčna osnova po ZDDPO-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 12. člen (davčna osnova)
+EXPECTED CHUNKS: chunk_000424
+EXPECTED ANSWER: Davčna osnova je dobiček, ugotovljen po določbah ZDDPO-2, za rezidenta oziroma za nerezidentove dejavnosti ali posle prek poslovne enote v Sloveniji.
+
+HITS: source=False chunk=False phrases=0/2 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7568 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001788
+sestavi in predloži tudi obračun davčnega odtegljaja, v katerega vključi skrite rezerve po ZDDPO‑2, ki so predmet za obračun davčnega odtegljaja v skladu s 70. členom in 74. členom ZDDPO‑2.
+(8) Davčne obračune po tem členu mora za davčnega zavezanca sestaviti in davčnemu organu predložiti upravitelj.
+369. člen
+(davčni obračun pri postopku prenehanja davčnega zavezanca po skrajšanem postopku)
+(1) Davčni zavezanec sestavi davčni obračun na dan pred izbrisom zavezanca iz ustreznega registra.
+(2) Davčni zavezanec predloži davčni obračun iz prvega odstavka tega člena davčnemu organu v 30 dneh od dneva izbrisa iz ustreznega registra. Sestavni del davčnega obračuna so v tem primeru tudi notarsko overjene izjave družbenikov oziroma delničarjev o prevzemu obveznosti plačila morebitnih preostalih obveznosti družbe.
+(3) Plačilo davka se opravi hkrati s predložitvijo davčnega obračuna. Zahtevek za vračilo davka se predloži skupaj z davčnim obračunom. V zahtevku mora davčni zavezanec navesti razmerje oziroma deleže, na podlagi katerih davčni organ opravi vračilo davka delničarjem oziroma družbenikom, v primeru, ko na dan vračila davka predlagatelj davčnega obračuna nima več statusa davčnega
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7116 source=PRAV8299_pravilnik-zddpo-2_NPB2.html chunk_id=chunk_000395
+čke prvega odstavka 24. člena ZDDPO-2, če je zavezanec za davek od dohodka oziroma dobička, ki je primerljiv z davkom od dohodkov pravnih oseb po ZDDPO-2 in če splošna oziroma povprečna davčna stopnja obdavčitve dobička družb v tej državi ni nižja od 12,5% in država ni objavljena na seznamu držav v skladu z 8. členom ZDDPO-2. Povprečna stopnja se izračunava, če stopnja obdavčitve dobička družb ni enotna, temveč je na primer progresivna.
+(4) Davek iz drugega odstavka tega člena je davek v državi, v kateri je izplačevalec rezident za davčne namene, za izplačevalca poslovne enote pa davek v državi, v kateri se poslovna enota nahaja.
+6. člen
+(uveljavljanje odbitka davka za dividende)
+(1) Če zavezanec ni izvzel dividend, ki jih je izplačal izplačevalec iz drugega in tretjega odstavka 5. člena tega pravilnika, iz davčne osnove po 24. členu ZDDPO-2, lahko uveljavlja odbitek tujega davka po desetem poglavju ZDDPO-2.
+(2) Če zavezanec ni izvzel dividend, ki jih je izplačal izplačevalec iz prvega odstavka 5. člena tega pravilnika, iz davčne osnove po 24. členu ZDDPO-2, lahko uveljavlja zmanjšanje obveznosti za plačilo davka po 75. členu ZDDPO-2.
+7. člen
+(način izvzetja dobičkov iz odsvojitve
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7028 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001801
+ilo davčnih oblasti države, v kateri se nahaja poslovna enota, o obstoju te poslovne enote v času izplačila ter dokazilo o zavezanosti za davek od dohodka oziroma dobička, ki je primerljiv z davkom po ZDDPO-2.
+(2) Davčni zavezanec, ki je izvzel dobičke iz odsvojitve lastniških deležev iz davčne osnove po 25. členu ZDDPO‑2, mora zagotavljati in na zahtevo davčnega organa predložiti dokazilo o minimalni neposredni udeležbi, obdobju (trajanju) udeležbe po prvem odstavku 25. člena ZDDPO‑2 v času izplačila ter dokazilo o pogoju po prvem odstavku 25. člena ZDDPO‑2 glede zaposlenosti.
+377. člen
+(postopek v zvezi z obdavčenjem, ki velja v zvezi s plačili obresti in plačili uporabe premoženjskih pravic med povezanimi družbami iz različnih držav članic EU)
+(1) Vlogo iz desetega odstavka 72. člena ZDDPO-2 vloži plačnik davka pri davčnem organu.
+(2) Vloga iz desetega odstavka 72. člena ZDDPO-2 mora vsebovati:
+- dokazilo o rezidentstvu družbe prejemnice za davčne namene oziroma potrdilo davčnih oblasti države članice EU, v kateri je družba prejemnica rezident za davčne namene, ali v kateri se poslovna enota nahaja, o obstoju poslovne enote;
+- dokazilo o upravičenem lastništvu družbe prejemnice
+
+GENERATED ANSWER:
+Davčna osnova po ZDDPO-2 je dohodek ali dobiček, ki je primerljiv z davkom po ZDDPO-2 (izvirni vir: [1] chunk_001788, [2] chunk_000395, [3] chunk_001801).
+
+Viri:
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001788)
+- PRAV8299_pravilnik-zddpo-2_NPB2.html (chunk_000395)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001801)
+
+====================================================================================================
+CASE 16/20: ddpo_04 [ddpo_stopnja]
+QUESTION: Kakšna je splošna stopnja davka po ZDDPO-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 60. člen (splošna stopnja)
+EXPECTED CHUNKS: chunk_000505
+EXPECTED ANSWER: Splošna stopnja je 19 % od davčne osnove, opomba v besedilu pa navaja 22 % za leta 2024 do 2028.
+
+HITS: source=False chunk=False phrases=0/2 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7772 source=PRAV8299_pravilnik-zddpo-2_NPB2.html chunk_id=chunk_000395
+čke prvega odstavka 24. člena ZDDPO-2, če je zavezanec za davek od dohodka oziroma dobička, ki je primerljiv z davkom od dohodkov pravnih oseb po ZDDPO-2 in če splošna oziroma povprečna davčna stopnja obdavčitve dobička družb v tej državi ni nižja od 12,5% in država ni objavljena na seznamu držav v skladu z 8. členom ZDDPO-2. Povprečna stopnja se izračunava, če stopnja obdavčitve dobička družb ni enotna, temveč je na primer progresivna.
+(4) Davek iz drugega odstavka tega člena je davek v državi, v kateri je izplačevalec rezident za davčne namene, za izplačevalca poslovne enote pa davek v državi, v kateri se poslovna enota nahaja.
+6. člen
+(uveljavljanje odbitka davka za dividende)
+(1) Če zavezanec ni izvzel dividend, ki jih je izplačal izplačevalec iz drugega in tretjega odstavka 5. člena tega pravilnika, iz davčne osnove po 24. členu ZDDPO-2, lahko uveljavlja odbitek tujega davka po desetem poglavju ZDDPO-2.
+(2) Če zavezanec ni izvzel dividend, ki jih je izplačal izplačevalec iz prvega odstavka 5. člena tega pravilnika, iz davčne osnove po 24. členu ZDDPO-2, lahko uveljavlja zmanjšanje obveznosti za plačilo davka po 75. členu ZDDPO-2.
+7. člen
+(način izvzetja dobičkov iz odsvojitve
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7045 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001788
+sestavi in predloži tudi obračun davčnega odtegljaja, v katerega vključi skrite rezerve po ZDDPO‑2, ki so predmet za obračun davčnega odtegljaja v skladu s 70. členom in 74. členom ZDDPO‑2.
+(8) Davčne obračune po tem členu mora za davčnega zavezanca sestaviti in davčnemu organu predložiti upravitelj.
+369. člen
+(davčni obračun pri postopku prenehanja davčnega zavezanca po skrajšanem postopku)
+(1) Davčni zavezanec sestavi davčni obračun na dan pred izbrisom zavezanca iz ustreznega registra.
+(2) Davčni zavezanec predloži davčni obračun iz prvega odstavka tega člena davčnemu organu v 30 dneh od dneva izbrisa iz ustreznega registra. Sestavni del davčnega obračuna so v tem primeru tudi notarsko overjene izjave družbenikov oziroma delničarjev o prevzemu obveznosti plačila morebitnih preostalih obveznosti družbe.
+(3) Plačilo davka se opravi hkrati s predložitvijo davčnega obračuna. Zahtevek za vračilo davka se predloži skupaj z davčnim obračunom. V zahtevku mora davčni zavezanec navesti razmerje oziroma deleže, na podlagi katerih davčni organ opravi vračilo davka delničarjem oziroma družbenikom, v primeru, ko na dan vračila davka predlagatelj davčnega obračuna nima več statusa davčnega
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6777 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001801
+ilo davčnih oblasti države, v kateri se nahaja poslovna enota, o obstoju te poslovne enote v času izplačila ter dokazilo o zavezanosti za davek od dohodka oziroma dobička, ki je primerljiv z davkom po ZDDPO-2.
+(2) Davčni zavezanec, ki je izvzel dobičke iz odsvojitve lastniških deležev iz davčne osnove po 25. členu ZDDPO‑2, mora zagotavljati in na zahtevo davčnega organa predložiti dokazilo o minimalni neposredni udeležbi, obdobju (trajanju) udeležbe po prvem odstavku 25. člena ZDDPO‑2 v času izplačila ter dokazilo o pogoju po prvem odstavku 25. člena ZDDPO‑2 glede zaposlenosti.
+377. člen
+(postopek v zvezi z obdavčenjem, ki velja v zvezi s plačili obresti in plačili uporabe premoženjskih pravic med povezanimi družbami iz različnih držav članic EU)
+(1) Vlogo iz desetega odstavka 72. člena ZDDPO-2 vloži plačnik davka pri davčnem organu.
+(2) Vloga iz desetega odstavka 72. člena ZDDPO-2 mora vsebovati:
+- dokazilo o rezidentstvu družbe prejemnice za davčne namene oziroma potrdilo davčnih oblasti države članice EU, v kateri je družba prejemnica rezident za davčne namene, ali v kateri se poslovna enota nahaja, o obstoju poslovne enote;
+- dokazilo o upravičenem lastništvu družbe prejemnice
+
+GENERATED ANSWER:
+V zvezi s splošno stopnjo davka po ZDDPO-2 ni navedeno nobene podatke v zadanih virih. [1]
+
+Viri:
+- PRAV8299_pravilnik-zddpo-2_NPB2.html (chunk_000395)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001788)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001801)
+
+====================================================================================================
+CASE 17/20: ddpo_05 [ddpo_transferne_cene]
+QUESTION: Kako ZDDPO-2 obravnava transferne cene s povezanimi osebami?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 16. člen (transferne cene)
+EXPECTED CHUNKS: chunk_000429, chunk_000432
+EXPECTED ANSWER: Pri povezanih osebah se prihodki oziroma odhodki upoštevajo najmanj oziroma največ do višine primerljivih tržnih cen za primerljiva sredstva ali storitve v primerljivih okoliščinah.
+
+HITS: source=False chunk=False phrases=0/3 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.5346 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001800
+2. točke prvega odstavka 71. člena ZDDPO-2 naknadno izpolnil oziroma je bil izpolnjen že ob izplačilu, je plačnik davka upravičen do vračila davka. O vložitvi zahtevka za vračilo in vračilu davka mora plačnik davka nemudoma pisno obvestiti prejemnika dividend.
+376.a člen
+(postopek v zvezi z izvzemom dividend in dohodkov, ki so podobni dividendam, ter izvzemom dobičkov iz odsvojitve lastniških deležev)
+(1) Davčni zavezanec, ki je izvzel dividende in dohodke, podobne dividendam, iz davčne osnove po 24. členu ZDDPO-2, mora zagotavljati in na zahtevo davčnega organa predložiti:
+- dokazilo o rezidentstvu za davčne namene izplačevalca, ki je rezident države članice EU, ki ni Republika Slovenija, ter dokazilo o zavezanosti za enega od davkov, v zvezi s katerimi se uporablja skupen sistem obdavčenja, ki velja za matične družbe in odvisne družbe iz različnih držav članic EU, ali
+- dokazilo o rezidentstvu za davčne namene izplačevalca, ki je rezident države, ki ni članica EU, oziroma potrdilo davčnih oblasti države, v kateri se nahaja poslovna enota, o obstoju te poslovne enote v času izplačila ter dokazilo o zavezanosti za davek od dohodka oziroma dobička, ki je primerljiv z davkom po
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.5260 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001792
+rugega odstavka 54.b člena ZDDPO-2;
+3. se davčno rezidentstvo ali poslovanje poslovne enote zavezanca naknadno prenese v državo, ki ni država iz drugega odstavka 54.b člena ZDDPO-2;
+4. gre zavezanec v stečaj ali preneha poslovati ali
+5. posameznega obroka ali njegovega dela ne plača v 12 mesecih od njegove zapadlosti.
+371. člen
+(akontiranje davka po davčnem obračunu)
+(1) Davčni zavezanec med davčnim obdobjem plačuje akontacijo davka.
+(2) Akontacija davka se plača v mesečnih ali trimesečnih obrokih. Akontacija se plača v mesečnih obrokih, če znesek akontacije presega 400 eurov, oziroma trimesečnih obrokih, če znesek akontacije ne presega 400 eurov.
+(3) Obroki akontacije dospejo v plačilo na zadnji dan obdobja, na katerega se nanašajo in morajo biti plačani v dvajsetih dneh po dospelosti.
+(4) Akontacija davka je enaka znesku davka, ki se izračuna od davčne osnove po davčnem obračunu za predhodno davčno obdobje in po stopnji, ki velja za tekoče davčno obdobje. Pri zavezancih, ki imajo davčno obdobje različno od koledarskega leta, je stopnja iz tega odstavka stopnja za leto, ko se predhodno davčno obdobje zaključi, in stopnja za leto, ko se naslednje davčno obdobje začne, navedeni
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.5250 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000377
+vni vrednosti odsvojenih delnic oziroma deležev, ki se določi v skladu z 98. členom ZDoh-2, če so bile delnice ali deleži družbe pridobljeni pred 1. januarjem 2003 pa v skladu s četrtim odstavkom 152. člena ZDoh-2 (v eurih);
+- podatek o datumu odsvojitve delnic oziroma deležev;
+- podatek o znesku (bruto) izplačane vrednosti odsvojenih delnic oziroma deležev (v eurih).
+(2) Obrazec »Zahtevek za uveljavljanje zmanjšanja izplačane vrednosti delnic ali deležev v primeru odsvojitve delnic ali deležev v okviru pridobivanja lastnih delnic oziroma deležev družbe za nabavno vrednost odsvojenih delnic ali deležev« se objavi na spletni strani finančne uprave.
+86.s člen
+(vsebina obvestila o uveljavljanju osebne olajšave za rezidente, ki prostovoljno in nepoklicno opravljajo naloge zaščite, reševanja in pomoči, pri izračunu akontacije dohodnine)
+(1) Davčni zavezanec – rezident, ki v skladu z osmim odstavkom 112. člena ZDoh-2 uveljavlja osebno olajšavo za prostovoljno in nepoklicno opravljanje operativnih nalog zaščite, reševanja in pomoči na podlagi tretjega odstavka 127. člena ZDoh-2 pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja oziroma pokojnine, ki se izplačuje za
+
+GENERATED ANSWER:
+V ZDDPO-2 (Zakon o dajatvi in zbiranju prispevkov na državno pravico) ni navedenih posebnih pravil za obravnavo transfernih cen s povezanimi osebami. Vendar je v Pravilniku o dajatvi in zbiranju prispevkov na državno pravico (PRAV7927_pravilnik-zdavp-2_NPB25.html, chunk_id=chunk_000377) navedeno, da so vni vrednosti odsvojenih delnic oziroma deležev, ki se določi v skladu z 98. členom ZDoh-2 (Zakon o dajatvi in zbiranju prispevkov na državno pravico), vključno s transfernimi cenami, podatki, ki so navedeni v točki 1. (vni vrednosti odsvojenih delnic oziroma deležev, datum odsvojitve delnic oziroma deležev in znesek izplačane vrednosti odsvojenih delnic oziroma deležev).
+
+Sources:
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001800)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001792)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000377)
+
+====================================================================================================
+CASE 18/20: zdavp_01 [zdavp_organi]
+QUESTION: Kateri organi so davčni organ po ZDavP-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4703_zdavp-2_NPB31.html: ZDavP-2, 11. člen (državni in drugi organi, pristojni za pobiranje davkov)
+EXPECTED CHUNKS: chunk_001219
+EXPECTED ANSWER: Davčni organi so Ministrstvo za finance, Finančna uprava Republike Slovenije in drugi državni organi, kadar v davčnih in drugih stvareh odločajo o davkih.
+
+HITS: source=False chunk=False phrases=0/3 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.5282 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000292
+. točke prvega odstavka 58. člena ZDavP-2 se šteje oseba, ki za račun upravičenca do dohodka, ki je zavezanec za davek po zakonu o obdavčenju, prejme dohodek, od katerega se v skladu s tem zakonom ali zakonom o obdavčenju izračunava, odteguje in plačuje davčni odtegljaj, ko oseba, ki jo tak dohodek bremeni in davčnega odtegljaja ni izračunala, odtegnila in plačala, ne pozna in glede na okoliščine primera ne more poznati upravičenca do dohodka.
+(2) Za osebo iz prvega odstavka tega člena se šteje pravna oseba oziroma združenje oseb, vključno z družbo civilnega prava po tujem pravu, ki je brez pravne osebnosti, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji).
+(3) Za osebo iz prvega odstavka tega člena, ki jo dohodek bremeni, ne velja obveznost dostave podatkov davčnemu organu o plačilu dohodka osebi, ki se po 1. točki drugega odstavka 58. člena ZDavP-2 šteje za plačnika davka.
+26.b člen
+(izjeme glede predlaganja izjav iz 58. člena ZDavP-2)
+Obveznost predlaganja
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.5220 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000293
+nemu organu o plačilu dohodka osebi, ki se po 1. točki drugega odstavka 58. člena ZDavP-2 šteje za plačnika davka.
+26.b člen
+(izjeme glede predlaganja izjav iz 58. člena ZDavP-2)
+Obveznost predlaganja izjav po petem odstavku 58. člena ZDavP-2 v povezavi z desetim odstavkom 58. člena ZDavP-2 ne velja za centralno klirinško depotno družbo s sedežem v Republiki Sloveniji, če za tuji račun prejme dohodek iz nematerializiranega finančnega instrumenta, ki ima vir v Sloveniji, ter za posamičnega člana take centralne klirinško depotne družbe, če prejme tak dohodek od take centralne klirinško depotne družbe.
+ŠESTI DEL
+VIŠINA NAJVIŠJEGA POVRAČILA STROŠKOV PRAVNEGA ZASTOPANJA IN STROKOVNE POMOČI
+27. člen
+(stroški za pooblaščence, ki so odvetniki)
+Za pooblaščence, ki so odvetniki, se stroški odmerijo po odvetniški tarifi. Uradna oseba mora preveriti, ali so priglašeni stroški v skladu z odvetniško tarifo. Povrnejo se le dejanski stroški zastopanja v višini, kot jo določa odvetniška tarifa; če so priglašeni višji stroški ali stroški, ki sploh niso nastali, jih uradna oseba ustrezno zniža.
+28. člen
+(stroški za pooblaščence, ki niso odvetniki)
+(1) Pooblaščencem, ki so člani stanovskega
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.5165 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000295
+dohodkov, prihrankov in premoženjskega stanja)
+(1) Pred izdajo odločbe o obročnem plačilu davčne obveznosti iz 101. člena ZDavP-2 mora davčni organ na podlagi podatkov o davčnem zavezancu in njegovih družinskih članih, ki jih pridobiva iz svojih evidenc, evidenc drugih organov in predloženih dokazov davčnega zavezanca, ugotoviti višino dohodkov davčnega zavezanca - fizične osebe (v nadaljevanju tega dela: davčni zavezanec) in njegovih družinskih članov. Na zahtevo davčnega zavezanca davčni organ pri odločanju upošteva tudi socialne razmere in zdravstveno stanje davčnega zavezanca in njegovih družinskih članov.
+(2) Pred izdajo odločbe o odpisu oziroma delnem odpisu davčne obveznosti iz 101. člena ZDavP-2 mora davčni organ na podlagi podatkov o davčnem zavezancu in njegovih družinskih članih, ki jih pridobiva iz svojih evidenc, evidenc drugih organov in predloženih dokazov davčnega zavezanca, ugotoviti višino dohodkov, prihrankov in premoženjskega stanja davčnega zavezanca in njegovih družinskih članov. Na zahtevo davčnega zavezanca davčni organ pri odločanju upošteva tudi socialne razmere in zdravstveno stanje davčnega zavezanca in njegovih družinskih članov.
+(3) Višina dohodkov
+
+GENERATED ANSWER:
+V skladu s ZDavP-2 so davčni organi tisti organi, ki so navedeni v zakonu o dajatvi podatkov o plačilu dohodka (ZDavP-2). To so organi, ki so navedeni v 26.b členu ZDavP-2. Vendar pa ni navedenih posebnih imen davčnih organov v ZDavP-2. (izvirnik: [1] chunk_000292, [2] chunk_000293)
+
+Viri:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000292)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000293)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000295)
+
+====================================================================================================
+CASE 19/20: zdavp_02 [zdavp_zavezanci]
+QUESTION: Kdo so zavezanci za davek po ZDavP-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4703_zdavp-2_NPB31.html: ZDavP-2, 12. člen (zavezanci za davek)
+EXPECTED CHUNKS: chunk_001219
+EXPECTED ANSWER: Zavezanci za davek so davčni zavezanec, plačnik davka za račun enega ali več davčnih zavezancev ter oseba, ki je v postopku davčne izvršbe dolžna plačati davek.
+
+HITS: source=True chunk=False phrases=2/3 all_phrases=False
+PHRASES FOUND:
+- davčni zavezanec
+- plačnik davka
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.6887 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000292
+. točke prvega odstavka 58. člena ZDavP-2 se šteje oseba, ki za račun upravičenca do dohodka, ki je zavezanec za davek po zakonu o obdavčenju, prejme dohodek, od katerega se v skladu s tem zakonom ali zakonom o obdavčenju izračunava, odteguje in plačuje davčni odtegljaj, ko oseba, ki jo tak dohodek bremeni in davčnega odtegljaja ni izračunala, odtegnila in plačala, ne pozna in glede na okoliščine primera ne more poznati upravičenca do dohodka.
+(2) Za osebo iz prvega odstavka tega člena se šteje pravna oseba oziroma združenje oseb, vključno z družbo civilnega prava po tujem pravu, ki je brez pravne osebnosti, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji).
+(3) Za osebo iz prvega odstavka tega člena, ki jo dohodek bremeni, ne velja obveznost dostave podatkov davčnemu organu o plačilu dohodka osebi, ki se po 1. točki drugega odstavka 58. člena ZDavP-2 šteje za plačnika davka.
+26.b člen
+(izjeme glede predlaganja izjav iz 58. člena ZDavP-2)
+Obveznost predlaganja
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.6628 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001788
+sestavi in predloži tudi obračun davčnega odtegljaja, v katerega vključi skrite rezerve po ZDDPO‑2, ki so predmet za obračun davčnega odtegljaja v skladu s 70. členom in 74. členom ZDDPO‑2.
+(8) Davčne obračune po tem členu mora za davčnega zavezanca sestaviti in davčnemu organu predložiti upravitelj.
+369. člen
+(davčni obračun pri postopku prenehanja davčnega zavezanca po skrajšanem postopku)
+(1) Davčni zavezanec sestavi davčni obračun na dan pred izbrisom zavezanca iz ustreznega registra.
+(2) Davčni zavezanec predloži davčni obračun iz prvega odstavka tega člena davčnemu organu v 30 dneh od dneva izbrisa iz ustreznega registra. Sestavni del davčnega obračuna so v tem primeru tudi notarsko overjene izjave družbenikov oziroma delničarjev o prevzemu obveznosti plačila morebitnih preostalih obveznosti družbe.
+(3) Plačilo davka se opravi hkrati s predložitvijo davčnega obračuna. Zahtevek za vračilo davka se predloži skupaj z davčnim obračunom. V zahtevku mora davčni zavezanec navesti razmerje oziroma deleže, na podlagi katerih davčni organ opravi vračilo davka delničarjem oziroma družbenikom, v primeru, ko na dan vračila davka predlagatelj davčnega obračuna nima več statusa davčnega
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.6569 source=ZAKO4703_zdavp-2_NPB31.html chunk_id=chunk_001801
+ilo davčnih oblasti države, v kateri se nahaja poslovna enota, o obstoju te poslovne enote v času izplačila ter dokazilo o zavezanosti za davek od dohodka oziroma dobička, ki je primerljiv z davkom po ZDDPO-2.
+(2) Davčni zavezanec, ki je izvzel dobičke iz odsvojitve lastniških deležev iz davčne osnove po 25. členu ZDDPO‑2, mora zagotavljati in na zahtevo davčnega organa predložiti dokazilo o minimalni neposredni udeležbi, obdobju (trajanju) udeležbe po prvem odstavku 25. člena ZDDPO‑2 v času izplačila ter dokazilo o pogoju po prvem odstavku 25. člena ZDDPO‑2 glede zaposlenosti.
+377. člen
+(postopek v zvezi z obdavčenjem, ki velja v zvezi s plačili obresti in plačili uporabe premoženjskih pravic med povezanimi družbami iz različnih držav članic EU)
+(1) Vlogo iz desetega odstavka 72. člena ZDDPO-2 vloži plačnik davka pri davčnem organu.
+(2) Vloga iz desetega odstavka 72. člena ZDDPO-2 mora vsebovati:
+- dokazilo o rezidentstvu družbe prejemnice za davčne namene oziroma potrdilo davčnih oblasti države članice EU, v kateri je družba prejemnica rezident za davčne namene, ali v kateri se poslovna enota nahaja, o obstoju poslovne enote;
+- dokazilo o upravičenem lastništvu družbe prejemnice
+
+GENERATED ANSWER:
+Zavezanci za davek po ZDavP-2 so oseba, ki za račun upravičenca do dohodka, ki je zavezanec za davek po zakonu o obdavčenju, prejme dohodek, od katerega se v skladu s tem zakonom ali zakonom o obdavčenju izračunava, odteguje in plačuje davčni odtegljaj, ko oseba, ki jo tak dohodek bremeni in davčnega odtegljaja ni izračunala, odtegnila in plačala, ne pozna in glede na okoliščine primera ne more poznati upravičenca do dohodka ([1], chunk_000292). Tudi pravna oseba oziroma združenje oseb, vključno z družbo civilnega prava po tujem pravu, ki je brez pravne osebnosti, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji) so zavezanci za davek po ZDavP-2 ([1], chunk_000292).
+
+Sources:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000292)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001788)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001801)
+
+====================================================================================================
+CASE 20/20: zdavp_03 [zdavp_informiranje]
+QUESTION: Kakšno pravico do informiranja ima zavezanec za davek po ZDavP-2?
+
+EXPECTED LOCATIONS:
+- ZAKO4703_zdavp-2_NPB31.html: ZDavP-2, 13. člen (pravica do informiranja)
+EXPECTED CHUNKS: chunk_001221
+EXPECTED ANSWER: Zavezanec ima pravico biti obveščen o spremembah davčnih predpisov, dobiti pojasnila davčnega organa, informacije o izračunavanju in plačevanju davkov ter podatke o stanju svojih davčnih obveznosti.
+
+HITS: source=False chunk=False phrases=0/4 all_phrases=False
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7389 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000317
+čbe tega dela pravilnika se smiselno uporabljajo tudi za zavarovanje izpolnitve oziroma plačila davčne obveznosti z drugimi instrumenti zavarovanja, ki jih lahko predlaga zavezanec za davek na podlagi drugega odstavka 117. člena ZDavP-2, ter za predložitev ustreznega instrumenta za zavarovanje plačila varščine pred začetkom javne dražbe na podlagi četrtega odstavka 196. člena ZDavP-2.
+45. člen
+(predložitev instrumenta zavarovanja in vsebina potrdila o sprejemu instrumenta zavarovanja)
+(1) Zavezanec za davek predloži instrument zavarovanja pri davčnem organu.
+(2) Potrdilo o sprejemu instrumenta zavarovanja za zavarovanje davčne obveznosti, ki ga izda davčni organ, vsebuje podatke o:
+1. zavezancu za davek – imetniku zavarovanja (potrebne za identifikacijo vložnika),
+2. davčni obveznosti, za katero je predložen instrument zavarovanja (številko sklepa, ki ga je izdal davčni organ idr.),
+3. roku veljavnosti instrumenta zavarovanja,
+4. vrsti zavarovanja,
+5. sklicni številki sprejetega zavarovanja, ki se vodi v evidenci predloženih instrumentov zavarovanja,
+6. davčnem organu, ki je sprejel instrument zavarovanja in izdaja potrdilo,
+7. datumu in kraju sprejema instrumenta zavarovanja in
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7362 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000366
+ih stroškov)
+(1) Zahtevek za zmanjšanje davčne osnove od dohodka iz drugega pogodbenega razmerja zaradi uveljavljanja dejanskih stroškov iz četrtega odstavka 41. člena ZDoh-2, ki ga v skladu s tretjim odstavkom 289. člena ZDavP-2 vloži davčni zavezanec, nerezident v 15 dneh od izplačila dohodka, vsebuje naslednje podatke:
+- identifikacijske podatke o davčnem zavezancu, nerezidentu,
+- podatke o plačniku davka,
+- podatke o prejetem dohodku iz drugega pogodbenega razmerja (datum izplačila dohodka,
+znesek prejetega dohodka, znesek davka, ki ga je plačnik davka odtegnil od dohodka iz drugega pogodbenega razmerja),
+- podatke o dejanskih stroških v zvezi s prejetim dohodkom iz drugega pogodbenega razmerja,
+- podatke o številki transakcijskega računa.
+(2) Obrazec »Vloga za zmanjšanje davčne osnove od dohodka iz drugega pogodbenega razmerja zaradi uveljavljanja dejanskih stroškov« se objavi na spletni strani finančne uprave.
+86.m člen
+(vloga za priglasitev davčne obravnave ob prenehanju opravljanja dejavnosti in nadaljevanju po drugi osebi)
+(1) Vloga za priglasitev davčne obravnave ob prenehanju opravljanja dejavnosti in nadaljevanju po drugi osebi v skladu s prvim odstavkom 303. člena
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7226 source=PRAV7927_pravilnik-zdavp-2_NPB25.html chunk_id=chunk_000292
+. točke prvega odstavka 58. člena ZDavP-2 se šteje oseba, ki za račun upravičenca do dohodka, ki je zavezanec za davek po zakonu o obdavčenju, prejme dohodek, od katerega se v skladu s tem zakonom ali zakonom o obdavčenju izračunava, odteguje in plačuje davčni odtegljaj, ko oseba, ki jo tak dohodek bremeni in davčnega odtegljaja ni izračunala, odtegnila in plačala, ne pozna in glede na okoliščine primera ne more poznati upravičenca do dohodka.
+(2) Za osebo iz prvega odstavka tega člena se šteje pravna oseba oziroma združenje oseb, vključno z družbo civilnega prava po tujem pravu, ki je brez pravne osebnosti, samostojni podjetnik posameznik ali posameznik, ki samostojno opravlja dejavnost in je v skladu z zakonom o obdavčenju rezident Republike Slovenije ali nerezident Republike Slovenije (ki ima v skladu z zakonom o obdavčenju poslovno enoto nerezidenta v Republiki Sloveniji).
+(3) Za osebo iz prvega odstavka tega člena, ki jo dohodek bremeni, ne velja obveznost dostave podatkov davčnemu organu o plačilu dohodka osebi, ki se po 1. točki drugega odstavka 58. člena ZDavP-2 šteje za plačnika davka.
+26.b člen
+(izjeme glede predlaganja izjav iz 58. člena ZDavP-2)
+Obveznost predlaganja
+
+GENERATED ANSWER:
+Zaveznemu za davek po ZDavP-2 je pravica do informiranja o sprejemu instrumenta zavarovanja, ki ga izda davčni organ, kot je opisano v 45. členu pravilnika ([1], chunk_000317). Vsebina potrdila o sprejemu instrumenta zavarovanja vsebuje podatke o zavezancu za davek, davčni obveznosti, roku veljavnosti instrumenta zavarovanja, vrsti zavarovanja, sklicni številki sprejetega zavarovanja, davčnem organu, ki je sprejel instrument zavarovanja, datumu in kraju sprejema instrumenta zavarovanja.
+
+Poleg tega, kot je opisano v 86. členu pravilnika ([3], chunk_000292), je zaveznemu za davek pravica do informiranja o priglasitvi davčne obravnave ob prenehanju opravljanja dejavnosti in nadaljevanju po drugi osebi.
+
+Viri:
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000317)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000366)
+- PRAV7927_pravilnik-zdavp-2_NPB25.html (chunk_000292)
+
+====================================================================================================
+SUMMARY
+questions=20
+source_hit_at_3=8/20
+chunk_hit_at_3=0/20
+all_expected_phrases_hit_at_3=0/20
+generation_failures=0
+source_hit_rate=0.400
+chunk_hit_rate=0.000
+all_phrase_hit_rate=0.000
+
+CATEGORY SUMMARY
+ddpo_davcna_osnova: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddpo_rezident: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddpo_stopnja: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddpo_transferne_cene: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddpo_zavezanec: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_dobava_blaga: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_identifikacija: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_obracun: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_predmet: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_stopnje: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_storitve: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+ddv_zavezanec: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+dohodnina_olajsava: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+dohodnina_osnove: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+dohodnina_vir: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+dohodnina_vrste: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+dohodnina_zavezanec: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+zdavp_informiranje: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+zdavp_organi: n=1 source_hit_rate=0.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+zdavp_zavezanci: n=1 source_hit_rate=1.000 chunk_hit_rate=0.000 all_phrase_hit_rate=0.000
+Wrote structured results to logs/tax-rag-eval-14619040.jsonl
