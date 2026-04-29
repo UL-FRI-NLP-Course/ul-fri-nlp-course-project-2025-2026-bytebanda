@@ -9,7 +9,7 @@ from typing import Dict, List
 from .build_index import DEFAULT_EMBEDDING_MODEL, DEFAULT_INDEX_CHUNKS, DEFAULT_INDEX_PATH
 
 
-DEFAULT_TOP_K = 5
+DEFAULT_TOP_K = 3
 
 
 def read_jsonl(path: Path) -> List[Dict]:
