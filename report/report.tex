@@ -125,7 +125,7 @@ We report automatic retrieval metrics and manual generation scores:
 \item[Correctness] Manual 0--2 score for whether the generated answer answers the question correctly.
 \end{description}
 
-Exact old chunk ID hit is still shown in the logs, but it is not a primary Version 2 metric because article-aware chunking changes chunk boundaries and therefore changes chunk IDs.
+Exact old chunk ID hit is still available in the logs for debugging, but it is not reported as a main Version 2 metric because article-aware chunking changes chunk boundaries and therefore changes chunk IDs.
 
 \section*{Results}
 
@@ -134,18 +134,18 @@ Exact old chunk ID hit is still shown in the logs, but it is not a primary Versi
 Table~\ref{tab:retrieval} compares the old baseline and the Version 2 retrieval pipeline. The original dense/fixed setup retrieved the correct source for 8 of 20 questions, but never retrieved the exact expected article or all expected phrases. Legal chunking and hybrid reranking substantially improved source-level retrieval and produced exact phrase coverage for 7 of 20 questions.
 
 \begin{table*}[hbt]
-\caption{Automatic evaluation metrics. Generation scores are zero for retrieval-only runs because no answer was generated.}
+\caption{Automatic evaluation metrics. Generation scores are marked n/a for retrieval-only runs because no answer was generated.}
 \centering
 \small
-\begin{tabular}{lrrrrrrrr}
+\begin{tabular}{lrrrrrrr}
 \toprule
-Run & n & Source@3 & Article@3 & Chunk@3 & Phrase@3 & Context/2 & Faith./2 & Corr./2 \\
+Run & n & Source@3 & Article@3 & Phrase@3 & Context/2 & Faith./2 & Corr./2 \\
 \midrule
-V1 old dense run & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-V2 fixed dense & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.40 & 0.00 & 0.00 \\
-V2 legal hybrid retrieval & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 0.00 & 0.00 \\
-V2 legal hybrid + baseline prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.45 & 0.65 \\
-V2 legal hybrid + strict prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.05 & 0.80 \\
+V1 old dense run & 20 & 0.40 & 0.00 & 0.00 & 0.00 & n/a & n/a \\
+V2 fixed dense & 20 & 0.40 & 0.00 & 0.00 & 0.40 & n/a & n/a \\
+V2 legal hybrid retrieval & 20 & 0.95 & 0.30 & 0.35 & 1.30 & n/a & n/a \\
+V2 legal hybrid + baseline prompt & 20 & 0.95 & 0.30 & 0.35 & 1.30 & 1.45 & 0.65 \\
+V2 legal hybrid + strict prompt & 20 & 0.95 & 0.30 & 0.35 & 1.30 & 1.05 & 0.80 \\
 \bottomrule
 \end{tabular}
 \label{tab:retrieval}
@@ -199,10 +199,6 @@ The most important next improvement is to add a stronger sparse retrieval compon
 \section*{Conclusion}
 
 We built a reproducible RAG prototype for Slovenian tax legislation and evaluated it on 20 manually designed questions. The baseline dense retriever was too weak for legal question answering, but Version 2 article-aware chunking and hybrid reranking improved source hit@3 to 95.0\%. The remaining failures show that legal RAG requires exact article retrieval, not only topical similarity. Future work should focus on sparse retrieval, stronger article matching, and stricter answer abstention when the exact legal rule is not present.
-
-\section*{Acknowledgments}
-
-We thank the course staff for providing access to the ARNES HPC environment and the shared project model directory. The system was developed for the FRI Natural Language Processing course project.
 
 \bibliographystyle{unsrt}
 \bibliography{report}

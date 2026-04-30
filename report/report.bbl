@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{DBLP:journals/corr/abs-2005-11401}
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
+  Karpukhin, Naman Goyal, Heinrich K{\"{u}}ttler, Mike Lewis, Wen{-}tau Yih,
+  Tim Rockt{\"{a}}schel, Sebastian Riedel, and Douwe Kiela.
+\newblock Retrieval-augmented generation for knowledge-intensive {NLP} tasks.
+\newblock {\em CoRR}, abs/2005.11401, 2020.
+
+\bibitem{DBLP:journals/corr/abs-2106-09685}
+Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen{-}Zhu, Yuanzhi Li,
+  Shean Wang, and Weizhu Chen.
+\newblock Lora: Low-rank adaptation of large language models.
+\newblock {\em CoRR}, abs/2106.09685, 2021.
+
+\bibitem{schick2023toolformerlanguagemodelsteach}
+Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli,
+  Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom.
+\newblock Toolformer: Language models can teach themselves to use tools, 2023.
+
+\end{thebibliography}
