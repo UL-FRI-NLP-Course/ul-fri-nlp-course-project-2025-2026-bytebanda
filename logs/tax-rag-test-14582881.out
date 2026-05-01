@@ -1,0 +1,37 @@
+Running in project root: /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda
+Using container: /d/hpc/home/mp77516/containers/pytorch.sif
+Loading raw documents from downloads/pisrs
+Ingested PRAV7542_pravilnik-zddv-1_NPB30.html: 1 document record(s)
+Ingested PRAV7927_pravilnik-zdavp-2_NPB25.html: 1 document record(s)
+Ingested PRAV8299_pravilnik-zddpo-2_NPB2.html: 1 document record(s)
+Ingested ZAKO4687_zddpo-2_NPB23.html: 1 document record(s)
+Ingested ZAKO4697_zdoh-2_NPB36.html: 1 document record(s)
+Ingested ZAKO4701_zddv-1_NPB20.html: 1 document record(s)
+Ingested ZAKO4703_zdavp-2_NPB31.html: 1 document record(s)
+Created 1897 chunk(s) from 7 document record(s)
+Loading embedding model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Encoding chunks
+Saved processed chunks to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/processed/chunks.jsonl
+Saved FAISS index to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/faiss.index
+Saved indexed chunk metadata to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/chunks.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16
+DDV je dajatev na prispevek (dajatev na prispevek na prispevek) za državno prispevek, ki se plača na blagih in storitvah, ki so predmet dajatev na prispevek. ([1] chunk_000143)
+
+DDV se šteje tudi znesek DDV, ki ga je davčni zavezanec kot naročnik ali kupec plačal v skladu z določbami ZDDV-1. ([1] chunk_000143)
+
+DDV se plača na blagih in storitvah, ki so predmet dajatev na prispevek, in je odvisna od dajatev na prispevek stopnje. ([2] chunk_000871, [3] chunk_001027)
+
+DDV se obračuna na podlagi določene dajatev na prispevek osnove, cene na enoto brez DDV in kakršne koli znižanja cen in popustov, ki niso vključeni v ceno na enoto. ([3] chunk_001027)
+
+DDV se plača v rokih, ki so določene v zakonu o dajatvi na prispevek. ([1] chunk_000143, [3] chunk_001027)
+
+V primeru, ko je bilo vračilo pridobljeno z goljufijo ali na kakšen drug nepošten način, se za izterjavo DDV začne postopek povračila zneskov, ki so bili izplačani neupravičeno. ([4] chunk_000991)
+
+V primeru, ko je vračilo izvedeno po poteku roka, vložniku pripadajo obresti na z
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- ZAKO4701_zddv-1_NPB20.html (chunk_000871)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001027)
+- ZAKO4701_zddv-1_NPB20.html (chunk_000991)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001013)

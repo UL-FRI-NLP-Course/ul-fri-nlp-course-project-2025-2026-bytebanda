@@ -1,70 +1,167 @@
-# Natural language processing course: `Zakonodajko`
+# Zakonodajko: Slovenian Tax RAG Assistant
 
-![Zakonodajko](images/zakonodajko.png)
+This repository contains a minimal Retrieval-Augmented Generation baseline for
+the NLP 2026 laboratory project. The assistant answers Slovenian tax questions
+from a local document collection instead of relying only on model memory.
 
-## 🦉 Zokonodajko – Your Slovenian Legal AI Assistant
+The current implementation is intentionally simple and reproducible:
 
-**Zokonodajko** is a domain-specific conversational AI assistant designed to provide accurate, context-aware answers about Slovenian legislation. Unlike general-purpose language models, Zokonodajko is grounded in curated legal sources, enabling it to deliver reliable and explainable responses with minimal hallucination.
+```text
+raw docs -> text extraction -> chunking -> embeddings -> FAISS retrieval -> Mistral generation
+```
 
----
+The target domain is Slovenian taxes, including topics such as DDV, dohodnina,
+tax procedure, taxable persons, deadlines, and deductible costs.
 
-## Purpose
+## Repository Layout
 
-Zokonodajko helps users navigate complex legal information by:
+```text
+src/          Python RAG pipeline
+data/raw/     raw local documents, not committed
+data/processed/ generated chunks, not committed
+data/index/   generated FAISS index and chunk metadata, not committed
+prompts/      system prompt for grounded tax answers
+evaluation/   sample evaluation questions
+slurm/        ARNES HPC job scripts
+logs/         SLURM/runtime logs, not committed
+report/       course report material
+```
 
-- answering questions about Slovenian laws (e.g., taxes, procedures, rights)
-- explaining legal concepts in simple terms
-- guiding users through administrative processes
+## Dataset Placement
 
----
+Put raw tax documents into:
 
-## How it works
+```text
+data/raw/
+```
 
-The system is built using a **Retrieval-Augmented Generation (RAG)** pipeline:
+Supported input formats are `.txt`, `.md`, `.pdf`, `.html`, and `.htm`.
+The pipeline extracts text, keeps source filename metadata, keeps PDF page
+numbers when available, and writes chunks to `data/processed/chunks.jsonl`.
 
-1. **User query understanding** – interprets the user’s intent  
-2. **Document retrieval** – searches a curated legal knowledge base  
-3. **Context injection** – provides relevant legal excerpts to the model  
-4. **Answer generation** – produces grounded, explainable responses  
+Do not hardcode local machine paths such as Downloads. On the ARNES cluster,
+copy or sync the dataset into `~/tax_project/data/raw/`.
 
----
+## Setup
 
-## Knowledge base
+Create an environment with Python and install the dependencies:
 
-## 📚 Knowledge base
+```bash
+pip install -r requirements.txt
+```
 
-Zokonodajko relies on trusted Slovenian legal sources, including:
+On the ARNES HPC with the provided Singularity container:
 
-- Uradni list Republike Slovenije (official laws)
-- Pravni informacijski sistem Republike Slovenije – primary legal texts:
-  - **[Zakon o davku na dodano vrednost (ZDDV‑1)](https://pisrs.si/pregledPredpisa?id=ZAKO4701)** – the Value Added Tax law  
-  - **[Zakon o dohodnini (ZDoh‑2)](https://pisrs.si/pregledPredpisa?id=ZAKO4697)** – the Income Tax Act  
-  - **[Zakon o davčnem postopku (ZDavP‑2)](https://pisrs.si/pregledPredpisa?id=ZAKO4703)** – the Tax Procedure Act
-- Finančna uprava Republike Slovenije (tax guidelines and explanations)
-- GOV.SI (public service procedures)
+```bash
+singularity exec ~/containers/pytorch.sif pip install -r requirements.txt
+```
 
+The local generation model is expected at:
 
----
+```text
+/d/hpc/projects/onj_fri/models/intent
+```
 
+This path is used as the default Mistral-7B-Instruct-v0.3 model path.
+For full answer generation, run through an interactive or batch HPC job rather
+than a login node.
 
-## Example queries
+## Build The Index
 
-- “What taxes does an s.p. pay in Slovenia?”  
-- “When is the deadline for dohodnina?”  
-- “What are my rights as a tenant?”  
+After placing source documents in `data/raw/`, build the FAISS index:
 
----
+```bash
+python -m src.rag_cli --build-index
+```
 
-## ⚠️ Disclaimer
+This creates:
 
-Zokonodajko is an informational tool and does not replace professional legal advice.
+```text
+data/processed/chunks.jsonl
+data/index/faiss.index
+data/index/chunks.jsonl
+```
 
----
+The default embedding model is:
 
-## Project Structure
+```text
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+```
 
-The project is organized as follows:
+## Ask A Question
 
-- **`images/`** – contains the Zokonodajko logo and other visual assets  
-- **`code/`** – contains all scripts, notebooks, and code used to build the agent  
-- **`dataset/`** – contains the Slovenian legal documents, PDFs, and processed text used for retrieval and embeddings
+```bash
+python -m src.rag_cli --ask "Kaj je DDV?"
+```
+
+Optional retrieval depth:
+
+```bash
+python -m src.rag_cli --ask "Kaj je DDV?" --top-k 5
+```
+
+The generator receives the retrieved context, the user question, and the system
+prompt in `prompts/tax_assistant_system_prompt.txt`. It is instructed to answer
+only from retrieved context, cite filenames and chunk IDs, avoid definitive legal
+advice, and say when the answer is not found.
+
+## SLURM
+
+Submit the minimal HPC smoke test from the project root:
+
+```bash
+sbatch slurm/run_rag_test.sh
+```
+
+The script uses:
+
+```text
+~/containers/pytorch.sif
+```
+
+It runs:
+
+```bash
+python -m src.rag_cli --build-index
+python -m src.rag_cli --ask "Kaj je DDV?"
+```
+
+GPU partition and GPU resource lines are included as comments in the script so
+they can be adapted to the active ARNES queue policy. The script writes logs to
+`logs/`.
+
+## Evaluation
+
+`evaluation/sample_questions.jsonl` contains five starter Slovenian tax
+questions for manual testing and future evaluation of factuality and relevance.
+For Submission 2, these can be used to record retrieved sources, generated
+answers, and observed failure modes.
+
+The main evaluation set is `evaluation/tax_eval_questions.jsonl`. To run the
+new side-by-side evaluation on the HPC, submit:
+
+```bash
+sbatch slurm/run_rag_eval_v2.sh
+```
+
+The script builds two indexes:
+
+```text
+baseline: fixed character chunks + dense FAISS retrieval
+new:      article-aware legal chunks + dense candidates reranked with lexical/source signals
+```
+
+It writes separate JSONL logs for baseline retrieval, improved retrieval, and
+three prompt variants. The end of the SLURM `.out` file prints a comparison
+table with source hit, article hit, phrase hit, context relevance, faithfulness,
+and answer correctness scores.
+
+## Reproducibility Notes
+
+- Keep raw datasets, generated chunks, FAISS indexes, logs, containers, and
+  large model files out of GitHub.
+- Rebuild the index from `data/raw/` whenever the source collection changes.
+- Record model paths, embedding model names, commands, and evaluation results in
+  the report so another user can reproduce the baseline.
+- This baseline avoids LangChain and other larger frameworks to keep the system
+  easy to inspect for the course submission.

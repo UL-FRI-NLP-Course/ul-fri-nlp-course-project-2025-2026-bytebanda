@@ -1,0 +1,13 @@
+transformers==4.38.2
+accelerate==0.27.2
+sentence-transformers==2.6.1
+faiss-cpu
+torch>=2.2,<2.4
+sentencepiece
+protobuf
+numpy
+pandas
+scikit-learn
+pypdf
+beautifulsoup4
+tqdm

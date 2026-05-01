@@ -1,0 +1,161 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+\usepackage{enumitem}
+\geometry{margin=2.2cm}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\metric}[1]{\textbf{#1}}
+\title{\textbf{Version 2 Evaluation Report for the Slovenian Tax RAG Assistant}\\\large Article-aware Chunking, Hybrid Retrieval, Prompt Comparison, and Manual Error Analysis}
+\author{ByteBanda NLP Course Project}
+\date{29 April 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This report evaluates Version 2 of the Slovenian tax RAG pipeline using the JSONL logs from SLURM job \texttt{14625503}. Version 2 replaces the original fixed-only retrieval experiment with article-aware legal chunking and hybrid retrieval. The improved retriever raises source hit@3 from 40.0\% to 95.0\%, article hit@3 from 0.0\% to 30.0\%, and exact phrase hit@3 from 0.0\% to 35.0\%. Generation remains the main limitation: strict prompting is slightly more correct than the baseline prompt, but manual correctness is still only 0.65/2 on average because many failures originate from missing exact articles in the retrieved context.
+\end{abstract}
+\section{Version 2 Pipeline}
+The system is a Retrieval-Augmented Generation pipeline for Slovenian tax law. It ingests local PISRS HTML files, extracts visible text, chunks the documents, embeds chunks with a multilingual sentence-transformer, stores vectors in FAISS, retrieves the most similar chunks for a question, and passes those chunks to a local instruction-tuned language model.
+\subsection{Document Processing and Legal Chunking}
+Version 1 used only overlapping fixed-size character chunks. Version 2 adds an article-aware chunking strategy in \texttt{src/chunking.py}. The chunker detects legal headings such as \texttt{3. člen} and \texttt{113.a člen}, splits documents into legal sections, and attaches metadata: source filename, law identifier, document role, article number, article title, and section position. Long articles are still split into overlapping subchunks, but continuation chunks are prefixed with the law and article metadata so that embeddings retain the legal reference.
+\subsection{Embedding and Similarity Search}
+The embedding model is \texttt{sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2}. During indexing, every chunk text is mapped to a dense vector and normalized. FAISS \texttt{IndexFlatIP} stores the vectors. Because vectors are normalized, inner product ranking is equivalent to cosine similarity. For a question $q$, the system embeds $q$ into the same vector space and retrieves dense candidates by maximum cosine similarity.
+\subsection{Hybrid Reranking}
+The Version 2 retriever first asks FAISS for a larger candidate set \texttt{candidate\_k=100} and then reranks candidates with a hybrid score:
+\[
+s(c, q) = s_{\mathrm{dense}}(c, q) + 0.25 \cdot s_{\mathrm{lexical}}(c, q) + s_{\mathrm{law}}(c, q)
+\]
+where $s_{\mathrm{lexical}}$ is normalized token overlap between the question and chunk text plus metadata, and $s_{\mathrm{law}}$ is a 0.20 boost when the question names a law such as ZDDV-1, ZDoh-2, ZDDPO-2, or ZDavP-2 and the chunk metadata matches that law. The final prompt uses \texttt{top\_k=3} chunks.
+\subsection{Generation}
+The generation step formats retrieved chunks with source filename, chunk id, score, law id, article number, and article title. Two prompt variants completed in the available logs: the original baseline prompt and a stricter prompt. The strict prompt explicitly tells the model to prefer the chunk whose legal act and article directly answer the question and to say that the answer was not found if the exact rule is missing. The extractive prompt was configured in the SLURM script but no extractive JSONL file is present for job \texttt{14625503}, so it is excluded from this report.
+\section{Evaluation Design}
+The evaluation set contains 20 manually written tax questions. Each case includes expected source files, expected article locations, previous expected chunk IDs, key phrases, and a reference answer. Because Version 2 changes chunking, exact expected chunk IDs from Version 1 are no longer a stable primary metric. Therefore this report emphasizes source hit, article hit, phrase hit, manual context relevance, faithfulness, and correctness.
+\begin{itemize}[leftmargin=*]
+\item \metric{Context relevance} (0--2): whether retrieved chunks contain the exact legal rule or only related material.
+\item \metric{Faithfulness} (0--2): whether the generated answer is supported by the retrieved chunks.
+\item \metric{Answer correctness} (0--2): whether the generated answer matches the expected legal answer.
+\end{itemize}
+\section{Aggregate Results}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Run & n & Source@3 & Article@3 & Chunk@3 & Phrase@3 & Ctx/2 & Faith/2 & Corr/2 \\
+\midrule
+V1 old run & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+V2 fixed dense & 20 & 0.40 & 0.00 & 0.00 & 0.00 & 0.40 & 0.00 & 0.00 \\
+V2 legal hybrid & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 0.00 & 0.00 \\
+V2 baseline prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.45 & 0.65 \\
+V2 strict prompt & 20 & 0.95 & 0.30 & 0.00 & 0.35 & 1.30 & 1.05 & 0.80 \\
+\bottomrule
+\end{tabular}
+\caption{Automatic metrics from the JSONL evaluation files. Generation scores are zero for retrieval-only runs because no answers were generated.}
+\end{table}
+\paragraph{Manual generation assessment.}
+The second-pass manual assessment gives the baseline prompt an average faithfulness of 1.55/2 and correctness of 0.60/2. The strict prompt gives faithfulness 1.55/2 and correctness 0.65/2. The strict prompt is slightly better on correctness, mainly because it is more likely to refuse or narrow the answer when context is incomplete. It does not solve retrieval failures.
+\paragraph{Chunk comparison.}
+The retrieved top-3 chunk sets are identical between the retrieval-only, baseline-prompt, and strict-prompt legal-hybrid runs for 20/20 cases. This means the prompt comparison is controlled: the model saw the same context in both prompt variants. The legal-hybrid top-3 chunks match the fixed dense top-3 chunks in 0/20 cases, showing that Version 2 materially changed retrieval. Exact expected chunk hit@3 remains 0/20 because expected chunk IDs were written for the previous chunking scheme; article and phrase hits are more meaningful for Version 2.
+\section{Category-Level Retrieval Results}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Category & n & Source@3 & Article@3 & Phrase@3 & Auto ctx/2 \\
+\midrule
+ddpo\_davcna\_osnova & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddpo\_rezident & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddpo\_stopnja & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddpo\_transferne\_cene & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+ddpo\_zavezanec & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddv\_dobava\_blaga & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddv\_identifikacija & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+ddv\_obracun & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+ddv\_predmet & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddv\_stopnje & 1 & 0.00 & 0.00 & 0.00 & 0.00 \\
+ddv\_storitve & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+ddv\_zavezanec & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+dohodnina\_olajsava & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+dohodnina\_osnove & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+dohodnina\_vir & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+dohodnina\_vrste & 1 & 1.00 & 0.00 & 1.00 & 2.00 \\
+dohodnina\_zavezanec & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+zdavp\_informiranje & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+zdavp\_organi & 1 & 1.00 & 0.00 & 0.00 & 1.00 \\
+zdavp\_zavezanci & 1 & 1.00 & 1.00 & 1.00 & 2.00 \\
+\bottomrule
+\end{tabular}
+\caption{Automatic retrieval metrics for the Version 2 legal-hybrid retriever, grouped by question category.}
+\end{table}
+\section{Per-Question Retrieval and Generation Analysis}
+\begin{landscape}
+\scriptsize
+\begin{longtable}{p{1.7cm}p{1.2cm}p{6.0cm}p{1.3cm}p{1.4cm}p{1.4cm}p{6.0cm}}
+\toprule
+ID & Exp. art. & Top legal-hybrid chunks (source, article, chunk) & Ctx/2 & Base F/C & Strict F/C & Manual verdict \\
+\midrule
+\endfirsthead
+\toprule
+ID & Exp. art. & Top legal-hybrid chunks (source, article, chunk) & Ctx/2 & Base F/C & Strict F/C & Manual verdict \\
+\midrule
+\endhead
+\texttt{ddv\_01} & 3 & PRAV7542\_pravilnik-zddv-1\_NPB30.html, 154, chunk\_000245; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 153, chunk\_000242; ZAKO4701\_zddv-1\_NPB20.html, 133, chunk\_001230 & 1 & 1/0 & 1/0 & Retrieved VAT-related material but missed ZDDV-1 Article 3; both answers confuse taxable object with VAT amount. \\
+\texttt{ddv\_02} & 5 & ZAKO4701\_zddv-1\_NPB20.html, 149, chunk\_001269; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 174.d, chunk\_000286; ZAKO4701\_zddv-1\_NPB20.html, 133, chunk\_001230 & 1 & 2/0 & 2/0 & Context and answers discuss VAT identification thresholds, not the general taxable-person definition in Article 5. \\
+\texttt{ddv\_03} & 6 & PRAV7542\_pravilnik-zddv-1\_NPB30.html, 85, chunk\_000138; ZAKO4701\_zddv-1\_NPB20.html, 61, chunk\_001037; ZAKO4701\_zddv-1\_NPB20.html, 22, chunk\_000969 & 1 & 2/0 & 1/0 & Retrieval found related VAT supply material but not Article 6; generated answers are not the legal definition of supply of goods. \\
+\texttt{ddv\_04} & 14 & PRAV7542\_pravilnik-zddv-1\_NPB30.html, 105, chunk\_000161; ZAKO4701\_zddv-1\_NPB20.html, 33, chunk\_000987; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 129, chunk\_000204 & 1 & 2/0 & 2/0 & The retrieved chunks concern reverse-charge and tax-event provisions, not Article 14's definition of services. \\
+\texttt{ddv\_05} & 33 & ZAKO4701\_zddv-1\_NPB20.html, 33, chunk\_000987; ZAKO4701\_zddv-1\_NPB20.html, 130.k, chunk\_001214; ZAKO4701\_zddv-1\_NPB20.html, 33, chunk\_000988 & 2 & 1/1 & 1/1 & Correct Article 33 is retrieved, but generation overemphasizes payment and special intra-Union rules. \\
+\texttt{ddv\_06} & 41 & PRAV7542\_pravilnik-zddv-1\_NPB30.html, 45, chunk\_000058; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 153, chunk\_000242; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 46, chunk\_000059 & 2 & 2/2 & 2/2 & The rulebook chunk directly states 22\%, 9.5\%, and 5\%; answers are correct despite not matching the expected statute article. \\
+\texttt{ddv\_07} & 78 & PRAV7542\_pravilnik-zddv-1\_NPB30.html, 129, chunk\_000204; ZAKO4701\_zddv-1\_NPB20.html, 78, chunk\_001083; PRAV7542\_pravilnik-zddv-1\_NPB30.html, 154, chunk\_000243 & 2 & 2/1 & 2/1 & Correct identification context is present; answers cover start/request but omit changes and cessation. \\
+\texttt{doh\_01} & 1 & ZAKO4697\_zdoh-2\_NPB36.html, 77, chunk\_000797; ZAKO4697\_zdoh-2\_NPB36.html, 109, chunk\_000849; ZAKO4697\_zdoh-2\_NPB36.html, -, chunk\_000666 & 1 & 0/0 & 1/0 & Retrieval misses Article 1; generated answers do not state that dohodnina is tax on income of natural persons. \\
+\texttt{doh\_02} & 5 & ZAKO4687\_zddpo-2\_NPB23.html, 17, chunk\_000524; ZAKO4697\_zdoh-2\_NPB36.html, 7, chunk\_000674; ZAKO4687\_zddpo-2\_NPB23.html, 4, chunk\_000504 & 1 & 1/1 & 1/1 & Answer partially captures resident/non-resident scope but relies on ZDDPO-2 and omits that the taxpayer is a natural person. \\
+\texttt{doh\_03} & 8 & ZAKO4697\_zdoh-2\_NPB36.html, 8, chunk\_000676; ZAKO4697\_zdoh-2\_NPB36.html, 11, chunk\_000680; ZAKO4697\_zdoh-2\_NPB36.html, 113.a, chunk\_000857 & 2 & 2/2 & 2/2 & Correct ZDoh-2 Article 8 is retrieved and both prompts answer correctly; strict prompt is cleaner. \\
+\texttt{doh\_04} & 18 & ZAKO4697\_zdoh-2\_NPB36.html, 44, chunk\_000733; ZAKO4697\_zdoh-2\_NPB36.html, 105, chunk\_000840; ZAKO4697\_zdoh-2\_NPB36.html, 44, chunk\_000732 & 1 & 1/0 & 1/1 & Retrieved chunks contain category words but not Article 18; strict answer lists many categories but frames them through exclusion text. \\
+\texttt{doh\_05} & 111 & ZAKO4697\_zdoh-2\_NPB36.html, 114, chunk\_000860; PRAV7927\_pravilnik-zdavp-2\_NPB25.html, 86.s, chunk\_000459; ZAKO4697\_zdoh-2\_NPB36.html, 115, chunk\_000864 & 1 & 2/0 & 2/0 & Retrieval finds related reliefs but not Article 111; strict prompt appropriately says the exact answer is not in the context. \\
+\texttt{ddpo\_01} & 3 & ZAKO4687\_zddpo-2\_NPB23.html, -, chunk\_000499; PRAV8299\_pravilnik-zddpo-2\_NPB2.html, 5, chunk\_000484; ZAKO4687\_zddpo-2\_NPB23.html, -, chunk\_000498 & 0 & 1/0 & 1/0 & Correct taxpayer article is not retrieved; answers incorrectly infer that the payer/izplačevalec is the DDPO taxpayer. \\
+\texttt{ddpo\_02} & 4 & ZAKO4687\_zddpo-2\_NPB23.html, 25, chunk\_000537; ZAKO4687\_zddpo-2\_NPB23.html, 69, chunk\_000622; ZAKO4687\_zddpo-2\_NPB23.html, 17, chunk\_000525 & 1 & 2/0 & 2/0 & Retrieved ZDDPO-2 material is about advance tax payments, not the Article 4 resident/non-resident obligation. \\
+\texttt{ddpo\_03} & 12 & ZAKO4687\_zddpo-2\_NPB23.html, 21, chunk\_000531; ZAKO4687\_zddpo-2\_NPB23.html, -, chunk\_000499; PRAV8299\_pravilnik-zddpo-2\_NPB2.html, 12, chunk\_000492 & 1 & 1/0 & 1/0 & The context mentions tax base in a receivables write-off rule; neither answer gives the Article 12 definition of tax base as profit. \\
+\texttt{ddpo\_04} & 60 & ZAKO4687\_zddpo-2\_NPB23.html, -, chunk\_000499; PRAV8299\_pravilnik-zddpo-2\_NPB2.html, 5, chunk\_000484; PRAV8299\_pravilnik-zddpo-2\_NPB2.html, 12, chunk\_000492 & 0 & 2/0 & 2/0 & Correct rate article is not retrieved; both prompts faithfully report that the provided sources do not contain the rate. \\
+\texttt{ddpo\_05} & 16 & ZAKO4687\_zddpo-2\_NPB23.html, 16, chunk\_000522; ZAKO4687\_zddpo-2\_NPB23.html, 16, chunk\_000523; ZAKO4687\_zddpo-2\_NPB23.html, 17, chunk\_000525 & 2 & 2/2 & 2/2 & Correct Article 16 transfer-pricing chunks are retrieved and both answers are substantially correct. \\
+\texttt{zdavp\_01} & 11 & PRAV7927\_pravilnik-zdavp-2\_NPB25.html, 29, chunk\_000353; ZAKO4703\_zdavp-2\_NPB31.html, 31.a, chunk\_001326; ZAKO4703\_zdavp-2\_NPB31.html, 251.a, chunk\_001639 & 1 & 1/0 & 1/0 & Retrieval misses Article 11; answers describe other tax-authority powers or procedures. \\
+\texttt{zdavp\_02} & 12 & PRAV7927\_pravilnik-zdavp-2\_NPB25.html, 26.a, chunk\_000349; ZAKO4703\_zdavp-2\_NPB31.html, 356, chunk\_001904; ZAKO4703\_zdavp-2\_NPB31.html, 12, chunk\_001290 & 2 & 2/1 & 2/1 & Correct Article 12 is retrieved; answers are mostly right but omit the person liable in tax enforcement. \\
+\texttt{zdavp\_03} & 13 & ZAKO4703\_zdavp-2\_NPB31.html, 13, chunk\_001291; ZAKO4703\_zdavp-2\_NPB31.html, 7, chunk\_001285; PRAV7927\_pravilnik-zdavp-2\_NPB25.html, 26.a, chunk\_000349 & 2 & 2/2 & 2/2 & Correct Article 13 is retrieved and both answers cover the right to information well. \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+\section{Main Findings}
+\begin{enumerate}[leftmargin=*]
+\item Article-aware chunking improves metadata quality and makes evaluation more meaningful. Most retrieved chunks now carry law and article information.
+\item Hybrid retrieval greatly improves source-level retrieval, but it still often retrieves a related article instead of the exact definition article. This is the dominant error source.
+\item Exact chunk ID matching is no longer a useful success criterion across pipeline versions, because legal chunking creates different chunk IDs. Source, article, and expected phrase coverage should be used instead.
+\item Generation is usually faithful to retrieved context, including wrong context. This is useful diagnostically: answer failures mostly follow retrieval failures, not arbitrary hallucination.
+\item Strict prompting improves concise behavior and some correctness cases, but cannot repair missing context. It sometimes answers in English even for Slovenian questions, so language control should be tightened.
+\end{enumerate}
+\section{Recommendations for the Next Iteration}
+\begin{itemize}[leftmargin=*]
+\item Add explicit article-number matching when the question contains or implies a known article, and include legal synonyms such as predmet obdavčitve, davčni zavezanec, davčna osnova, and stopnja davka.
+\item Add BM25 or another sparse retriever and combine it with dense retrieval. Current lexical overlap helps but is too weak for exact legal definitions.
+\item Index article titles separately and boost title matches. Many evaluation questions ask for the article title concept directly.
+\item Rebuild the evaluation expected chunks for the legal chunking scheme, or replace chunk-id expectations with source+article+phrase checks.
+\item Keep strict prompting as the default generation prompt, but add an explicit instruction to answer in Slovenian for Slovenian questions and to avoid citing non-answer chunks.
+\end{itemize}
+\section{Reproducibility}
+The evaluated JSONL files are:
+\begin{itemize}[leftmargin=*]
+\item \texttt{baseline\_fixed\_dense}: \texttt{logs\textbackslash{}rag-v2-baseline-fixed-dense-14625503.jsonl}
+\item \texttt{legal\_hybrid\_retrieval}: \texttt{logs\textbackslash{}rag-v2-legal-hybrid-retrieval-14625503.jsonl}
+\item \texttt{legal\_hybrid\_prompt\_baseline}: \texttt{logs\textbackslash{}rag-v2-legal-hybrid-prompt-baseline-14625503.jsonl}
+\item \texttt{legal\_hybrid\_prompt\_strict}: \texttt{logs\textbackslash{}rag-v2-legal-hybrid-prompt-strict-14625503.jsonl}
+\item \texttt{extractive prompt}: not present as \texttt{logs\textbackslash{}rag-v2-legal-hybrid-prompt-extractive-14625503.jsonl} in this run.
+\end{itemize}
+The report was generated by \texttt{rag\_evaluation\_report\_v2/build\_report\_v2.py}. Manual scores are written to \texttt{rag\_evaluation\_report\_v2/manual\_generation\_scores\_v2.jsonl}.
+\end{document}

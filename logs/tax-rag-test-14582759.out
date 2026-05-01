@@ -1,0 +1,17 @@
+Running in project root: /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda
+Using container: /d/hpc/home/mp77516/containers/pytorch.sif
+Loading raw documents from downloads/pisrs
+Ingested PRAV7542_pravilnik-zddv-1_NPB30.html: 1 document record(s)
+Ingested PRAV7927_pravilnik-zdavp-2_NPB25.html: 1 document record(s)
+Ingested PRAV8299_pravilnik-zddpo-2_NPB2.html: 1 document record(s)
+Ingested ZAKO4687_zddpo-2_NPB23.html: 1 document record(s)
+Ingested ZAKO4697_zdoh-2_NPB36.html: 1 document record(s)
+Ingested ZAKO4701_zddv-1_NPB20.html: 1 document record(s)
+Ingested ZAKO4703_zdavp-2_NPB31.html: 1 document record(s)
+Created 1897 chunk(s) from 7 document record(s)
+Loading embedding model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Encoding chunks
+Saved processed chunks to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/processed/chunks.jsonl
+Saved FAISS index to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/faiss.index
+Saved indexed chunk metadata to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/chunks.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16

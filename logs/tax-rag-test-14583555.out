@@ -1,0 +1,44 @@
+Running in project root: /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda
+Using container: /d/hpc/home/mp77516/containers/pytorch.sif
+Loading raw documents from downloads/pisrs
+Ingested PRAV7542_pravilnik-zddv-1_NPB30.html: 1 document record(s)
+Ingested PRAV7927_pravilnik-zdavp-2_NPB25.html: 1 document record(s)
+Ingested PRAV8299_pravilnik-zddpo-2_NPB2.html: 1 document record(s)
+Ingested ZAKO4687_zddpo-2_NPB23.html: 1 document record(s)
+Ingested ZAKO4697_zdoh-2_NPB36.html: 1 document record(s)
+Ingested ZAKO4701_zddv-1_NPB20.html: 1 document record(s)
+Ingested ZAKO4703_zdavp-2_NPB31.html: 1 document record(s)
+Created 1897 chunk(s) from 7 document record(s)
+Loading embedding model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Encoding chunks
+Saved processed chunks to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/processed/chunks.jsonl
+Saved FAISS index to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/faiss.index
+Saved indexed chunk metadata to /d/hpc/home/mp77516/ul-fri-nlp-course-project-2025-2026-bytebanda/data/index/chunks.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16
+DDV se obračuna in plača v skladu z ZDDV-1 v več točkah, med drugim v 2., 4. in 5. točki prvega odstavka in tretjem odstavku 76. člena ter 76.a členom ZDDV-1 ([1], chunk_000143). Vendar je v kontekstu, ki ste navedli, omenjeno le, da DDV plača davčni zavezanec, ki mora plačati DDV kot naročnik, kupec ali prejemnik blaga oziroma storitev ([1], chunk_000143). Za določitev davčne osnove za obračun DDV ni navedenih posebnih pravil v ZDDV-1, ki bi jih uporabili za opredelitev daveka na dodano vrednost.
+
+Sources:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000119)
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16
+Davčni zavezanec se mora identificirati za DDV od 1. januarja 2026. (1)
+
+Reference:
+source=ZAKO4701_zddv-1_NPB20.html, chunk_id=chunk_001017
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001017)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001013)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001165)
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.bfloat16
+Po ZDDV-1 je predmet obdavcitve z DDV blago ali storitve, ki jih naročnik, kupec ali prejemnik plača. DDV se tudi šteje za znesek DDV, ki ga je plačal davčni zavezanec, ki je identificiran za namene DDV, kot prejemnik storitve (3. točka prvega odstavka 76. člena ZDDV-1). DDV se obračuna tudi od pridobitve rabljenega prevoznega sredstva iz druge države članice, če davčni zavezanec, ki je identificiran za namene DDV v Sloveniji, prevozno sredstvo pridobi (1. točka 23. člena ZDDV-1).
+
+Vira:
+[1] PRAV7542_pravilnik-zddv-1_NPB30.html, chunk_id=chunk_000143, chunk_id=chunk_000134, chunk_id=chunk_000019
+[2] PRAV7542_pravilnik-zddv-1_NPB30.html, chunk_id=chunk_00022, chunk_id=chunk_00023
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000143)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000134)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
