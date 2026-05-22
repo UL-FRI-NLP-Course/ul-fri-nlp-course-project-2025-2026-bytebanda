@@ -105,6 +105,27 @@ prompt in `prompts/tax_assistant_system_prompt.txt`. It is instructed to answer
 only from retrieved context, cite filenames and chunk IDs, avoid definitive legal
 advice, and say when the answer is not found.
 
+## RAG Chat
+
+For an interactive chat where every turn retrieves tax-law sources before
+generation, start:
+
+```bash
+python -m src.rag_cli --chat
+```
+
+The chat keeps recent conversation history in memory for follow-up questions,
+but retrieved chunks remain the factual source for each answer. Use `/sources`
+to show the chunks retrieved for the last answer, `/clear` to reset the chat
+history, and `/exit`, `/quit`, or Ctrl-D to stop.
+
+For the old plain conversational mode without retrieval or source citations,
+use:
+
+```bash
+python -m src.rag_cli --direct-chat
+```
+
 ## SLURM
 
 Submit the minimal HPC smoke test from the project root:

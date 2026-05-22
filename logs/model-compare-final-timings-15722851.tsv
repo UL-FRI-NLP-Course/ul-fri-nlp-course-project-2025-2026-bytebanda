@@ -1,0 +1,4 @@
+label	seconds	minutes	results
+mistral	709	11.82	logs/model-compare-final-mistral-15722851.jsonl
+gams2	267	4.45	logs/model-compare-final-gams2-15722851.jsonl
+gams9	536	8.93	logs/model-compare-final-gams9-15722851.jsonl

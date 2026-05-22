@@ -1,0 +1,917 @@
+Project root: /d/hpc/home/ms30765/ul-fri-nlp-course-project-2025-2026-bytebanda
+Container: /d/hpc/projects/onj_fri/trije_konjeniki_apokalipse/containers/container-pytorch-rag.sif
+Questions: evaluation/final_dataset.jsonl
+Limit: 5
+Mistral model: /d/hpc/projects/onj_fri/models/intent
+GaMS-2B model: /d/hpc/projects/onj_fri/nlpmaxxing/hf/hub/models--cjvt--GaMS-2B-Instruct/snapshots/4a3fd1c568e263761ec3f7e6311732a644476316
+GaMS-9B model: /d/hpc/projects/onj_fri/brainstorm/models/GaMS-9B-Instruct
+GaMS3-12B model: /d/hpc/projects/onj_fri/dreitokens/models/GaMS3-12B-Instruct
+Index dir: data/eval/model-compare-legal
+Timings: logs/model-compare-final-timings-15722851.tsv
+
+=== GPU ===
+Fri May 22 22:10:33 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100S-PCIE-32GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   27C    P0             22W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=== Reusing existing shared legal index ===
+data/eval/model-compare-legal/faiss.index
+data/eval/model-compare-legal/chunks.jsonl
+
+=== Evaluating Mistral generator ===
+Model path: /d/hpc/projects/onj_fri/models/intent
+Results: logs/model-compare-final-mistral-15722851.jsonl
+Loaded 5 evaluation question(s) from evaluation/final_dataset.jsonl
+run_label=mistral-generator-final run_id=15722851 prompt_label=strict top_k=3 retrieval_mode=hybrid candidate_k=100 lexical_weight=0.2 source_boost=0.18 article_boost=0.35 title_weight=0.25 llm_law_hints=False generate=True max_new_tokens=384
+index_path=data/eval/model-compare-legal/faiss.index
+chunks_path=data/eval/model-compare-legal/chunks.jsonl
+results_jsonl=logs/model-compare-final-mistral-15722851.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/models/intent with dtype=torch.float16
+====================================================================================================
+CASE 1/5: final_001 [zddpo-2_practical]
+QUESTION: Kaj je predmet obdavčitve pri davku od dohodkov pravnih oseb?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 11. člen (predmet obdavčitve)
+EXPECTED ARTICLES: 11
+EXPECTED CHUNKS: chunk_000514
+EXPECTED ANSWER: Predmet obdavčitve po tem zakonu so naslednji dohodki: dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji, dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+RETRIEVAL LAW HINTS: ZDDPO-2
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=2/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Predmet obdavčitve po tem zakonu so naslednji dohodki:
+- dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+- dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1798 dense=0.6998 lexical=0.6667 title=0.6667 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=82 chunk_id=chunk_000645
+82. člen
+(uporaba določb Zakona o davku od dobička pravnih oseb in Zakona o davku od dohodkov pravnih oseb pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah)
+(1) Pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona, se prenos premoženja, zamenjava kapitalskih deležev in združitve in delitve ne štejejo za dogodke, ki po 40. členu Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) oziroma 49. in 50. členu Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) povzročijo, da mora zavezanec v letu takšnega dogodka povečati davčno osnovo za izkoriščeno olajšavo. Upoštevajo pa se olajšave in pogoji, ki bi veljali, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+(2) Določbe Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) in Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), ki zapadejo pod prehodno ureditev, se pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona upoštevajo, kot bi veljalo, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0773 dense=0.7473 lexical=0.3333 title=0.3333 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=11 chunk_id=chunk_000514
+11. člen
+(predmet obdavčitve)
+Predmet obdavčitve po tem zakonu so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+VI. DAVČNA OSNOVA
+1. Splošne določbe
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0155 dense=0.7022 lexical=0.6667 title=0.0000 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=90 chunk_id=chunk_000653
+90. člen
+(uporaba 18. člena)
+Zavezanec, ki je pred dnem začetka uporabe tega zakona, izvzel dividende oziroma druge deleže iz dobička iz davčne osnove in ravnal po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), se glede časa trajanja udeležbe iz 2. točke prvega odstavka 18. člena in bančne garancije iz tretjega odstavka istega člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) obravnava po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo).
+
+GENERATED ANSWER:
+Predmet obdavčitve pri davku od dohodkov pravnih oseb so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona. (source: ZAKO4687_zddpo-2_NPB23.html, chunk_id=chunk_000514)
+
+Viri:
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000645)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000514)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000653)
+
+====================================================================================================
+CASE 2/5: final_002 [zddpo-2_practical]
+QUESTION: Kakšna davčna olajšava velja za donacije podjetja?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 59. člen (olajšava za donacije)
+EXPECTED ARTICLES: 59
+EXPECTED CHUNKS: chunk_000591
+EXPECTED ANSWER: Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove: do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=1/2 answer_correctness=1/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi
+- Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7848 dense=0.7098 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=15 chunk_id=chunk_000019
+15. člen
+(Donacije)
+Znesek, ki ga davčni zavezanec izplača osebam, ki so v skladu s predpisi ustanovljene za opravljanje humanitarne, kulturne, znanstvene, zdravstvene, socialnovarstvene, vzgojno-izobraževalne, športne, verske ali
+sindikalne dejavnosti in ne gre za plačilo za opravljeno dobavo blaga oziroma storitev, ni predmet DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7414 dense=0.5914 lexical=0.3333 title=0.3333 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=59 chunk_id=chunk_000591
+59. člen
+(olajšava za donacije)
+(1) Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+(2) Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 0,2 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi za kulturne namene, športne namene in za takšna izplačila prostovoljnim društvom, ustanovljenim za varstvo pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, ter drugim nevladnim organizacijam na področju varstva pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7123 dense=0.6373 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=142 chunk_id=chunk_000906
+142. člen
+(namenitev dela dohodnine za donacije)
+(1) Rezident lahko zahteva, da se do 1% dohodnine, odmerjene po tem zakonu, od dohodkov, ki se vštevajo v letno davčno osnovo, nameni za financiranje upravičencev do donacij.
+(2) Upravičenci do donacij iz namenitve dela dohodnine za posamezno leto so nevladne organizacije, politične stranke, šole in vrtci, reprezentativni sindikati, registrirane cerkve in druge verske skupnosti ter sestavni deli registriranih cerkva in drugih verskih skupnosti, ki na dan 31. decembra prejšnjega leta izpolnjujejo pogoje iz tega člena.
+(3) Za nevladne organizacije po drugem odstavku tega člena se štejejo tiste nevladne organizacije, ki imajo v skladu z zakonom, ki ureja nevladne organizacije, status nevladne organizacije v javnem interesu.
+(4) Za politične stranke, reprezentativne sindikate ter registrirane cerkve in druge verske skupnosti po drugem odstavku tega člena se štejejo subjekti, ki imajo v skladu z zakonom, ki ureja politične stranke, reprezentativne sindikate oziroma versko svobodo, status politične stranke, reprezentativnega sindikata oziroma registrirane cerkve in druge verske skupnosti. Za sestavne dele registriranih cerkva in drugih verskih skupnosti po drugem odstavku tega člena se štejejo sestavni deli registriranih cerkva ali drugih verskih skupnosti, ki so pridobili pravno osebnost po zakonu, ki ureja versko svobodo.
+(5) Za šole in vrtce po drugem odstavku tega člena se štejejo pravne osebe, ki imajo v skladu z zakonom, ki ureja organizacijo in financiranje vzgoje in izobraževanja, ustanovljen šolski sklad oziroma sklad vrtc ...
+
+GENERATED ANSWER:
+Davčna olajšava za donacije podjetja ni navedena v zbranih virih. Olajšava za donacije je navedena le za davčne zaveznance, ne pa podjetja. Olajšava je navedena v členu 59. ZDDPO-2 (Zakon o dajatvi in dobavljanju) in se nanaša na zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene. Znesek ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja. (chunk_id=chunk_000591, source=ZAKO4687_zddpo-2_NPB23.html)
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000591)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000906)
+
+====================================================================================================
+CASE 3/5: final_003 [zdoh-2_practical]
+QUESTION: Kdo je zavezanec za dohodnino?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 4. člen (zavezanec za dohodnino)
+EXPECTED ARTICLES: 4
+EXPECTED CHUNKS: chunk_000670
+EXPECTED ANSWER: Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+HITS: source=True question_law=True article=True chunk=True phrases=1/1 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=1/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.0792 dense=0.6292 lexical=1.0000 title=1.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=4 chunk_id=chunk_000670
+4. člen
+(zavezanec za dohodnino)
+Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.8952 dense=0.5702 lexical=1.0000 title=0.5000 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=3 chunk_id=chunk_000503
+3. člen
+(zavezanec za davek)
+(1) Zavezanec oziroma zavezanka za davek je pravna oseba domačega in tujega prava (v nadaljnjem besedilu: zavezanec).
+(2) Ne glede na prvi odstavek tega člena, je zavezanec tudi družba oziroma združenje oseb, vključno z družbo civilnega prava, po tujem pravu, ki je brez pravne osebnosti in ni zavezanec po zakonu, ki ureja dohodnino.
+(3) Republika Slovenija in samoupravne lokalne skupnosti niso zavezanci, če s tem zakonom ni določeno drugače.
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7672 dense=0.5672 lexical=1.0000 title=0.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4703_zdavp-2_NPB31.html law=ZDavP-2 article=287 chunk_id=chunk_001779
+287. člen
+(uveljavljanje olajšave za vzdrževane družinske člane)
+(1) Davčni zavezanec, ki v skladu z zakonom, ki ureja dohodnino, uveljavlja olajšavo za vzdrževane družinske člane, mora pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja in od pokojnine, ki se izplačuje za mesečno obdobje, o tem pisno obvestiti glavnega delodajalca in izplačevalca pokojnine. Na obvestilu mora navesti osebne in druge podatke, ki omogočajo njegovo identifikacijo in identifikacijo vzdrževanih družinskih članov.
+(2) Podatke, ki jih mora davčni zavezanec navesti v obvestilu iz prvega odstavka tega člena, določi minister, pristojen za finance.
+(3) Olajšava za vzdrževane družinske člane se lahko upošteva pri izračunu akontacije dohodnine od dohodkov iz prvega odstavka tega člena, ki so izplačani po dnevu, ko je bilo v skladu s prvim odstavkom tega člena obvestilo predloženo glavnemu delodajalcu oziroma izplačevalcu pokojnine.
+(4) Glavni delodajalec oziroma izplačevalec pokojnine pri izračunu akontacije dohodnine upošteva olajšavo za vzdrževane družinske člane na podlagi obvestila iz prvega odstavka tega člena, dokler davčni zavezanec ne predloži novega obvestila, s katerim sporoči spremembe.
+
+GENERATED ANSWER:
+Zavezanec za dohodnino je fizična oseba ([1], člen 4).
+
+Viri:
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000670)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000503)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001779)
+
+====================================================================================================
+CASE 4/5: final_004 [zddv-1_practical]
+QUESTION: Kakšna je splošna stopnja DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 41. člen (stopnja DDV)
+EXPECTED ARTICLES: 41
+EXPECTED CHUNKS: chunk_001000
+EXPECTED ANSWER: DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev. Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=1/2 answer_correctness=0/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+- Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV.
+- Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1115 dense=0.7065 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=41 chunk_id=chunk_001000
+41. člen
+(stopnja DDV)
+(1) DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+(2) Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+(3) Nižja stopnja DDV iz prejšnjega odstavka se ne uporablja za dobave umetniških predmetov, zbirk in starin, za katere se uporablja posebna ureditev iz 4.a) podpoglavja XI. poglavja tega zakona.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0832 dense=0.7407 lexical=0.5000 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=45 chunk_id=chunk_000058
+45. člen
+(Stopnje DDV)
+(1) DDV se obračunava po stopnji 22%, 9,5% oziroma 5% od davčne osnove.
+(2) Pri izračunu zneska DDV, ki je vsebovan v plačilu, se uporablja preračunana davčna stopnja, ki se izračuna na naslednji način:
+preračunana davčna stopnja =
+stopnja DDV x 100
+100 + stopnja DDV
+(3) Preračunana stopnja 22% znaša 18,0328%, preračunana stopnja 9,5% znaša 8,6758%, preračunana stopnja 5 % znaša 4,7619 %.
+(4) Če je za posamezno blago ob uvozu, glede na namen uporabe, mogoče uporabiti splošno ali nižjo davčno stopnjo, se lahko nižja davčna stopnja uporabi le, če davčni zavezanec blago uporabi za namen, za katerega je predpisana nižja davčna stopnja.
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0043 dense=0.7118 lexical=0.2500 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=172 chunk_id=chunk_000279
+172. člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec iz 123. člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+
+GENERATED ANSWER:
+Splošna stopnja DDV je 22%, kot je navedeno v členu 41. ZDDV-1, chunk_001000.
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001000)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000058)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000279)
+
+====================================================================================================
+CASE 5/5: final_005 [zddv-1_practical]
+QUESTION: Kako se uveljavlja pravica do odbitka DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 67. člen (uveljavljanje pravice do odbitka)
+EXPECTED ARTICLES: 67
+EXPECTED CHUNKS: chunk_001048
+EXPECTED ANSWER: Za uveljavljanje pravice do odbitka DDV mora davčni zavezanec izpolnjevati naslednje pogoje: za odbitke v skladu s točko a) prvega odstavka 63. člena tega zakona, v zvezi z dobavo blaga ali storitev, mora imeti račun, izdan v skladu z 80.a do 84.a členom tega zakona; za odbitke v skladu s točko b) prvega odstavka 63. člena tega zakona, v zvezi s transakcijami, ki se obravnavajo kot dobava blaga ali storitev, mora izpolnjevati formalnosti, ki jih predpiše minister, pristojen za finance;
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=False chunk=False phrases=0/3 all_phrases=False
+SCORES: context_relevance=1/2 faithfulness=2/2 answer_correctness=0/2
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.2671 dense=0.8121 lexical=0.7500 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=62 chunk_id=chunk_001038
+62. člen
+(nastanek pravice do odbitka DDV)
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.1612 dense=0.7562 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=111 chunk_id=chunk_000173
+Law: ZDDV-1 | Article: 111. člen | Title: (ugotavljanje odbitka DDV pri osnovnih sredstvih)
+hko popravi odbitek DDV od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Davčni zavezanec lahko odbije DDV v višini, ki ustreza razliki med celotnim odbitnim DDV (z računa) in sorazmernim delom DDV, od katerega davčni zavezanec ni imel pravice do odbitka, ker še ni bil identificiran za namene DDV. Popravek odbitka DDV se izvede v celoti za preostalo obdobje popravka.
+(14) Davčni zavezanec, ki mu preneha identifikacija za namene DDV zaradi pridružitve skupini za DDV, ne izvede popravka odbitka DDV od osnovnih sredstev.
+(15) Na dan pred prenehanjem identifikacije za namene DDV skupine za DDV mora skupina za DDV za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka.
+(16) Ne glede na prejšnji odstavek skupina za DDV ne popravi odbitka od tistih osnovnih sredstev, ki jih bo uporabljal davčni zavezanec, ki se na dan izstopa iz skupine za DDV identificira za namene DDV.
+(17) Član skupine za DDV, ki izstopi iz skupine za DDV, mora za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka. Popravek odbitka DDV se vključi v obračun DDV skupine za DDV za davčno obdobje, v katerem je član skupine za DDV izstopil iz te skupine.
+(18) Ne glede na prejšnji odstavek član skupine za DDV, ki izstopi iz skupine za DDV, ne izvede popravka odbitka od osnovnih sredstev  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.1608 dense=0.7558 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=72 chunk_id=chunk_001054
+72. člen
+(popravek odbitka DDV na podlagi odločitve davčnega organa)
+(1) Če se na podlagi odločitve davčnega organa spremeni (poveča) znesek DDV, ki ga je davčni zavezanec obračunal pri dobavi blaga in storitev, lahko ta davčni zavezanec na podlagi odločbe davčnega organa izstavi popravljen račun s pravilno obračunanim zneskom DDV, na podlagi katerega lahko prejemnik blaga in storitev za nastalo razliko uveljavi pravico do odbitka DDV v skladu z določili tega zakona v davčnem obdobju, ko prejme takšen račun.
+(2) Če se spremeni znesek DDV, obračunan pri uvozu blaga, ki ga je davčni zavezanec upošteval kot odbitek vstopnega DDV, se na podlagi carinskega dokumenta ali odločbe davčnega organa lahko popravi odbitek vstopnega DDV za nastalo razliko.
+(3) Minister, pristojen za finance, podrobneje predpiše vsebino računa iz prvega odstavka tega člena.
+2. Vračilo DDV
+2.1. Vračilo DDV na podlagi obračuna DDV
+
+GENERATED ANSWER:
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV ([1], chunk_001038).
+
+Sources:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001038)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000173)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001054)
+
+====================================================================================================
+SUMMARY
+questions=5
+source_hit_at_3=5/5
+all_sources_hit_at_3=5/5
+question_law_hit_at_3=5/5
+article_hit_at_3=4/5
+all_articles_hit_at_3=4/5
+chunk_hit_at_3=4/5
+all_chunks_hit_at_3=4/5
+all_expected_phrases_hit_at_3=4/5
+generation_failures=0
+source_hit_rate=1.000
+all_sources_hit_rate=1.000
+source_coverage_mean=1.000
+question_law_hit_rate=1.000
+article_hit_rate=0.800
+all_articles_hit_rate=0.800
+article_coverage_mean=0.800
+chunk_hit_rate=0.800
+all_chunks_hit_rate=0.800
+chunk_coverage_mean=0.800
+all_phrase_hit_rate=0.800
+context_relevance_mean=1.800/2
+faithfulness_mean=1.600/2
+answer_correctness_mean=0.800/2
+context_relevance_total=9/10
+faithfulness_total=8/10
+answer_correctness_total=4/10
+
+CATEGORY SUMMARY
+zddpo-2_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=1.500/2 correctness=1.500/2
+zddv-1_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=0.500 all_articles_hit_rate=0.500 article_coverage=0.500 chunk_hit_rate=0.500 all_chunks_hit_rate=0.500 chunk_coverage=0.500 all_phrase_hit_rate=0.500 context=1.500/2 faithfulness=1.500/2 correctness=0.000/2
+zdoh-2_practical: n=1 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=2.000/2 correctness=1.000/2
+Wrote structured results to logs/model-compare-final-mistral-15722851.jsonl
+Elapsed for Mistral: 709s (11.82 min)
+
+=== Evaluating GaMS-2B generator ===
+Model path: /d/hpc/projects/onj_fri/nlpmaxxing/hf/hub/models--cjvt--GaMS-2B-Instruct/snapshots/4a3fd1c568e263761ec3f7e6311732a644476316
+Results: logs/model-compare-final-gams2-15722851.jsonl
+Loaded 5 evaluation question(s) from evaluation/final_dataset.jsonl
+run_label=gams2-generator-final run_id=15722851 prompt_label=strict top_k=3 retrieval_mode=hybrid candidate_k=100 lexical_weight=0.2 source_boost=0.18 article_boost=0.35 title_weight=0.25 llm_law_hints=False generate=True max_new_tokens=384
+index_path=data/eval/model-compare-legal/faiss.index
+chunks_path=data/eval/model-compare-legal/chunks.jsonl
+results_jsonl=logs/model-compare-final-gams2-15722851.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/nlpmaxxing/hf/hub/models--cjvt--GaMS-2B-Instruct/snapshots/4a3fd1c568e263761ec3f7e6311732a644476316 with dtype=torch.float16
+Using generation cache_implementation=dynamic instead of model default hybrid
+====================================================================================================
+CASE 1/5: final_001 [zddpo-2_practical]
+QUESTION: Kaj je predmet obdavčitve pri davku od dohodkov pravnih oseb?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 11. člen (predmet obdavčitve)
+EXPECTED ARTICLES: 11
+EXPECTED CHUNKS: chunk_000514
+EXPECTED ANSWER: Predmet obdavčitve po tem zakonu so naslednji dohodki: dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji, dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+RETRIEVAL LAW HINTS: ZDDPO-2
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=2/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Predmet obdavčitve po tem zakonu so naslednji dohodki:
+- dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+- dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1798 dense=0.6998 lexical=0.6667 title=0.6667 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=82 chunk_id=chunk_000645
+82. člen
+(uporaba določb Zakona o davku od dobička pravnih oseb in Zakona o davku od dohodkov pravnih oseb pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah)
+(1) Pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona, se prenos premoženja, zamenjava kapitalskih deležev in združitve in delitve ne štejejo za dogodke, ki po 40. členu Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) oziroma 49. in 50. členu Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) povzročijo, da mora zavezanec v letu takšnega dogodka povečati davčno osnovo za izkoriščeno olajšavo. Upoštevajo pa se olajšave in pogoji, ki bi veljali, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+(2) Določbe Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) in Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), ki zapadejo pod prehodno ureditev, se pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona upoštevajo, kot bi veljalo, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0773 dense=0.7473 lexical=0.3333 title=0.3333 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=11 chunk_id=chunk_000514
+11. člen
+(predmet obdavčitve)
+Predmet obdavčitve po tem zakonu so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+VI. DAVČNA OSNOVA
+1. Splošne določbe
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0155 dense=0.7022 lexical=0.6667 title=0.0000 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=90 chunk_id=chunk_000653
+90. člen
+(uporaba 18. člena)
+Zavezanec, ki je pred dnem začetka uporabe tega zakona, izvzel dividende oziroma druge deleže iz dobička iz davčne osnove in ravnal po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), se glede časa trajanja udeležbe iz 2. točke prvega odstavka 18. člena in bančne garancije iz tretjega odstavka istega člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) obravnava po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo).
+
+GENERATED ANSWER:
+Predmet obdavčitve pri davku od dohodkov pravnih oseb so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+
+Viri:
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000645)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000514)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000653)
+
+====================================================================================================
+CASE 2/5: final_002 [zddpo-2_practical]
+QUESTION: Kakšna davčna olajšava velja za donacije podjetja?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 59. člen (olajšava za donacije)
+EXPECTED ARTICLES: 59
+EXPECTED CHUNKS: chunk_000591
+EXPECTED ANSWER: Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove: do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=2/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi
+- Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7848 dense=0.7098 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=15 chunk_id=chunk_000019
+15. člen
+(Donacije)
+Znesek, ki ga davčni zavezanec izplača osebam, ki so v skladu s predpisi ustanovljene za opravljanje humanitarne, kulturne, znanstvene, zdravstvene, socialnovarstvene, vzgojno-izobraževalne, športne, verske ali
+sindikalne dejavnosti in ne gre za plačilo za opravljeno dobavo blaga oziroma storitev, ni predmet DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7414 dense=0.5914 lexical=0.3333 title=0.3333 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=59 chunk_id=chunk_000591
+59. člen
+(olajšava za donacije)
+(1) Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+(2) Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 0,2 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi za kulturne namene, športne namene in za takšna izplačila prostovoljnim društvom, ustanovljenim za varstvo pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, ter drugim nevladnim organizacijam na področju varstva pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7123 dense=0.6373 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=142 chunk_id=chunk_000906
+142. člen
+(namenitev dela dohodnine za donacije)
+(1) Rezident lahko zahteva, da se do 1% dohodnine, odmerjene po tem zakonu, od dohodkov, ki se vštevajo v letno davčno osnovo, nameni za financiranje upravičencev do donacij.
+(2) Upravičenci do donacij iz namenitve dela dohodnine za posamezno leto so nevladne organizacije, politične stranke, šole in vrtci, reprezentativni sindikati, registrirane cerkve in druge verske skupnosti ter sestavni deli registriranih cerkva in drugih verskih skupnosti, ki na dan 31. decembra prejšnjega leta izpolnjujejo pogoje iz tega člena.
+(3) Za nevladne organizacije po drugem odstavku tega člena se štejejo tiste nevladne organizacije, ki imajo v skladu z zakonom, ki ureja nevladne organizacije, status nevladne organizacije v javnem interesu.
+(4) Za politične stranke, reprezentativne sindikate ter registrirane cerkve in druge verske skupnosti po drugem odstavku tega člena se štejejo subjekti, ki imajo v skladu z zakonom, ki ureja politične stranke, reprezentativne sindikate oziroma versko svobodo, status politične stranke, reprezentativnega sindikata oziroma registrirane cerkve in druge verske skupnosti. Za sestavne dele registriranih cerkva in drugih verskih skupnosti po drugem odstavku tega člena se štejejo sestavni deli registriranih cerkva ali drugih verskih skupnosti, ki so pridobili pravno osebnost po zakonu, ki ureja versko svobodo.
+(5) Za šole in vrtce po drugem odstavku tega člena se štejejo pravne osebe, ki imajo v skladu z zakonom, ki ureja organizacijo in financiranje vzgoje in izobraževanja, ustanovljen šolski sklad oziroma sklad vrtc ...
+
+GENERATED ANSWER:
+(1) Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnih enot rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, vendar največ do višine davčne osnove davčnega obdobja.
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000591)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000906)
+
+====================================================================================================
+CASE 3/5: final_003 [zdoh-2_practical]
+QUESTION: Kdo je zavezanec za dohodnino?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 4. člen (zavezanec za dohodnino)
+EXPECTED ARTICLES: 4
+EXPECTED CHUNKS: chunk_000670
+EXPECTED ANSWER: Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+HITS: source=True question_law=True article=True chunk=True phrases=1/1 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=1/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.0792 dense=0.6292 lexical=1.0000 title=1.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=4 chunk_id=chunk_000670
+4. člen
+(zavezanec za dohodnino)
+Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.8952 dense=0.5702 lexical=1.0000 title=0.5000 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=3 chunk_id=chunk_000503
+3. člen
+(zavezanec za davek)
+(1) Zavezanec oziroma zavezanka za davek je pravna oseba domačega in tujega prava (v nadaljnjem besedilu: zavezanec).
+(2) Ne glede na prvi odstavek tega člena, je zavezanec tudi družba oziroma združenje oseb, vključno z družbo civilnega prava, po tujem pravu, ki je brez pravne osebnosti in ni zavezanec po zakonu, ki ureja dohodnino.
+(3) Republika Slovenija in samoupravne lokalne skupnosti niso zavezanci, če s tem zakonom ni določeno drugače.
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7672 dense=0.5672 lexical=1.0000 title=0.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4703_zdavp-2_NPB31.html law=ZDavP-2 article=287 chunk_id=chunk_001779
+287. člen
+(uveljavljanje olajšave za vzdrževane družinske člane)
+(1) Davčni zavezanec, ki v skladu z zakonom, ki ureja dohodnino, uveljavlja olajšavo za vzdrževane družinske člane, mora pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja in od pokojnine, ki se izplačuje za mesečno obdobje, o tem pisno obvestiti glavnega delodajalca in izplačevalca pokojnine. Na obvestilu mora navesti osebne in druge podatke, ki omogočajo njegovo identifikacijo in identifikacijo vzdrževanih družinskih članov.
+(2) Podatke, ki jih mora davčni zavezanec navesti v obvestilu iz prvega odstavka tega člena, določi minister, pristojen za finance.
+(3) Olajšava za vzdrževane družinske člane se lahko upošteva pri izračunu akontacije dohodnine od dohodkov iz prvega odstavka tega člena, ki so izplačani po dnevu, ko je bilo v skladu s prvim odstavkom tega člena obvestilo predloženo glavnemu delodajalcu oziroma izplačevalcu pokojnine.
+(4) Glavni delodajalec oziroma izplačevalec pokojnine pri izračunu akontacije dohodnine upošteva olajšavo za vzdrževane družinske člane na podlagi obvestila iz prvega odstavka tega člena, dokler davčni zavezanec ne predloži novega obvestila, s katerim sporoči spremembe.
+
+GENERATED ANSWER:
+Zavezanec za dohodnino je fizična oseba.
+
+Viri:
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000670)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000503)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001779)
+
+====================================================================================================
+CASE 4/5: final_004 [zddv-1_practical]
+QUESTION: Kakšna je splošna stopnja DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 41. člen (stopnja DDV)
+EXPECTED ARTICLES: 41
+EXPECTED CHUNKS: chunk_001000
+EXPECTED ANSWER: DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev. Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=0/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+- Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV.
+- Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1115 dense=0.7065 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=41 chunk_id=chunk_001000
+41. člen
+(stopnja DDV)
+(1) DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+(2) Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+(3) Nižja stopnja DDV iz prejšnjega odstavka se ne uporablja za dobave umetniških predmetov, zbirk in starin, za katere se uporablja posebna ureditev iz 4.a) podpoglavja XI. poglavja tega zakona.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0832 dense=0.7407 lexical=0.5000 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=45 chunk_id=chunk_000058
+45. člen
+(Stopnje DDV)
+(1) DDV se obračunava po stopnji 22%, 9,5% oziroma 5% od davčne osnove.
+(2) Pri izračunu zneska DDV, ki je vsebovan v plačilu, se uporablja preračunana davčna stopnja, ki se izračuna na naslednji način:
+preračunana davčna stopnja =
+stopnja DDV x 100
+100 + stopnja DDV
+(3) Preračunana stopnja 22% znaša 18,0328%, preračunana stopnja 9,5% znaša 8,6758%, preračunana stopnja 5 % znaša 4,7619 %.
+(4) Če je za posamezno blago ob uvozu, glede na namen uporabe, mogoče uporabiti splošno ali nižjo davčno stopnjo, se lahko nižja davčna stopnja uporabi le, če davčni zavezanec blago uporabi za namen, za katerega je predpisana nižja davčna stopnja.
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0043 dense=0.7118 lexical=0.2500 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=172 chunk_id=chunk_000279
+172. člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec iz 123. člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+
+GENERATED ANSWER:
+Splošna stopnja DDV je 22%.
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001000)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000058)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000279)
+
+====================================================================================================
+CASE 5/5: final_005 [zddv-1_practical]
+QUESTION: Kako se uveljavlja pravica do odbitka DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 67. člen (uveljavljanje pravice do odbitka)
+EXPECTED ARTICLES: 67
+EXPECTED CHUNKS: chunk_001048
+EXPECTED ANSWER: Za uveljavljanje pravice do odbitka DDV mora davčni zavezanec izpolnjevati naslednje pogoje: za odbitke v skladu s točko a) prvega odstavka 63. člena tega zakona, v zvezi z dobavo blaga ali storitev, mora imeti račun, izdan v skladu z 80.a do 84.a členom tega zakona; za odbitke v skladu s točko b) prvega odstavka 63. člena tega zakona, v zvezi s transakcijami, ki se obravnavajo kot dobava blaga ali storitev, mora izpolnjevati formalnosti, ki jih predpiše minister, pristojen za finance;
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=False chunk=False phrases=0/3 all_phrases=False
+SCORES: context_relevance=1/2 faithfulness=2/2 answer_correctness=0/2
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.2671 dense=0.8121 lexical=0.7500 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=62 chunk_id=chunk_001038
+62. člen
+(nastanek pravice do odbitka DDV)
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.1612 dense=0.7562 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=111 chunk_id=chunk_000173
+Law: ZDDV-1 | Article: 111. člen | Title: (ugotavljanje odbitka DDV pri osnovnih sredstvih)
+hko popravi odbitek DDV od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Davčni zavezanec lahko odbije DDV v višini, ki ustreza razliki med celotnim odbitnim DDV (z računa) in sorazmernim delom DDV, od katerega davčni zavezanec ni imel pravice do odbitka, ker še ni bil identificiran za namene DDV. Popravek odbitka DDV se izvede v celoti za preostalo obdobje popravka.
+(14) Davčni zavezanec, ki mu preneha identifikacija za namene DDV zaradi pridružitve skupini za DDV, ne izvede popravka odbitka DDV od osnovnih sredstev.
+(15) Na dan pred prenehanjem identifikacije za namene DDV skupine za DDV mora skupina za DDV za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka.
+(16) Ne glede na prejšnji odstavek skupina za DDV ne popravi odbitka od tistih osnovnih sredstev, ki jih bo uporabljal davčni zavezanec, ki se na dan izstopa iz skupine za DDV identificira za namene DDV.
+(17) Član skupine za DDV, ki izstopi iz skupine za DDV, mora za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka. Popravek odbitka DDV se vključi v obračun DDV skupine za DDV za davčno obdobje, v katerem je član skupine za DDV izstopil iz te skupine.
+(18) Ne glede na prejšnji odstavek član skupine za DDV, ki izstopi iz skupine za DDV, ne izvede popravka odbitka od osnovnih sredstev  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.1608 dense=0.7558 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=72 chunk_id=chunk_001054
+72. člen
+(popravek odbitka DDV na podlagi odločitve davčnega organa)
+(1) Če se na podlagi odločitve davčnega organa spremeni (poveča) znesek DDV, ki ga je davčni zavezanec obračunal pri dobavi blaga in storitev, lahko ta davčni zavezanec na podlagi odločbe davčnega organa izstavi popravljen račun s pravilno obračunanim zneskom DDV, na podlagi katerega lahko prejemnik blaga in storitev za nastalo razliko uveljavi pravico do odbitka DDV v skladu z določili tega zakona v davčnem obdobju, ko prejme takšen račun.
+(2) Če se spremeni znesek DDV, obračunan pri uvozu blaga, ki ga je davčni zavezanec upošteval kot odbitek vstopnega DDV, se na podlagi carinskega dokumenta ali odločbe davčnega organa lahko popravi odbitek vstopnega DDV za nastalo razliko.
+(3) Minister, pristojen za finance, podrobneje predpiše vsebino računa iz prvega odstavka tega člena.
+2. Vračilo DDV
+2.1. Vračilo DDV na podlagi obračuna DDV
+
+GENERATED ANSWER:
+Pravica do odbitka DDV se uveljavlja na podlagi obračuna DDV.
+
+Sources:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001038)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000173)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001054)
+
+====================================================================================================
+SUMMARY
+questions=5
+source_hit_at_3=5/5
+all_sources_hit_at_3=5/5
+question_law_hit_at_3=5/5
+article_hit_at_3=4/5
+all_articles_hit_at_3=4/5
+chunk_hit_at_3=4/5
+all_chunks_hit_at_3=4/5
+all_expected_phrases_hit_at_3=4/5
+generation_failures=0
+source_hit_rate=1.000
+all_sources_hit_rate=1.000
+source_coverage_mean=1.000
+question_law_hit_rate=1.000
+article_hit_rate=0.800
+all_articles_hit_rate=0.800
+article_coverage_mean=0.800
+chunk_hit_rate=0.800
+all_chunks_hit_rate=0.800
+chunk_coverage_mean=0.800
+all_phrase_hit_rate=0.800
+context_relevance_mean=1.800/2
+faithfulness_mean=2.000/2
+answer_correctness_mean=1.000/2
+context_relevance_total=9/10
+faithfulness_total=10/10
+answer_correctness_total=5/10
+
+CATEGORY SUMMARY
+zddpo-2_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=2.000/2 correctness=2.000/2
+zddv-1_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=0.500 all_articles_hit_rate=0.500 article_coverage=0.500 chunk_hit_rate=0.500 all_chunks_hit_rate=0.500 chunk_coverage=0.500 all_phrase_hit_rate=0.500 context=1.500/2 faithfulness=2.000/2 correctness=0.000/2
+zdoh-2_practical: n=1 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=2.000/2 correctness=1.000/2
+Wrote structured results to logs/model-compare-final-gams2-15722851.jsonl
+Elapsed for GaMS-2B: 267s (4.45 min)
+
+=== Evaluating GaMS-9B generator ===
+Model path: /d/hpc/projects/onj_fri/brainstorm/models/GaMS-9B-Instruct
+Results: logs/model-compare-final-gams9-15722851.jsonl
+Loaded 5 evaluation question(s) from evaluation/final_dataset.jsonl
+run_label=gams9-generator-final run_id=15722851 prompt_label=strict top_k=3 retrieval_mode=hybrid candidate_k=100 lexical_weight=0.2 source_boost=0.18 article_boost=0.35 title_weight=0.25 llm_law_hints=False generate=True max_new_tokens=384
+index_path=data/eval/model-compare-legal/faiss.index
+chunks_path=data/eval/model-compare-legal/chunks.jsonl
+results_jsonl=logs/model-compare-final-gams9-15722851.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/brainstorm/models/GaMS-9B-Instruct with dtype=torch.float16
+Using generation cache_implementation=dynamic instead of model default hybrid
+====================================================================================================
+CASE 1/5: final_001 [zddpo-2_practical]
+QUESTION: Kaj je predmet obdavčitve pri davku od dohodkov pravnih oseb?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 11. člen (predmet obdavčitve)
+EXPECTED ARTICLES: 11
+EXPECTED CHUNKS: chunk_000514
+EXPECTED ANSWER: Predmet obdavčitve po tem zakonu so naslednji dohodki: dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji, dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+RETRIEVAL LAW HINTS: ZDDPO-2
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=2/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Predmet obdavčitve po tem zakonu so naslednji dohodki:
+- dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+- dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1798 dense=0.6998 lexical=0.6667 title=0.6667 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=82 chunk_id=chunk_000645
+82. člen
+(uporaba določb Zakona o davku od dobička pravnih oseb in Zakona o davku od dohodkov pravnih oseb pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah)
+(1) Pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona, se prenos premoženja, zamenjava kapitalskih deležev in združitve in delitve ne štejejo za dogodke, ki po 40. členu Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) oziroma 49. in 50. členu Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) povzročijo, da mora zavezanec v letu takšnega dogodka povečati davčno osnovo za izkoriščeno olajšavo. Upoštevajo pa se olajšave in pogoji, ki bi veljali, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+(2) Določbe Zakona o davku od dobička pravnih oseb (Uradni list RS, št. 14/03 – uradno prečiščeno besedilo) in Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), ki zapadejo pod prehodno ureditev, se pri obdavčitvi pri prenosu premoženja, obdavčitvi pri zamenjavi kapitalskih deležev in obdavčitvi pri združitvah in delitvah po 38. do 54. členu tega zakona upoštevajo, kot bi veljalo, če ne bi prišlo do prenosa premoženja, zamenjave kapitalskih deležev in združitve in delitve.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0773 dense=0.7473 lexical=0.3333 title=0.3333 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=11 chunk_id=chunk_000514
+11. člen
+(predmet obdavčitve)
+Predmet obdavčitve po tem zakonu so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+VI. DAVČNA OSNOVA
+1. Splošne določbe
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0155 dense=0.7022 lexical=0.6667 title=0.0000 boost=0.1800 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=90 chunk_id=chunk_000653
+90. člen
+(uporaba 18. člena)
+Zavezanec, ki je pred dnem začetka uporabe tega zakona, izvzel dividende oziroma druge deleže iz dobička iz davčne osnove in ravnal po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo), se glede časa trajanja udeležbe iz 2. točke prvega odstavka 18. člena in bančne garancije iz tretjega odstavka istega člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo) obravnava po tretjem odstavku 18. člena Zakona o davku od dohodkov pravnih oseb (Uradni list RS, št. 33/06 – uradno prečiščeno besedilo).
+
+GENERATED ANSWER:
+Predmet obdavčitve pri davku od dohodkov pravnih oseb so naslednji dohodki:
+1. dobiček rezidenta in dobiček nerezidenta, ki ga dosega z opravljanjem dejavnosti oziroma poslov v poslovni enoti ali preko poslovne enote, ki se nahaja v Sloveniji,
+2. dohodki rezidenta in nerezidenta, za katere je določena obveznost davčnega odtegljaja, iz 70. člena tega zakona.
+
+Viri:
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000645)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000514)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000653)
+
+====================================================================================================
+CASE 2/5: final_002 [zddpo-2_practical]
+QUESTION: Kakšna davčna olajšava velja za donacije podjetja?
+
+EXPECTED LOCATIONS:
+- ZAKO4687_zddpo-2_NPB23.html: ZDDPO-2, 59. člen (olajšava za donacije)
+EXPECTED ARTICLES: 59
+EXPECTED CHUNKS: chunk_000591
+EXPECTED ANSWER: Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove: do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=2/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 3,8 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi
+- Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=0.7848 dense=0.7098 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=15 chunk_id=chunk_000019
+15. člen
+(Donacije)
+Znesek, ki ga davčni zavezanec izplača osebam, ki so v skladu s predpisi ustanovljene za opravljanje humanitarne, kulturne, znanstvene, zdravstvene, socialnovarstvene, vzgojno-izobraževalne, športne, verske ali
+sindikalne dejavnosti in ne gre za plačilo za opravljeno dobavo blaga oziroma storitev, ni predmet DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.7414 dense=0.5914 lexical=0.3333 title=0.3333 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=59 chunk_id=chunk_000591
+59. člen
+(olajšava za donacije)
+(1) Zavezanec lahko uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega obdobja zavezanca, vendar največ do višine davčne osnove davčnega obdobja.
+(2) Zavezanec lahko uveljavlja, poleg zmanjšanja davčne osnove po prejšnjem odstavku, dodatni zmanjšanji davčne osnove:
+- do zneska, ki ustreza 0,2 % obdavčenega prihodka davčnega obdobja zavezanca, za znesek izplačil v denarju in v naravi za kulturne namene, športne namene in za takšna izplačila prostovoljnim društvom, ustanovljenim za varstvo pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, ter drugim nevladnim organizacijam na področju varstva pred naravnimi in drugimi nesrečami, ki delujejo v javnem interesu za te namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7123 dense=0.6373 lexical=0.1667 title=0.1667 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=142 chunk_id=chunk_000906
+142. člen
+(namenitev dela dohodnine za donacije)
+(1) Rezident lahko zahteva, da se do 1% dohodnine, odmerjene po tem zakonu, od dohodkov, ki se vštevajo v letno davčno osnovo, nameni za financiranje upravičencev do donacij.
+(2) Upravičenci do donacij iz namenitve dela dohodnine za posamezno leto so nevladne organizacije, politične stranke, šole in vrtci, reprezentativni sindikati, registrirane cerkve in druge verske skupnosti ter sestavni deli registriranih cerkva in drugih verskih skupnosti, ki na dan 31. decembra prejšnjega leta izpolnjujejo pogoje iz tega člena.
+(3) Za nevladne organizacije po drugem odstavku tega člena se štejejo tiste nevladne organizacije, ki imajo v skladu z zakonom, ki ureja nevladne organizacije, status nevladne organizacije v javnem interesu.
+(4) Za politične stranke, reprezentativne sindikate ter registrirane cerkve in druge verske skupnosti po drugem odstavku tega člena se štejejo subjekti, ki imajo v skladu z zakonom, ki ureja politične stranke, reprezentativne sindikate oziroma versko svobodo, status politične stranke, reprezentativnega sindikata oziroma registrirane cerkve in druge verske skupnosti. Za sestavne dele registriranih cerkva in drugih verskih skupnosti po drugem odstavku tega člena se štejejo sestavni deli registriranih cerkva ali drugih verskih skupnosti, ki so pridobili pravno osebnost po zakonu, ki ureja versko svobodo.
+(5) Za šole in vrtce po drugem odstavku tega člena se štejejo pravne osebe, ki imajo v skladu z zakonom, ki ureja organizacijo in financiranje vzgoje in izobraževanja, ustanovljen šolski sklad oziroma sklad vrtc ...
+
+GENERATED ANSWER:
+V skladu z 15. členom Pravilnika o izvajanju Zakona o davku na dodano vrednost (ZDDV-1) znesek, ki ga davčni zavezanec izplača osebam, ki so v skladu s predpisi ustanovljene za opravljanje humanitarne, kulturne, znanstvene, zdravstvene, socialnovarstvene, vzgojno-izobraževalne, športne, verske ali sindikalne dejavnosti in ne gre za plačilo za opravljeno dobavo blaga oziroma storitev, ni predmet DDV.
+
+Poleg tega 59. člen Zakona o davku od dohodkov pravnih oseb (ZDDPO-2) omogoča zavezancu, da uveljavlja zmanjšanje davčne osnove za znesek izplačil v denarju in v naravi za humanitarne, invalidske, socialno varstvene, dobrodelne, znanstvene, vzgojnoizobraževalne, zdravstvene, športne, kulturne, ekološke, religiozne in splošno koristne namene, in sicer le za takšna izplačila rezidentom Slovenije in rezidentom države članice EU, ki ni Slovenija, razen poslovnim enotam rezidentov države članice EU, ki se nahaja izven države članice EU, ki (če) so po posebnih predpisih ustanovljeni za opravljanje navedenih dejavnosti, kot nepridobitnih dejavnosti, do zneska, ki ustreza 1% obdavčenega prihodka davčnega
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000019)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000591)
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000906)
+
+====================================================================================================
+CASE 3/5: final_003 [zdoh-2_practical]
+QUESTION: Kdo je zavezanec za dohodnino?
+
+EXPECTED LOCATIONS:
+- ZAKO4697_zdoh-2_NPB36.html: ZDoh-2, 4. člen (zavezanec za dohodnino)
+EXPECTED ARTICLES: 4
+EXPECTED CHUNKS: chunk_000670
+EXPECTED ANSWER: Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+HITS: source=True question_law=True article=True chunk=True phrases=1/1 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=2/2 answer_correctness=1/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.0792 dense=0.6292 lexical=1.0000 title=1.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4697_zdoh-2_NPB36.html law=ZDoh-2 article=4 chunk_id=chunk_000670
+4. člen
+(zavezanec za dohodnino)
+Zavezanec in zavezanka za dohodnino (v nadaljnjem besedilu: zavezanec) je fizična oseba.
+----------------------------------------------------------------------------------------------------
+rank=2 score=0.8952 dense=0.5702 lexical=1.0000 title=0.5000 boost=0.0000 article_boost=0.0000 source=ZAKO4687_zddpo-2_NPB23.html law=ZDDPO-2 article=3 chunk_id=chunk_000503
+3. člen
+(zavezanec za davek)
+(1) Zavezanec oziroma zavezanka za davek je pravna oseba domačega in tujega prava (v nadaljnjem besedilu: zavezanec).
+(2) Ne glede na prvi odstavek tega člena, je zavezanec tudi družba oziroma združenje oseb, vključno z družbo civilnega prava, po tujem pravu, ki je brez pravne osebnosti in ni zavezanec po zakonu, ki ureja dohodnino.
+(3) Republika Slovenija in samoupravne lokalne skupnosti niso zavezanci, če s tem zakonom ni določeno drugače.
+----------------------------------------------------------------------------------------------------
+rank=3 score=0.7672 dense=0.5672 lexical=1.0000 title=0.0000 boost=0.0000 article_boost=0.0000 source=ZAKO4703_zdavp-2_NPB31.html law=ZDavP-2 article=287 chunk_id=chunk_001779
+287. člen
+(uveljavljanje olajšave za vzdrževane družinske člane)
+(1) Davčni zavezanec, ki v skladu z zakonom, ki ureja dohodnino, uveljavlja olajšavo za vzdrževane družinske člane, mora pri izračunu akontacije dohodnine od dohodka iz delovnega razmerja in od pokojnine, ki se izplačuje za mesečno obdobje, o tem pisno obvestiti glavnega delodajalca in izplačevalca pokojnine. Na obvestilu mora navesti osebne in druge podatke, ki omogočajo njegovo identifikacijo in identifikacijo vzdrževanih družinskih članov.
+(2) Podatke, ki jih mora davčni zavezanec navesti v obvestilu iz prvega odstavka tega člena, določi minister, pristojen za finance.
+(3) Olajšava za vzdrževane družinske člane se lahko upošteva pri izračunu akontacije dohodnine od dohodkov iz prvega odstavka tega člena, ki so izplačani po dnevu, ko je bilo v skladu s prvim odstavkom tega člena obvestilo predloženo glavnemu delodajalcu oziroma izplačevalcu pokojnine.
+(4) Glavni delodajalec oziroma izplačevalec pokojnine pri izračunu akontacije dohodnine upošteva olajšavo za vzdrževane družinske člane na podlagi obvestila iz prvega odstavka tega člena, dokler davčni zavezanec ne predloži novega obvestila, s katerim sporoči spremembe.
+
+GENERATED ANSWER:
+Zavezanec za dohodnino je fizična oseba.
+
+Viri:
+- ZAKO4697_zdoh-2_NPB36.html (chunk_000670)
+- ZAKO4687_zddpo-2_NPB23.html (chunk_000503)
+- ZAKO4703_zdavp-2_NPB31.html (chunk_001779)
+
+====================================================================================================
+CASE 4/5: final_004 [zddv-1_practical]
+QUESTION: Kakšna je splošna stopnja DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 41. člen (stopnja DDV)
+EXPECTED ARTICLES: 41
+EXPECTED CHUNKS: chunk_001000
+EXPECTED ANSWER: DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev. Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=True chunk=True phrases=3/3 all_phrases=True
+SCORES: context_relevance=2/2 faithfulness=0/2 answer_correctness=0/2
+PHRASES FOUND IN RETRIEVED CONTEXT:
+- DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+- Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV.
+- Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.1115 dense=0.7065 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=41 chunk_id=chunk_001000
+41. člen
+(stopnja DDV)
+(1) DDV se obračunava in plačuje po splošni stopnji 22% od davčne osnove in je enaka za dobavo blaga in storitev.
+(2) Ne glede na prvi odstavek tega člena, se DDV obračunava in plačuje po nižji stopnji 9,5 % od davčne osnove za dobave blaga in storitev iz Priloge I in po posebni nižji stopnji 5 % od davčne osnove za dobave blaga in storitev iz Priloge IV. Priloga I in Priloga IV sta prilogi tega zakona in njegov sestavni del.
+(3) Nižja stopnja DDV iz prejšnjega odstavka se ne uporablja za dobave umetniških predmetov, zbirk in starin, za katere se uporablja posebna ureditev iz 4.a) podpoglavja XI. poglavja tega zakona.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.0832 dense=0.7407 lexical=0.5000 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=45 chunk_id=chunk_000058
+45. člen
+(Stopnje DDV)
+(1) DDV se obračunava po stopnji 22%, 9,5% oziroma 5% od davčne osnove.
+(2) Pri izračunu zneska DDV, ki je vsebovan v plačilu, se uporablja preračunana davčna stopnja, ki se izračuna na naslednji način:
+preračunana davčna stopnja =
+stopnja DDV x 100
+100 + stopnja DDV
+(3) Preračunana stopnja 22% znaša 18,0328%, preračunana stopnja 9,5% znaša 8,6758%, preračunana stopnja 5 % znaša 4,7619 %.
+(4) Če je za posamezno blago ob uvozu, glede na namen uporabe, mogoče uporabiti splošno ali nižjo davčno stopnjo, se lahko nižja davčna stopnja uporabi le, če davčni zavezanec blago uporabi za namen, za katerega je predpisana nižja davčna stopnja.
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.0043 dense=0.7118 lexical=0.2500 title=0.2500 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=172 chunk_id=chunk_000279
+172. člen
+(Posebni obračun DDV in plačilo DDV)
+(1) Davčni zavezanec iz 123. člena ZDDV-1 predloži posebni obračun DDV v elektronski obliki, prek sistema eDavki.
+(2) Davčni zavezanec plača DDV v eurih na bančni račun, razviden v sistemu eDavki.
+
+GENERATED ANSWER:
+The splošna stopnja DDV is 22%. This information is found in the retrieved context from the source ZAKO4701_zddv-1_NPB20.html, chunk_id=chunk_001000, law=ZDDV-1, role=statute, article=41. člen, title=(stopnja DDV).
+
+Viri:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001000)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000058)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000279)
+
+====================================================================================================
+CASE 5/5: final_005 [zddv-1_practical]
+QUESTION: Kako se uveljavlja pravica do odbitka DDV?
+
+EXPECTED LOCATIONS:
+- ZAKO4701_zddv-1_NPB20.html: ZDDV-1, 67. člen (uveljavljanje pravice do odbitka)
+EXPECTED ARTICLES: 67
+EXPECTED CHUNKS: chunk_001048
+EXPECTED ANSWER: Za uveljavljanje pravice do odbitka DDV mora davčni zavezanec izpolnjevati naslednje pogoje: za odbitke v skladu s točko a) prvega odstavka 63. člena tega zakona, v zvezi z dobavo blaga ali storitev, mora imeti račun, izdan v skladu z 80.a do 84.a členom tega zakona; za odbitke v skladu s točko b) prvega odstavka 63. člena tega zakona, v zvezi s transakcijami, ki se obravnavajo kot dobava blaga ali storitev, mora izpolnjevati formalnosti, ki jih predpiše minister, pristojen za finance;
+RETRIEVAL LAW HINTS: ZDDV-1
+
+HITS: source=True question_law=True article=False chunk=False phrases=0/3 all_phrases=False
+SCORES: context_relevance=1/2 faithfulness=2/2 answer_correctness=0/2
+
+RETRIEVED CHUNKS:
+----------------------------------------------------------------------------------------------------
+rank=1 score=1.2671 dense=0.8121 lexical=0.7500 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=62 chunk_id=chunk_001038
+62. člen
+(nastanek pravice do odbitka DDV)
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV.
+----------------------------------------------------------------------------------------------------
+rank=2 score=1.1612 dense=0.7562 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=PRAV7542_pravilnik-zddv-1_NPB30.html law=ZDDV-1 article=111 chunk_id=chunk_000173
+Law: ZDDV-1 | Article: 111. člen | Title: (ugotavljanje odbitka DDV pri osnovnih sredstvih)
+hko popravi odbitek DDV od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Davčni zavezanec lahko odbije DDV v višini, ki ustreza razliki med celotnim odbitnim DDV (z računa) in sorazmernim delom DDV, od katerega davčni zavezanec ni imel pravice do odbitka, ker še ni bil identificiran za namene DDV. Popravek odbitka DDV se izvede v celoti za preostalo obdobje popravka.
+(14) Davčni zavezanec, ki mu preneha identifikacija za namene DDV zaradi pridružitve skupini za DDV, ne izvede popravka odbitka DDV od osnovnih sredstev.
+(15) Na dan pred prenehanjem identifikacije za namene DDV skupine za DDV mora skupina za DDV za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka.
+(16) Ne glede na prejšnji odstavek skupina za DDV ne popravi odbitka od tistih osnovnih sredstev, ki jih bo uporabljal davčni zavezanec, ki se na dan izstopa iz skupine za DDV identificira za namene DDV.
+(17) Član skupine za DDV, ki izstopi iz skupine za DDV, mora za obdobje po spremembi popraviti odbitek od osnovnih sredstev, za katera obdobje popravka še ni poteklo. Popravek odbitka izvede v celoti za preostalo obdobje popravka. Popravek odbitka DDV se vključi v obračun DDV skupine za DDV za davčno obdobje, v katerem je član skupine za DDV izstopil iz te skupine.
+(18) Ne glede na prejšnji odstavek član skupine za DDV, ki izstopi iz skupine za DDV, ne izvede popravka odbitka od osnovnih sredstev  ...
+----------------------------------------------------------------------------------------------------
+rank=3 score=1.1608 dense=0.7558 lexical=0.5000 title=0.5000 boost=0.1800 article_boost=0.0000 source=ZAKO4701_zddv-1_NPB20.html law=ZDDV-1 article=72 chunk_id=chunk_001054
+72. člen
+(popravek odbitka DDV na podlagi odločitve davčnega organa)
+(1) Če se na podlagi odločitve davčnega organa spremeni (poveča) znesek DDV, ki ga je davčni zavezanec obračunal pri dobavi blaga in storitev, lahko ta davčni zavezanec na podlagi odločbe davčnega organa izstavi popravljen račun s pravilno obračunanim zneskom DDV, na podlagi katerega lahko prejemnik blaga in storitev za nastalo razliko uveljavi pravico do odbitka DDV v skladu z določili tega zakona v davčnem obdobju, ko prejme takšen račun.
+(2) Če se spremeni znesek DDV, obračunan pri uvozu blaga, ki ga je davčni zavezanec upošteval kot odbitek vstopnega DDV, se na podlagi carinskega dokumenta ali odločbe davčnega organa lahko popravi odbitek vstopnega DDV za nastalo razliko.
+(3) Minister, pristojen za finance, podrobneje predpiše vsebino računa iz prvega odstavka tega člena.
+2. Vračilo DDV
+2.1. Vračilo DDV na podlagi obračuna DDV
+
+GENERATED ANSWER:
+Pravica do odbitka DDV nastane v trenutku, ko nastane obveznost obračuna DDV.
+
+Sources:
+- ZAKO4701_zddv-1_NPB20.html (chunk_001038)
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000173)
+- ZAKO4701_zddv-1_NPB20.html (chunk_001054)
+
+====================================================================================================
+SUMMARY
+questions=5
+source_hit_at_3=5/5
+all_sources_hit_at_3=5/5
+question_law_hit_at_3=5/5
+article_hit_at_3=4/5
+all_articles_hit_at_3=4/5
+chunk_hit_at_3=4/5
+all_chunks_hit_at_3=4/5
+all_expected_phrases_hit_at_3=4/5
+generation_failures=0
+source_hit_rate=1.000
+all_sources_hit_rate=1.000
+source_coverage_mean=1.000
+question_law_hit_rate=1.000
+article_hit_rate=0.800
+all_articles_hit_rate=0.800
+article_coverage_mean=0.800
+chunk_hit_rate=0.800
+all_chunks_hit_rate=0.800
+chunk_coverage_mean=0.800
+all_phrase_hit_rate=0.800
+context_relevance_mean=1.800/2
+faithfulness_mean=1.600/2
+answer_correctness_mean=1.000/2
+context_relevance_total=9/10
+faithfulness_total=8/10
+answer_correctness_total=5/10
+
+CATEGORY SUMMARY
+zddpo-2_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=2.000/2 correctness=2.000/2
+zddv-1_practical: n=2 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=0.500 all_articles_hit_rate=0.500 article_coverage=0.500 chunk_hit_rate=0.500 all_chunks_hit_rate=0.500 chunk_coverage=0.500 all_phrase_hit_rate=0.500 context=1.500/2 faithfulness=1.000/2 correctness=0.000/2
+zdoh-2_practical: n=1 source_hit_rate=1.000 all_sources_hit_rate=1.000 source_coverage=1.000 question_law_hit_rate=1.000 article_hit_rate=1.000 all_articles_hit_rate=1.000 article_coverage=1.000 chunk_hit_rate=1.000 all_chunks_hit_rate=1.000 chunk_coverage=1.000 all_phrase_hit_rate=1.000 context=2.000/2 faithfulness=2.000/2 correctness=1.000/2
+Wrote structured results to logs/model-compare-final-gams9-15722851.jsonl
+Elapsed for GaMS-9B: 536s (8.93 min)
+
+=== Evaluating GaMS3-12B generator ===
+Model path: /d/hpc/projects/onj_fri/dreitokens/models/GaMS3-12B-Instruct
+Results: logs/model-compare-final-gams12-15722851.jsonl
+Loaded 5 evaluation question(s) from evaluation/final_dataset.jsonl
+run_label=gams12-generator-final run_id=15722851 prompt_label=strict top_k=3 retrieval_mode=hybrid candidate_k=100 lexical_weight=0.2 source_boost=0.18 article_boost=0.35 title_weight=0.25 llm_law_hints=False generate=True max_new_tokens=384
+index_path=data/eval/model-compare-legal/faiss.index
+chunks_path=data/eval/model-compare-legal/chunks.jsonl
+results_jsonl=logs/model-compare-final-gams12-15722851.jsonl
+Loading local LLM from /d/hpc/projects/onj_fri/dreitokens/models/GaMS3-12B-Instruct with dtype=torch.float16

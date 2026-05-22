@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Dict, Iterable, List
 
@@ -21,6 +22,10 @@ from .retrieve import (
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SYSTEM_PROMPT = PROJECT_ROOT / "prompts" / "tax_assistant_system_prompt.txt"
 DEFAULT_LOCAL_MODEL_PATH = Path("/d/hpc/projects/onj_fri/models/intent")
+DEFAULT_CHAT_SYSTEM_PROMPT = (
+    "Si prijazen, jasen in koristen asistent. Odgovarjaj v jeziku uporabnika. "
+    "Ce nisi preprican, to povej odkrito."
+)
 
 
 def load_system_prompt(path: Path = DEFAULT_SYSTEM_PROMPT) -> str:
@@ -97,6 +102,72 @@ Cite source filenames, articles when available, and chunk IDs."""
     ]
 
 
+def strip_source_appendix(answer: str) -> str:
+    """Remove deterministic source lists before reusing an answer as chat history."""
+    for marker in ("\n\nViri:", "\n\nSources:"):
+        if marker in answer:
+            return answer.split(marker, 1)[0].strip()
+    return answer.strip()
+
+
+def format_chat_history(
+    history: List[Dict[str, str]],
+    max_messages: int = 6,
+    max_chars_per_message: int = 900,
+) -> str:
+    """Render recent chat messages as non-authoritative conversation context."""
+    if max_messages <= 0:
+        return ""
+
+    selected = [
+        message
+        for message in history
+        if message.get("role") in {"user", "assistant"} and message.get("content")
+    ][-max_messages:]
+    lines = []
+    for message in selected:
+        role = "User" if message.get("role") == "user" else "Assistant"
+        content = strip_source_appendix(str(message.get("content", "")))
+        if len(content) > max_chars_per_message:
+            content = content[:max_chars_per_message].rstrip() + " ..."
+        lines.append(f"{role}: {content}")
+    return "\n".join(lines)
+
+
+def build_chat_messages(
+    question: str,
+    chunks: List[Dict],
+    system_prompt: str,
+    history: List[Dict[str, str]] | None = None,
+    max_history_messages: int = 6,
+) -> List[Dict[str, str]]:
+    """Build grounded chat messages using retrieved context plus recent chat history."""
+    context = format_context(chunks)
+    history_text = format_chat_history(history or [], max_messages=max_history_messages)
+    history_block = (
+        f"\nConversation so far, for resolving references only:\n{history_text}\n"
+        if history_text
+        else ""
+    )
+    user_prompt = f"""Retrieved context for the current question:
+{context}
+{history_block}
+Current user question:
+{question}
+
+Answer the current user question using only the retrieved context as the factual
+source. Use the conversation history only to understand follow-up references, not
+as a legal source. Prefer the chunk whose legal act, article, and wording
+directly answer the question. If the retrieved context does not contain the
+answer, say that the answer was not found in the provided sources. Cite source
+filenames, articles when available, and chunk IDs."""
+
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
 def preferred_torch_dtype(torch_module):
     """Use bfloat16 on supported CUDA devices, then fp16 CUDA, then float32."""
     if torch_module.cuda.is_available():
@@ -126,13 +197,28 @@ def load_llm(model_path: Path = DEFAULT_LOCAL_MODEL_PATH):
 
     dtype = preferred_torch_dtype(torch)
     print(f"Loading local LLM from {model_path} with dtype={dtype}")
-    tokenizer = AutoTokenizer.from_pretrained(str(model_path), use_fast=False)
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(str(model_path), use_fast=True)
+    except Exception as fast_exc:
+        print(f"Fast tokenizer failed, falling back to slow tokenizer: {fast_exc}")
+        tokenizer = AutoTokenizer.from_pretrained(str(model_path), use_fast=False)
     model = AutoModelForCausalLM.from_pretrained(
         str(model_path),
         torch_dtype=dtype,
         device_map="auto",
         low_cpu_mem_usage=True,
     )
+    requested_cache = os.environ.get("RAG_CACHE_IMPLEMENTATION")
+    current_cache = getattr(model.generation_config, "cache_implementation", None)
+    if requested_cache:
+        model.generation_config.cache_implementation = requested_cache
+        print(f"Using generation cache_implementation={requested_cache}")
+    elif current_cache in {"hybrid", "static"}:
+        model.generation_config.cache_implementation = "dynamic"
+        print(
+            "Using generation cache_implementation=dynamic "
+            f"instead of model default {current_cache}"
+        )
 
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -150,11 +236,36 @@ def render_prompt(tokenizer, messages: List[Dict[str, str]]) -> str:
                 add_generation_prompt=True,
             )
         except Exception:
-            pass
+            system_parts = [
+                message["content"] for message in messages if message["role"] == "system"
+            ]
+            non_system_messages = [
+                dict(message) for message in messages if message["role"] != "system"
+            ]
+            if system_parts and non_system_messages and non_system_messages[0]["role"] == "user":
+                non_system_messages[0]["content"] = (
+                    "\n\n".join(system_parts)
+                    + "\n\n"
+                    + non_system_messages[0]["content"]
+                )
+                try:
+                    return tokenizer.apply_chat_template(
+                        non_system_messages,
+                        tokenize=False,
+                        add_generation_prompt=True,
+                    )
+                except Exception:
+                    pass
 
-    system = messages[0]["content"]
-    user = messages[1]["content"]
-    return f"<s>[INST] {system}\n\n{user} [/INST]"
+    system_parts = [message["content"] for message in messages if message["role"] == "system"]
+    conversation_parts = [
+        f"{message['role'].capitalize()}: {message['content']}"
+        for message in messages
+        if message["role"] != "system"
+    ]
+    system = "\n\n".join(system_parts)
+    conversation = "\n".join(conversation_parts)
+    return f"<s>[INST] {system}\n\n{conversation}\nAssistant: [/INST]"
 
 
 def generate_from_prompt(
@@ -183,6 +294,24 @@ def generate_from_prompt(
     prompt_length = inputs["input_ids"].shape[-1]
     generated = output_ids[0][prompt_length:]
     return tokenizer.decode(generated, skip_special_tokens=True).strip()
+
+
+def generate_chat_reply(
+    messages: List[Dict[str, str]],
+    tokenizer,
+    model,
+    torch_module,
+    max_new_tokens: int = 512,
+) -> str:
+    """Generate one assistant reply from direct chat messages."""
+    prompt = render_prompt(tokenizer, messages)
+    return generate_from_prompt(
+        prompt,
+        tokenizer,
+        model,
+        torch_module,
+        max_new_tokens=max_new_tokens,
+    )
 
 
 def append_sources(answer: str, chunks: List[Dict], slovenian: bool) -> str:

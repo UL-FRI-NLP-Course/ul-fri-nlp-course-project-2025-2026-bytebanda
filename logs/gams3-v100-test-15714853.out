@@ -1,0 +1,38 @@
+Project root: /d/hpc/home/ms30765/ul-fri-nlp-course-project-2025-2026-bytebanda
+Container: /d/hpc/projects/onj_fri/trije_konjeniki_apokalipse/containers/container-pytorch-rag.sif
+Model: /d/hpc/projects/onj_fri/dreitokens/models/GaMS3-12B-Instruct
+
+=== GPU ===
+Fri May 22 20:22:48 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100S-PCIE-32GB          On  |   00000000:41:00.0 Off |                    0 |
+| N/A   46C    P0             31W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=== Torch CUDA check ===
+cuda: True
+name: Tesla V100S-PCIE-32GB
+vram_gb: 31.7325439453125
+bf16_supported: True
+
+=== GaMS3-12B RAG smoke test ===
+Loading local LLM from /d/hpc/projects/onj_fri/dreitokens/models/GaMS3-12B-Instruct with dtype=torch.float16
+V pridobljenih virih tega podatka ne najdem.
+
+Viri:
+- PRAV7542_pravilnik-zddv-1_NPB30.html (chunk_000251)
