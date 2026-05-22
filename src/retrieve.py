@@ -9,7 +9,12 @@ from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Set
 
-from .build_index import DEFAULT_EMBEDDING_MODEL, DEFAULT_INDEX_CHUNKS, DEFAULT_INDEX_PATH
+from .build_index import (
+    DEFAULT_EMBEDDING_MODEL,
+    DEFAULT_INDEX_CHUNKS,
+    DEFAULT_INDEX_PATH,
+    embedding_texts_for_model,
+)
 
 
 DEFAULT_TOP_K = 3
@@ -18,6 +23,8 @@ HYBRID_RETRIEVAL_MODE = "hybrid"
 DEFAULT_CANDIDATE_K = 30
 DEFAULT_LEXICAL_WEIGHT = 0.20
 DEFAULT_SOURCE_BOOST = 0.18
+DEFAULT_ARTICLE_BOOST = 0.35
+DEFAULT_TITLE_WEIGHT = 0.25
 
 RETRIEVAL_MODES = {DEFAULT_RETRIEVAL_MODE, HYBRID_RETRIEVAL_MODE}
 
@@ -117,6 +124,20 @@ def infer_query_law_ids(question: str) -> Set[str]:
     return laws
 
 
+def infer_query_articles(question: str) -> Set[str]:
+    """Infer article numbers explicitly named in a question."""
+    normalized = normalize_for_matching(question)
+    return {
+        normalize_article_number(match.group(1))
+        for match in re.finditer(r"\b(\d+(?:\s*[a-z])?)\s*clen\b", normalized)
+    }
+
+
+def normalize_article_number(article: Any) -> str:
+    """Normalize article ids such as 86.b, 86 b, or 86.b. for matching."""
+    return re.sub(r"[^a-z0-9]+", "", str(article).lower())
+
+
 def chunk_match_text(chunk: Dict[str, Any]) -> str:
     """Return chunk text plus selected metadata used by lexical reranking."""
     metadata = chunk.get("metadata") or {}
@@ -140,12 +161,35 @@ def lexical_overlap_score(question_tokens: Iterable[str], chunk: Dict[str, Any])
     return overlap / max(sum(query_counts.values()), 1)
 
 
+def title_overlap_score(question_tokens: Iterable[str], chunk: Dict[str, Any]) -> float:
+    """Score how much query vocabulary appears in the article title."""
+    metadata = chunk.get("metadata") or {}
+    title = str(metadata.get("article_title") or "")
+    title_tokens = set(tokenize_for_matching(title))
+    query_tokens = list(question_tokens)
+    if not title_tokens or not query_tokens:
+        return 0.0
+    overlap = sum(1 for token in query_tokens if token in title_tokens)
+    return overlap / max(len(query_tokens), 1)
+
+
 def law_source_boost(question_law_ids: Set[str], chunk: Dict[str, Any], source_boost: float) -> float:
     """Boost chunks from the legal act named by the question."""
     if not question_law_ids:
         return 0.0
     metadata = chunk.get("metadata") or {}
     return source_boost if metadata.get("law_id") in question_law_ids else 0.0
+
+
+def article_number_boost(question_articles: Set[str], chunk: Dict[str, Any], article_boost: float) -> float:
+    """Boost chunks whose article number is explicitly named by the question."""
+    if not question_articles:
+        return 0.0
+    metadata = chunk.get("metadata") or {}
+    article = metadata.get("article_number")
+    if article is None:
+        return 0.0
+    return article_boost if normalize_article_number(article) in question_articles else 0.0
 
 
 class RetrievalEngine:
@@ -172,6 +216,7 @@ class RetrievalEngine:
         ensure_index_exists(index_path, chunks_path)
 
         self.np = np
+        self.embedding_model_name = embedding_model
         self.index = faiss.read_index(str(index_path))
         self.chunks = read_jsonl(chunks_path)
         self.model = SentenceTransformer(embedding_model)
@@ -190,6 +235,9 @@ class RetrievalEngine:
         candidate_k: int = DEFAULT_CANDIDATE_K,
         lexical_weight: float = DEFAULT_LEXICAL_WEIGHT,
         source_boost: float = DEFAULT_SOURCE_BOOST,
+        article_boost: float = DEFAULT_ARTICLE_BOOST,
+        title_weight: float = DEFAULT_TITLE_WEIGHT,
+        query_law_ids: Iterable[str] | None = None,
     ) -> List[Dict[str, Any]]:
         """Return ranked chunks for a question."""
         if top_k <= 0:
@@ -197,8 +245,13 @@ class RetrievalEngine:
         if retrieval_mode not in RETRIEVAL_MODES:
             raise ValueError(f"Unsupported retrieval mode: {retrieval_mode}")
 
-        query = self.model.encode(
+        query_text = embedding_texts_for_model(
             [question],
+            self.embedding_model_name,
+            role="query",
+        )
+        query = self.model.encode(
+            query_text,
             convert_to_numpy=True,
             normalize_embeddings=True,
         )
@@ -213,6 +266,9 @@ class RetrievalEngine:
         candidates: List[Dict[str, Any]] = []
         question_tokens = tokenize_for_matching(question)
         question_law_ids = infer_query_law_ids(question)
+        if query_law_ids:
+            question_law_ids.update(str(law_id) for law_id in query_law_ids)
+        question_articles = infer_query_articles(question)
 
         for score, chunk_index in zip(scores[0], indices[0]):
             if chunk_index < 0:
@@ -220,16 +276,28 @@ class RetrievalEngine:
             chunk = dict(self.chunks[int(chunk_index)])
             dense_score = float(score)
             lexical_score = 0.0
+            title_score = 0.0
             boost = 0.0
+            article_match_boost = 0.0
 
             if retrieval_mode == HYBRID_RETRIEVAL_MODE:
                 lexical_score = lexical_overlap_score(question_tokens, chunk)
+                title_score = title_overlap_score(question_tokens, chunk)
                 boost = law_source_boost(question_law_ids, chunk, source_boost)
+                article_match_boost = article_number_boost(question_articles, chunk, article_boost)
 
             chunk["dense_score"] = dense_score
             chunk["lexical_score"] = lexical_score
+            chunk["title_score"] = title_score
             chunk["source_boost"] = boost
-            chunk["score"] = dense_score + (lexical_weight * lexical_score) + boost
+            chunk["article_boost"] = article_match_boost
+            chunk["score"] = (
+                dense_score
+                + (lexical_weight * lexical_score)
+                + (title_weight * title_score)
+                + boost
+                + article_match_boost
+            )
             candidates.append(chunk)
 
         if retrieval_mode == HYBRID_RETRIEVAL_MODE:
@@ -251,6 +319,9 @@ def retrieve(
     candidate_k: int = DEFAULT_CANDIDATE_K,
     lexical_weight: float = DEFAULT_LEXICAL_WEIGHT,
     source_boost: float = DEFAULT_SOURCE_BOOST,
+    article_boost: float = DEFAULT_ARTICLE_BOOST,
+    title_weight: float = DEFAULT_TITLE_WEIGHT,
+    query_law_ids: Iterable[str] | None = None,
 ) -> List[Dict[str, Any]]:
     """Return the most relevant chunks for a question."""
     engine = RetrievalEngine(
@@ -265,4 +336,7 @@ def retrieve(
         candidate_k=candidate_k,
         lexical_weight=lexical_weight,
         source_boost=source_boost,
+        article_boost=article_boost,
+        title_weight=title_weight,
+        query_law_ids=query_law_ids,
     )

@@ -17,6 +17,14 @@ DEFAULT_INDEX_CHUNKS = PROJECT_ROOT / "data" / "index" / "chunks.jsonl"
 DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
 
+def embedding_texts_for_model(texts: List[str], embedding_model: str, role: str) -> List[str]:
+    """Apply model-specific text prefixes for retrieval embeddings."""
+    if "multilingual-e5" in embedding_model.lower():
+        prefix = "query: " if role == "query" else "passage: "
+        return [prefix + text for text in texts]
+    return texts
+
+
 def write_jsonl(records: Iterable[Dict], path: Path) -> None:
     """Write records as UTF-8 JSON Lines."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -69,7 +77,11 @@ def build_index(
 
     print(f"Loading embedding model: {embedding_model}")
     model = SentenceTransformer(embedding_model)
-    texts: List[str] = [chunk["text"] for chunk in chunks]
+    texts: List[str] = embedding_texts_for_model(
+        [chunk["text"] for chunk in chunks],
+        embedding_model,
+        role="passage",
+    )
 
     print("Encoding chunks")
     embeddings = model.encode(

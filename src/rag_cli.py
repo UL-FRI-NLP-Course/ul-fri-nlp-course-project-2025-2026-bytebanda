@@ -22,9 +22,11 @@ from .generate_answer import DEFAULT_LOCAL_MODEL_PATH, DEFAULT_SYSTEM_PROMPT
 from .ingest import DEFAULT_RAW_DIR
 from .retrieve import (
     DEFAULT_CANDIDATE_K,
+    DEFAULT_ARTICLE_BOOST,
     DEFAULT_LEXICAL_WEIGHT,
     DEFAULT_RETRIEVAL_MODE,
     DEFAULT_SOURCE_BOOST,
+    DEFAULT_TITLE_WEIGHT,
     DEFAULT_TOP_K,
     RETRIEVAL_MODES,
 )
@@ -79,6 +81,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--candidate-k", type=int, default=DEFAULT_CANDIDATE_K)
     parser.add_argument("--lexical-weight", type=float, default=DEFAULT_LEXICAL_WEIGHT)
     parser.add_argument("--source-boost", type=float, default=DEFAULT_SOURCE_BOOST)
+    parser.add_argument("--article-boost", type=float, default=DEFAULT_ARTICLE_BOOST)
+    parser.add_argument("--title-weight", type=float, default=DEFAULT_TITLE_WEIGHT)
     parser.add_argument("--system-prompt", type=Path, default=DEFAULT_SYSTEM_PROMPT)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--max-new-tokens", type=int, default=1024)
@@ -125,6 +129,8 @@ def main(argv: list[str] | None = None) -> int:
                 candidate_k=args.candidate_k,
                 lexical_weight=args.lexical_weight,
                 source_boost=args.source_boost,
+                article_boost=args.article_boost,
+                title_weight=args.title_weight,
                 max_new_tokens=args.max_new_tokens,
             )
             print(answer)

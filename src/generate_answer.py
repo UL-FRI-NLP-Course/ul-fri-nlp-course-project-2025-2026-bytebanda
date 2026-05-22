@@ -7,10 +7,12 @@ from typing import Dict, Iterable, List
 
 from .build_index import DEFAULT_EMBEDDING_MODEL, DEFAULT_INDEX_CHUNKS, DEFAULT_INDEX_PATH
 from .retrieve import (
+    DEFAULT_ARTICLE_BOOST,
     DEFAULT_CANDIDATE_K,
     DEFAULT_LEXICAL_WEIGHT,
     DEFAULT_RETRIEVAL_MODE,
     DEFAULT_SOURCE_BOOST,
+    DEFAULT_TITLE_WEIGHT,
     DEFAULT_TOP_K,
     retrieve,
 )
@@ -97,9 +99,10 @@ Cite source filenames, articles when available, and chunk IDs."""
 
 def preferred_torch_dtype(torch_module):
     """Use bfloat16 on supported CUDA devices, then fp16 CUDA, then float32."""
-    if torch_module.cuda.is_available() and torch_module.cuda.is_bf16_supported():
-        return torch_module.bfloat16
     if torch_module.cuda.is_available():
+        major, _minor = torch_module.cuda.get_device_capability()
+        if major >= 8 and torch_module.cuda.is_bf16_supported():
+            return torch_module.bfloat16
         return torch_module.float16
     return torch_module.float32
 
@@ -214,6 +217,8 @@ def answer_question(
     candidate_k: int = DEFAULT_CANDIDATE_K,
     lexical_weight: float = DEFAULT_LEXICAL_WEIGHT,
     source_boost: float = DEFAULT_SOURCE_BOOST,
+    article_boost: float = DEFAULT_ARTICLE_BOOST,
+    title_weight: float = DEFAULT_TITLE_WEIGHT,
     max_new_tokens: int = 512,
 ) -> str:
     """Retrieve context and generate a grounded answer."""
@@ -227,6 +232,8 @@ def answer_question(
         candidate_k=candidate_k,
         lexical_weight=lexical_weight,
         source_boost=source_boost,
+        article_boost=article_boost,
+        title_weight=title_weight,
     )
     if not chunks:
         if looks_slovenian(question):
