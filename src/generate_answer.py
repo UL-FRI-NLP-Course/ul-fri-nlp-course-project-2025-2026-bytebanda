@@ -21,7 +21,9 @@ from .retrieve import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SYSTEM_PROMPT = PROJECT_ROOT / "prompts" / "tax_assistant_system_prompt.txt"
-DEFAULT_LOCAL_MODEL_PATH = Path("/d/hpc/projects/onj_fri/models/intent")
+DEFAULT_MISTRAL_MODEL_PATH = Path("/d/hpc/projects/onj_fri/models/intent")
+DEFAULT_GAMS9_MODEL_PATH = Path("/d/hpc/projects/onj_fri/brainstorm/models/GaMS-9B-Instruct")
+DEFAULT_LOCAL_MODEL_PATH = DEFAULT_GAMS9_MODEL_PATH
 DEFAULT_CHAT_SYSTEM_PROMPT = (
     "Si prijazen, jasen in koristen asistent. Odgovarjaj v jeziku uporabnika. "
     "Ce nisi preprican, to povej odkrito."
@@ -192,7 +194,7 @@ def load_llm(model_path: Path = DEFAULT_LOCAL_MODEL_PATH):
     if not model_path.exists():
         raise FileNotFoundError(
             f"Local model path not found: {model_path}. "
-            "On the HPC, this should point to /d/hpc/projects/onj_fri/models/intent."
+            "On the HPC, this should point to the GaMS-9B or Mistral model path."
         )
 
     dtype = preferred_torch_dtype(torch)

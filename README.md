@@ -1,74 +1,91 @@
 # Zakonodajko: Slovenian Tax RAG Assistant
 
-This repository contains a minimal Retrieval-Augmented Generation baseline for
-the NLP 2026 laboratory project. The assistant answers Slovenian tax questions
-from a local document collection instead of relying only on model memory.
-
-The current implementation is intentionally simple and reproducible:
+This repository contains a Retrieval-Augmented Generation pipeline for answering
+Slovenian tax questions from a local legal document collection.
 
 ```text
-raw docs -> text extraction -> chunking -> embeddings -> FAISS retrieval -> Mistral generation
+raw documents -> text extraction -> chunking -> embeddings -> FAISS retrieval -> local LLM generation
 ```
 
-The target domain is Slovenian taxes, including topics such as DDV, dohodnina,
-tax procedure, taxable persons, deadlines, and deductible costs.
+The target domain is Slovenian taxes, including DDV, dohodnina, tax procedure,
+taxable persons, deadlines, and deductible costs.
 
 ## Repository Layout
 
 ```text
-src/          Python RAG pipeline
-data/raw/     raw local documents, not committed
-data/processed/ generated chunks, not committed
-data/index/   generated FAISS index and chunk metadata, not committed
-prompts/      system prompt for grounded tax answers
-evaluation/   sample evaluation questions
-slurm/        ARNES HPC job scripts
-logs/         SLURM/runtime logs, not committed
-report/       course report material
+src/             Python RAG pipeline
+data/raw/        local raw documents, not committed
+data/processed/  generated chunks, not committed
+data/index/      generated FAISS index and chunk metadata, not committed
+data/eval/       generated evaluation indexes, not committed
+downloads/pisrs/ PISRS HTML files used on the ARNES server
+prompts/         system prompts for grounded tax answers
+evaluation/      evaluation question sets
+slurm/           ARNES SLURM job scripts
+logs/            runtime and evaluation logs
+report/          course report material
 ```
 
-## Dataset Placement
+## 1. Setup
 
-Put raw tax documents into:
+Create a Python environment and install dependencies:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+On the ARNES server, use the same commands from the repository root. If a shared
+Python environment is already active, the important part is that
+`python -m src.rag_cli --help` works before running the full pipeline.
+
+## 2. Model Paths
+
+The default generation model is GaMS-9B:
+
+```text
+/d/hpc/projects/onj_fri/brainstorm/models/GaMS-9B-Instruct
+```
+
+The Mistral model is also available:
+
+```text
+/d/hpc/projects/onj_fri/models/intent
+```
+
+Because GaMS-9B is the default, ordinary commands use it automatically. To run
+with Mistral instead, pass:
+
+```bash
+--model-path /d/hpc/projects/onj_fri/models/intent
+```
+
+Run answer generation on a GPU node or through a GPU SLURM job, not on a login
+node.
+
+## 3. Prepare Documents
+
+For generic local runs, put supported documents into:
 
 ```text
 data/raw/
 ```
 
 Supported input formats are `.txt`, `.md`, `.pdf`, `.html`, and `.htm`.
-The pipeline extracts text, keeps source filename metadata, keeps PDF page
-numbers when available, and writes chunks to `data/processed/chunks.jsonl`.
 
-Do not hardcode local machine paths such as Downloads. On the ARNES cluster,
-copy or sync the dataset into `~/tax_project/data/raw/`.
-
-## Setup
-
-Create an environment with Python and install the dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-On the ARNES HPC with the provided Singularity container:
-
-```bash
-singularity exec ~/containers/pytorch.sif pip install -r requirements.txt
-```
-
-The local generation model is expected at:
+On the ARNES server used for this project, the PISRS legal HTML files are
+expected in:
 
 ```text
-/d/hpc/projects/onj_fri/models/intent
+downloads/pisrs/
 ```
 
-This path is used as the default Mistral-7B-Instruct-v0.3 model path.
-For full answer generation, run through an interactive or batch HPC job rather
-than a login node.
+If the documents are somewhere else, pass that directory with `--raw-dir`.
 
-## Build The Index
+## 4. Build The Index
 
-After placing source documents in `data/raw/`, build the FAISS index:
+Build the default local index from `data/raw/`:
 
 ```bash
 python -m src.rag_cli --build-index
@@ -82,107 +99,121 @@ data/index/faiss.index
 data/index/chunks.jsonl
 ```
 
+On the ARNES server, build the legal index from the PISRS documents:
+
+```bash
+python -m src.rag_cli \
+  --build-index \
+  --raw-dir downloads/pisrs \
+  --chunk-strategy legal \
+  --chunk-size 1800 \
+  --overlap 150 \
+  --processed-chunks-path data/eval/model-compare-legal/processed_chunks.jsonl \
+  --index-path data/eval/model-compare-legal/faiss.index \
+  --index-chunks-path data/eval/model-compare-legal/chunks.jsonl
+```
+
 The default embedding model is:
 
 ```text
 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 ```
 
-## Ask A Question
+## 5. Ask A Question
+
+After building the default local index:
 
 ```bash
 python -m src.rag_cli --ask "Kaj je DDV?"
 ```
 
-Optional retrieval depth:
+On the ARNES server, using the shared legal index and default GaMS-9B model:
 
 ```bash
-python -m src.rag_cli --ask "Kaj je DDV?" --top-k 5
+python -m src.rag_cli \
+  --ask "Kaj je DDV?" \
+  --index-path data/eval/model-compare-legal/faiss.index \
+  --chunks-path data/eval/model-compare-legal/chunks.jsonl \
+  --system-prompt prompts/tax_assistant_strict_prompt.txt \
+  --retrieval-mode hybrid \
+  --candidate-k 100 \
+  --top-k 3 \
+  --max-new-tokens 384
 ```
 
-The generator receives the retrieved context, the user question, and the system
-prompt in `prompts/tax_assistant_system_prompt.txt`. It is instructed to answer
-only from retrieved context, cite filenames and chunk IDs, avoid definitive legal
-advice, and say when the answer is not found.
+To use Mistral for the same command, add:
 
-## RAG Chat
+```bash
+--model-path /d/hpc/projects/onj_fri/models/intent
+```
 
-For an interactive chat where every turn retrieves tax-law sources before
-generation, start:
+## 6. RAG Chat
+
+Start interactive RAG chat after building an index:
 
 ```bash
 python -m src.rag_cli --chat
 ```
 
-The chat keeps recent conversation history in memory for follow-up questions,
-but retrieved chunks remain the factual source for each answer. Use `/sources`
-to show the chunks retrieved for the last answer, `/clear` to reset the chat
-history, and `/exit`, `/quit`, or Ctrl-D to stop.
+The chat keeps recent conversation turns in memory for follow-up questions, but
+retrieved chunks remain the factual source for each answer. Use `/sources` to
+show the chunks retrieved for the last answer, `/clear` to reset the stored
+conversation context, and `/exit`, `/quit`, or Ctrl-D to stop.
 
-For the old plain conversational mode without retrieval or source citations,
-use:
+On the ARNES server, use the shared legal index and default GaMS-9B model:
+
+```bash
+python -m src.rag_cli \
+  --chat \
+  --index-path data/eval/model-compare-legal/faiss.index \
+  --chunks-path data/eval/model-compare-legal/chunks.jsonl \
+  --system-prompt prompts/tax_assistant_strict_prompt.txt \
+  --retrieval-mode hybrid \
+  --candidate-k 100 \
+  --top-k 3 \
+  --max-new-tokens 384
+```
+
+For plain model chat without retrieval or source citations:
 
 ```bash
 python -m src.rag_cli --direct-chat
 ```
 
-## SLURM
+## 7. Evaluation
 
-Submit the minimal HPC smoke test from the project root:
-
-```bash
-sbatch slurm/run_rag_test.sh
-```
-
-The script uses:
+The starter set is:
 
 ```text
-~/containers/pytorch.sif
+evaluation/sample_questions.jsonl
 ```
 
-It runs:
+The main evaluation set is:
 
-```bash
-python -m src.rag_cli --build-index
-python -m src.rag_cli --ask "Kaj je DDV?"
+```text
+evaluation/tax_eval_questions.jsonl
 ```
 
-GPU partition and GPU resource lines are included as comments in the script so
-they can be adapted to the active ARNES queue policy. The script writes logs to
-`logs/`.
-
-## Evaluation
-
-`evaluation/sample_questions.jsonl` contains five starter Slovenian tax
-questions for manual testing and future evaluation of factuality and relevance.
-For Submission 2, these can be used to record retrieved sources, generated
-answers, and observed failure modes.
-
-The main evaluation set is `evaluation/tax_eval_questions.jsonl`. To run the
-new side-by-side evaluation on the HPC, submit:
+Run the side-by-side retrieval and prompt evaluation on ARNES:
 
 ```bash
 sbatch slurm/run_rag_eval_v2.sh
 ```
 
-The script builds two indexes:
+Run the final Mistral vs. GaMS-9B answer-generation comparison:
 
-```text
-baseline: fixed character chunks + dense FAISS retrieval
-new:      article-aware legal chunks + dense candidates reranked with lexical/source signals
+```bash
+sbatch slurm/compare_mistral_gams9_final_v100.sh
 ```
 
-It writes separate JSONL logs for baseline retrieval, improved retrieval, and
-three prompt variants. The end of the SLURM `.out` file prints a comparison
-table with source hit, article hit, phrase hit, context relevance, faithfulness,
-and answer correctness scores.
+Both scripts write JSONL results and SLURM output files to `logs/`.
 
-## Reproducibility Notes
+## 8. Reproducibility Notes
 
-- Keep raw datasets, generated chunks, FAISS indexes, logs, containers, and
-  large model files out of GitHub.
-- Rebuild the index from `data/raw/` whenever the source collection changes.
-- Record model paths, embedding model names, commands, and evaluation results in
-  the report so another user can reproduce the baseline.
-- This baseline avoids LangChain and other larger frameworks to keep the system
-  easy to inspect for the course submission.
+- Keep raw datasets, generated chunks, FAISS indexes, logs, and large model
+  files out of GitHub.
+- Rebuild the index whenever the source collection or chunking settings change.
+- Record raw document location, model path, embedding model, chunking strategy,
+  retrieval settings, prompt file, command, and result JSONL path.
+- Generation uses deterministic decoding (`do_sample=False`), but runtime can
+  still vary by GPU type and installed library versions.
