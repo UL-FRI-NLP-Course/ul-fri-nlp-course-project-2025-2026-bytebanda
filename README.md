@@ -63,7 +63,26 @@ with Mistral instead, pass:
 Run answer generation on a GPU node or through a GPU SLURM job, not on a login
 node.
 
-## 3. Prepare Documents
+## 3. ARNES GPU Access
+
+On ARNES, do not run GaMS-9B generation directly on `hpc-login*`. Either submit
+one of the provided SLURM scripts with `sbatch`, or first open an interactive GPU
+shell:
+
+```bash
+srun --partition=gpu --gres=gpu:1 --cpus-per-task=4 --mem=80G --time=01:00:00 --pty bash
+```
+
+If you need a specific GPU type, add a constraint, for example:
+
+```bash
+srun --partition=gpu --constraint=v100s --gres=gpu:1 --cpus-per-task=4 --mem=80G --time=01:00:00 --pty bash
+```
+
+After the prompt changes from a login node to a compute/GPU node, activate the
+environment again and run the `--ask` or `--chat` commands below.
+
+## 4. Prepare Documents
 
 Put supported source documents into:
 
@@ -76,7 +95,7 @@ ARNES server used for this project, the PISRS legal HTML files should also be in
 `data/raw/`. If the documents are somewhere else, pass that directory with
 `--raw-dir`.
 
-## 4. Build The Index
+## 5. Build The Index
 
 Build the default local index from `data/raw/`:
 
@@ -112,7 +131,10 @@ The default embedding model is:
 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 ```
 
-## 5. Ask A Question
+Index building can run on the login node for this small document collection. For
+answer generation, switch to a GPU node first.
+
+## 6. Ask A Question
 
 After building the default local index:
 
@@ -120,7 +142,14 @@ After building the default local index:
 python -m src.rag_cli --ask "Kaj je DDV?"
 ```
 
-On the ARNES server, using the shared legal index and default GaMS-9B model:
+On ARNES, first enter an interactive GPU shell:
+
+```bash
+srun --partition=gpu --gres=gpu:1 --cpus-per-task=4 --mem=80G --time=01:00:00 --pty bash
+source .venv/bin/activate
+```
+
+Then ask using the shared legal index and default GaMS-9B model:
 
 ```bash
 python -m src.rag_cli \
@@ -140,7 +169,13 @@ To use Mistral for the same command, add:
 --model-path /d/hpc/projects/onj_fri/models/intent
 ```
 
-## 6. RAG Chat
+Alternatively, use the batch smoke test, which requests a GPU automatically:
+
+```bash
+sbatch slurm/run_rag_test.sh
+```
+
+## 7. RAG Chat
 
 Start interactive RAG chat after building an index:
 
@@ -153,7 +188,14 @@ retrieved chunks remain the factual source for each answer. Use `/sources` to
 show the chunks retrieved for the last answer, `/clear` to reset the stored
 conversation context, and `/exit`, `/quit`, or Ctrl-D to stop.
 
-On the ARNES server, use the shared legal index and default GaMS-9B model:
+On ARNES, first enter an interactive GPU shell:
+
+```bash
+srun --partition=gpu --gres=gpu:1 --cpus-per-task=4 --mem=80G --time=01:00:00 --pty bash
+source .venv/bin/activate
+```
+
+Then start chat with the shared legal index and default GaMS-9B model:
 
 ```bash
 python -m src.rag_cli \
@@ -173,7 +215,7 @@ For plain model chat without retrieval or source citations:
 python -m src.rag_cli --direct-chat
 ```
 
-## 7. Evaluation
+## 8. Evaluation
 
 The starter set is:
 
@@ -199,9 +241,15 @@ Run the final Mistral vs. GaMS-9B answer-generation comparison:
 sbatch slurm/compare_mistral_gams9_final_v100.sh
 ```
 
-Both scripts write JSONL results and SLURM output files to `logs/`.
+Both scripts request a GPU with SLURM and write JSONL results plus SLURM output
+files to `logs/`. To request a different GPU type for scripts that support it,
+pass an `sbatch` override such as:
 
-## 8. Reproducibility Notes
+```bash
+sbatch --constraint=h100 --mem=80G --time=01:00:00 slurm/compare_mistral_gams9_final_v100.sh
+```
+
+## 9. Reproducibility Notes
 
 - Keep raw datasets, generated chunks, FAISS indexes, logs, and large model
   files out of GitHub.
