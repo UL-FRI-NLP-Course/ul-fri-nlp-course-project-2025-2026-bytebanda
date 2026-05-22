@@ -1,0 +1,30 @@
+{"id":"web_seed_01","category":"tier1_authoritative_zddv","question":"Kdaj se mora davčni zavezanec identificirati za DDV po ZDDV-1?","intent":"Find official and practical sources about VAT identification thresholds and duties."}
+{"id":"web_seed_02","category":"tier1_authoritative_zdoh","question":"Kako ZDoh-2 ureja normirane odhodke pri dohodku iz dejavnosti?","intent":"Find official law and explanatory pages about normalized expenses."}
+{"id":"web_seed_03","category":"tier1_authoritative_zdavp","question":"Kaj mora zavezanec storiti, če zamudi rok za oddajo davčnega obračuna?","intent":"Find official tax procedure guidance and relevant legal provisions."}
+{"id":"web_seed_04","category":"tier1_authoritative_zddpo","question":"Kateri stroški so lahko davčno nepriznani pri davku od dohodkov pravnih oseb?","intent":"Find corporate income tax legal grounding and commentary."}
+{"id":"web_seed_05","category":"tier1_authoritative_ajpes","question":"Kje podjetje odda letno poročilo in kakšna je vloga AJPES?","intent":"Find official AJPES and government explanations."}
+{"id":"web_seed_06","category":"tier1_authoritative_euprava","question":"Kako lahko fizična oseba uredi spremembo prebivališča prek e-Uprave?","intent":"Find official public-service guidance in natural language."}
+{"id":"web_seed_07","category":"tier1_authoritative_furs","question":"Kako FURS pojasnjuje obdavčitev oddajanja nepremičnine v najem?","intent":"Find FURS pages and law references for rental taxation."}
+{"id":"web_seed_08","category":"tier1_authoritative_pisrs","question":"Kje najdem uradno besedilo ZDavP-2 in njegove spremembe?","intent":"Find official PISRS law text."}
+{"id":"web_seed_09","category":"tier1_authoritative_gov","question":"Kaj so osnovne obveznosti delodajalca pri zaposlitvi delavca?","intent":"Find official GOV.SI or e-Uprava guidance."}
+{"id":"web_seed_10","category":"tier1_authoritative_tax","question":"Kako se obračuna DDV pri prodaji blaga v drugo državo članico EU?","intent":"Find official VAT cross-border guidance."}
+{"id":"web_seed_11","category":"tier2_commentary_ius","question":"Ali obstaja sodna praksa glede davčno priznanih odhodkov?","intent":"Find expert commentary or case-law portals."}
+{"id":"web_seed_12","category":"tier2_commentary_taxfinlex","question":"Kako strokovni portali razlagajo spremembe pri normirancih?","intent":"Find expert commentary on tax-law changes."}
+{"id":"web_seed_13","category":"tier2_commentary_pravna_praksa","question":"Kakšna je pravna razlaga odpovedi pogodbe o zaposlitvi iz poslovnega razloga?","intent":"Find legal commentary alongside official law."}
+{"id":"web_seed_14","category":"tier2_commentary_tax","question":"Kako se v praksi razlaga davčna obravnava bonitet zaposlenih?","intent":"Find commentary and official rules about employee benefits."}
+{"id":"web_seed_15","category":"tier2_commentary_company","question":"Kaj strokovni viri pravijo o odgovornosti direktorja za davčne dolgove družbe?","intent":"Find expert commentary plus legal grounding."}
+{"id":"web_seed_16","category":"tier2_commentary_vat","question":"Kako pravni komentarji pojasnjujejo odbitek vstopnega DDV?","intent":"Find commentary and official VAT rules."}
+{"id":"web_seed_17","category":"tier2_commentary_procedure","question":"Kako se razlaga samoprijava v davčnem postopku?","intent":"Find expert explanations and ZDavP-2 grounding."}
+{"id":"web_seed_18","category":"tier2_commentary_labor_tax","question":"Kako so razloženi potni stroški in dnevnice z davčnega vidika?","intent":"Find commentary and FURS guidance."}
+{"id":"web_seed_19","category":"tier2_commentary_real_estate","question":"Kakšna je davčna obravnava prodaje nepremičnine pred potekom roka?","intent":"Find expert and official explanation for real-estate capital gains."}
+{"id":"web_seed_20","category":"tier2_commentary_business","question":"Kako se obravnava prikrito izplačilo dobička?","intent":"Find commentary and corporate tax law references."}
+{"id":"web_seed_21","category":"tier3_natural_data","question":"Odpiram s.p.; katere davke bom moral plačevati?","intent":"Collect natural user phrasing and practical explanations."}
+{"id":"web_seed_22","category":"tier3_natural_mp","question":"Ali se mi bolj splača normirani s.p. ali navadni s.p.?","intent":"Find practical entrepreneur explanations and phrasing."}
+{"id":"web_seed_23","category":"tier3_natural_forum","question":"Kaj se zgodi, če pozabim oddati DDV obračun?","intent":"Find natural-language questions and practical guidance."}
+{"id":"web_seed_24","category":"tier3_natural_reddit","question":"Kako ljudje v Sloveniji sprašujejo o davku na kripto dobičke?","intent":"Collect user phrasing from forums or Reddit-style discussions."}
+{"id":"web_seed_25","category":"tier3_natural_business","question":"Koliko prispevkov plača popoldanski s.p.?","intent":"Find practical articles and natural phrasing."}
+{"id":"web_seed_26","category":"tier3_natural_vat","question":"Kdaj moram začeti zaračunavati DDV strankam?","intent":"Find practical VAT threshold explanations."}
+{"id":"web_seed_27","category":"tier3_natural_income","question":"Ali moram prijaviti dohodek iz tujine v Sloveniji?","intent":"Find natural questions and official tax grounding."}
+{"id":"web_seed_28","category":"tier3_natural_rental","question":"Kako prijavim oddajanje stanovanja turistom?","intent":"Find practical and official explanations."}
+{"id":"web_seed_29","category":"tier3_natural_company","question":"Kaj moram narediti, če zapiram podjetje?","intent":"Find practical lifecycle guidance and official obligations."}
+{"id":"web_seed_30","category":"tier3_natural_expenses","question":"Katere račune lahko dam v stroške pri s.p.?","intent":"Find natural phrasing and practical tax explanations."}

@@ -1,0 +1,11 @@
+{
+  "run_id": "b476e754",
+  "questions": 2,
+  "results_jsonl": "logs/web-search-answer-eval-smoke.jsonl",
+  "mean_token_recall_vs_gt": 0.0,
+  "mean_token_f1_vs_gt": 0.0,
+  "expected_source_domain_hit_rate": 0.0,
+  "mean_official_source_count": 0.0,
+  "mean_source_relevance": 0.0,
+  "mean_llm_judge_correctness": null
+}

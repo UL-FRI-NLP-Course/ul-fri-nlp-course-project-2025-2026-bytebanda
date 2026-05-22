@@ -1,0 +1,11 @@
+{
+  "run_id": "31a1f7a3",
+  "questions": 5,
+  "results_jsonl": "logs/web-search-answer-eval-judge-sample.jsonl",
+  "mean_token_recall_vs_gt": 0.1952,
+  "mean_token_f1_vs_gt": 0.1899,
+  "expected_source_domain_hit_rate": 0.4,
+  "mean_official_source_count": 2.4,
+  "mean_source_relevance": 0.624,
+  "mean_llm_judge_correctness": 3.0
+}

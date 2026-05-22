@@ -1,0 +1,149 @@
+{
+    "id": 1,
+    "question": "Ali lahko delodajalec odpove pogodbo o zaposlitvi med bolniško odsotnostjo?",
+    "answer": "Da. Delodajalec lahko delavcu vroči odpoved pogodbe o zaposlitvi tudi v času bolniške odsotnosti, če obstajajo zakoniti razlogi za odpoved, ki niso neposredno povezani z boleznijo ali zdravstvenim stanjem delavca. Slovenska delovna zakonodaja delavca sicer ščiti pred diskriminatorno odpovedjo zaradi bolezni. V določenih primerih lahko delovno razmerje preneha šele po vrnitvi delavca na delo oziroma po poteku zakonsko določenega obdobja.",
+    "source_title": "Odpoved delovnega razmerja",
+    "source_url": "https://pravniknadlani.si/odpoved-delovnega-razmerja/"
+}
+{
+    "id": 2,
+    "question": "Ali bolniška odsotnost prekine odpovedni rok?",
+    "answer": "Praviloma bolniška odsotnost sama po sebi ne prekine teka odpovednega roka. Odpovedni rok običajno teče naprej tudi v času začasne nezmožnosti za delo. Obstajajo pa posebni primeri, predvsem pri odpovedi iz poslovnih razlogov, kjer zakon določa možnost podaljšanja trajanja delovnega razmerja do vrnitve delavca na delo.",
+    "source_title": "Bolniška odsotnost",
+    "source_url": "https://www.zsss.si/sindikalni-abc/bolniska-odsotnost/"
+}
+{
+    "id": 3,
+    "question": "Ali lahko delavec med bolniško opravlja drugo delo?",
+    "answer": "Načeloma ne, če bi takšno delo oviralo zdravljenje ali bilo v nasprotju z navodili zdravnika. Opravljanje pridobitne dejavnosti med bolniško odsotnostjo lahko pomeni zlorabo bolniškega staleža, zaradi česar lahko delodajalec uvede disciplinske postopke ali celo odpove pogodbo o zaposlitvi.",
+    "source_title": "VDSS Sodba Pdp 354/2019",
+    "source_url": "https://pisrs.si/sodnaPraksa?idECLI=ECLI%3ASI%3AVDSS%3A2019%3APDP.354.2019"
+}
+{
+    "id": 4,
+    "question": "Ali so slovenski davčni rezidenti obdavčeni od dohodkov iz tujine?",
+    "answer": "Da. Slovenski davčni rezidenti so praviloma obdavčeni po načelu svetovnega dohodka, kar pomeni, da morajo prijaviti in obdavčiti tudi dohodke, dosežene v tujini. To vključuje plače, honorarje, najemnine, kapitalske dobičke in druge vrste prihodkov. Pri tem se lahko upoštevajo mednarodne pogodbe o izogibanju dvojnega obdavčevanja.",
+    "source_title": "FURS – Delo in dohodki iz tujine",
+    "source_url": "https://www.fu.gov.si/en/life_events_individuals/i_work_and_receive_income_from_abroad"
+}
+{
+    "id": 5,
+    "question": "Kdaj oseba postane davčni rezident Slovenije?",
+    "answer": "Davčni rezident Slovenije lahko postane oseba, ki ima v Sloveniji stalno prebivališče, center osebnih ali ekonomskih interesov oziroma v Sloveniji prebiva več kot 183 dni v davčnem letu. Pri ugotavljanju rezidentstva FURS upošteva dejanske okoliščine, kot so družinske vezi, zaposlitev, nepremičnine in trajanje bivanja.",
+    "source_title": "Davčno rezidentstvo v Sloveniji",
+    "source_url": "https://motovila.si/en/mobility-info-point/becoming-a-tax-resident-in-slovenia/"
+}
+{
+    "id": 6,
+    "question": "Ali so nerezidenti obdavčeni v Sloveniji?",
+    "answer": "Da. Davčni nerezidenti plačujejo davek od dohodkov, ki imajo vir v Sloveniji. To lahko vključuje dohodek iz zaposlitve v Sloveniji, oddajanja nepremičnin, poslovne dejavnosti ali dividend slovenskih družb. Obdavčitev je odvisna tudi od mednarodnih davčnih sporazumov.",
+    "source_title": "FURS – Dohodki nerezidentov",
+    "source_url": "https://www.fu.gov.si/en/zivljenjski_dogodki_prebivalci/i_am_a_non_resident_and_earn_taxable_income_in_slovenia"
+}
+{
+    "id": 7,
+    "question": "Kako lahko oseba uradno ugotovi davčno rezidentstvo Slovenije?",
+    "answer": "Posameznik lahko pri FURS vloži zahtevek za ugotovitev davčnega rezidentstva preko sistema eDavki. Običajno mora predložiti vprašalnik in dokazila o prebivanju, zaposlitvi, družinskih vezeh in drugih pomembnih okoliščinah. FURS nato izda uradno odločbo o rezidentskem statusu.",
+    "source_title": "eDavki – Ugotavljanje rezidentstva",
+    "source_url": "https://edavki.durs.si/EdavkiPortal/OpenPortal/CommonPages/Opdynp/PageD.aspx?category=ugotovitev_rezidentstvo_fo&lng=en"
+}
+{
+    "id": 8,
+    "question": "Ali je mogoče vročiti odpoved med bolniško odsotnostjo?",
+    "answer": "Da. Slovenska zakonodaja praviloma dopušča vročitev odpovedi tudi v času bolniške odsotnosti, če so izpolnjeni zakonski pogoji za odpoved. Delavec pa ostaja zaščiten pred nezakonito ali diskriminatorno odpovedjo zaradi zdravstvenega stanja.",
+    "source_title": "Prenehanje delovnega razmerja v času bolniške odsotnosti",
+    "source_url": "https://www.zsss.si/prenehanje-delovnega-razmerja-610/"
+}
+{
+    "id": 9,
+    "question": "Ali lahko delavec po prenehanju zaposlitve dobi izplačan neizrabljen dopust?",
+    "answer": "Da. Če delavec zaradi prenehanja delovnega razmerja ni mogel izrabiti letnega dopusta, mu lahko pripada denarno nadomestilo za neizrabljen dopust. Pravica je odvisna od konkretnih okoliščin in razlogov za prenehanje zaposlitve.",
+    "source_title": "Odpoved delavca na bolniški",
+    "source_url": "https://pravniknadlani.si/odpoved-delavca-na-bolniski-je-sploh-mogoca/"
+}
+{
+    "id": 10,
+    "question": "Ali lahko pride do konflikta davčnega rezidentstva med državami?",
+    "answer": "Da. Posameznik lahko izpolnjuje pogoje za davčno rezidentstvo v več državah hkrati. V takih primerih se uporabljajo mednarodne pogodbe o izogibanju dvojnega obdavčevanja, ki določajo pravila za ugotavljanje dejanskega rezidentstva glede na stalno prebivališče, center življenjskih interesov in druge kriterije.",
+    "source_title": "Legal vs tax residency in Slovenia",
+    "source_url": "https://sibiz.eu/legal-residency-vs-tax-residency-in-slovenia-what-every-expat-digital-nomad-and-global-entrepreneur-should-know/"
+{"id":11,"question":"Kaj je PISRS?","answer":"PISRS je Pravno-informacijski sistem Republike Slovenije. Gre za uradni spletni portal, ki vsebuje veljavne zakone, podzakonske predpise, sodno prakso, mednarodne pogodbe in druge pravne akte. Portal uporabljajo pravniki, javne institucije, podjetja in posamezniki za iskanje uradnih pravnih informacij.","source_title":"PISRS","source_url":"https://pisrs.si/"}
+{"id":12,"question":"Ali lahko davčni rezident Slovenije uveljavlja olajšavo za davek, plačan v tujini?","answer":"Da. Slovenski davčni rezidenti lahko pod določenimi pogoji uveljavljajo odbitek ali oprostitev za davek, ki so ga že plačali v tujini. To je odvisno od mednarodnih sporazumov o izogibanju dvojnega obdavčevanja ter vrste dohodka. Posameznik mora praviloma predložiti dokazila o plačanem davku v tujini.","source_title":"FURS – Dohodki iz tujine","source_url":"https://www.fu.gov.si/en/life_events_individuals/i_work_and_receive_income_from_abroad"}
+{"id":13,"question":"Ali lahko delodajalec preverja zlorabo bolniške odsotnosti?","answer":"Da. Če delodajalec sumi, da delavec zlorablja bolniški stalež, lahko zahteva nadzor oziroma preverjanje preko pristojnih institucij ali imenovanega zdravnika. Če se ugotovi, da delavec ni spoštoval navodil zdravljenja ali je neupravičeno opravljal delo, lahko sledijo disciplinski ukrepi ali odpoved.","source_title":"Bolniška odsotnost in kršitve","source_url":"https://fegus.si/studije-in-razmisljanja/bolniska-odsotnost-in-krsitve-kaj-lahko-stori-delodajalec-ce-delavec-zlorablja-bolnisko-odsotnost"}
+{"id":14,"question":"Ali lahko samostojni podjetnik zapre s.p. preko spleta?","answer":"Da. Samostojni podjetnik lahko zapre s.p. preko portala SPOT oziroma s pomočjo elektronskih storitev države. Pred zaprtjem mora urediti davčne obveznosti, morebitne zaposlene ter oddati ustrezne obrazce FURS-u in drugim institucijam.","source_title":"SPOT portal","source_url":"https://spot.gov.si/"}
+{"id":15,"question":"Kaj pomeni center življenjskih interesov pri davčnem rezidentstvu?","answer":"Center življenjskih interesov pomeni državo, s katero ima posameznik najtesnejše osebne in ekonomske povezave. Pri tem se upoštevajo družina, zaposlitev, nepremičnine, bančni računi, poslovne aktivnosti in druge okoliščine. Ta kriterij je pomemben pri določanju davčnega rezidentstva.","source_title":"Davčno rezidentstvo v Sloveniji","source_url":"https://motovila.si/en/mobility-info-point/becoming-a-tax-resident-in-slovenia/"}
+{"id":16,"question":"Ali lahko delavec sporazumno prekine pogodbo med bolniško?","answer":"Da. Delavec in delodajalec lahko kadarkoli sporazumno prekineta pogodbo o zaposlitvi, tudi med bolniško odsotnostjo. Sporazum mora biti prostovoljen in praviloma sklenjen v pisni obliki.","source_title":"Bolniški stalež","source_url":"https://www.posteno-delo.si/Vprasanja/Bolniski-stalez"}
+{"id":17,"question":"Ali mora delavec med bolniško ostati doma?","answer":"Delavec mora spoštovati navodila zdravnika glede gibanja in zdravljenja. V določenih primerih so dovoljeni sprehodi, rehabilitacija ali druge aktivnosti, če ne ovirajo okrevanja. Kršitve navodil lahko pomenijo zlorabo bolniške odsotnosti.","source_title":"Bolniška odsotnost","source_url":"https://www.zsss.si/sindikalni-abc/bolniska-odsotnost/"}
+{"id":18,"question":"Ali lahko tujec odpre podjetje v Sloveniji?","answer":"Da. Tujci lahko v Sloveniji ustanovijo podjetje ali registrirajo samostojno dejavnost, če izpolnjujejo zakonske pogoje. Postopek se običajno izvaja preko sistema SPOT, pri čemer so lahko potrebna dodatna dovoljenja glede prebivanja ali zaposlitve.","source_title":"SPOT – Ustanovitev podjetja","source_url":"https://spot.gov.si/"}
+{"id":19,"question":"Kaj je eDavki?","answer":"eDavki so elektronski portal Finančne uprave Republike Slovenije, namenjen oddaji davčnih obrazcev, komunikaciji s FURS, vpogledu v davčne obveznosti ter urejanju različnih davčnih postopkov preko spleta.","source_title":"eDavki","source_url":"https://edavki.durs.si/"}
+{"id":20,"question":"Ali lahko oseba izgubi status davčnega rezidenta Slovenije?","answer":"Da. Oseba lahko izgubi status slovenskega davčnega rezidenta, če trajno zapusti Slovenijo in prenese center svojih življenjskih interesov v drugo državo. Za uradno ureditev statusa mora posameznik običajno vložiti ustrezno vlogo pri FURS.","source_title":"FURS – Leaving Slovenia","source_url":"https://www.fu.gov.si/en/zivljenjski_dogodki_prebivalci/leaving_slovenia"}
+{
+    "id": 11,
+    "question": "Kaj je PISRS?",
+    "answer": "PISRS je Pravno-informacijski sistem Republike Slovenije. Gre za uradni spletni portal, ki vsebuje veljavne zakone, podzakonske predpise, sodno prakso, mednarodne pogodbe in druge pravne akte. Portal uporabljajo pravniki, javne institucije, podjetja in posamezniki za iskanje uradnih pravnih informacij.",
+    "source_title": "PISRS",
+    "source_url": "https://pisrs.si/"
+}
+{
+    "id": 12,
+    "question": "Ali lahko davčni rezident Slovenije uveljavlja olajšavo za davek, plačan v tujini?",
+    "answer": "Da. Slovenski davčni rezidenti lahko pod določenimi pogoji uveljavljajo odbitek ali oprostitev za davek, ki so ga že plačali v tujini. To je odvisno od mednarodnih sporazumov o izogibanju dvojnega obdavčevanja ter vrste dohodka. Posameznik mora praviloma predložiti dokazila o plačanem davku v tujini.",
+    "source_title": "FURS – Dohodki iz tujine",
+    "source_url": "https://www.fu.gov.si/en/life_events_individuals/i_work_and_receive_income_from_abroad"
+}
+{
+    "id": 13,
+    "question": "Ali lahko delodajalec preverja zlorabo bolniške odsotnosti?",
+    "answer": "Da. Če delodajalec sumi, da delavec zlorablja bolniški stalež, lahko zahteva nadzor oziroma preverjanje preko pristojnih institucij ali imenovanega zdravnika. Če se ugotovi, da delavec ni spoštoval navodil zdravljenja ali je neupravičeno opravljal delo, lahko sledijo disciplinski ukrepi ali odpoved.",
+    "source_title": "Bolniška odsotnost in kršitve",
+    "source_url": "https://fegus.si/studije-in-razmisljanja/bolniska-odsotnost-in-krsitve-kaj-lahko-stori-delodajalec-ce-delavec-zlorablja-bolnisko-odsotnost"
+}
+{
+    "id": 14,
+    "question": "Ali lahko samostojni podjetnik zapre s.p. preko spleta?",
+    "answer": "Da. Samostojni podjetnik lahko zapre s.p. preko portala SPOT oziroma s pomočjo elektronskih storitev države. Pred zaprtjem mora urediti davčne obveznosti, morebitne zaposlene ter oddati ustrezne obrazce FURS-u in drugim institucijam.",
+    "source_title": "SPOT portal",
+    "source_url": "https://spot.gov.si/"
+}
+{
+    "id": 15,
+    "question": "Kaj pomeni center življenjskih interesov pri davčnem rezidentstvu?",
+    "answer": "Center življenjskih interesov pomeni državo, s katero ima posameznik najtesnejše osebne in ekonomske povezave. Pri tem se upoštevajo družina, zaposlitev, nepremičnine, bančni računi, poslovne aktivnosti in druge okoliščine. Ta kriterij je pomemben pri določanju davčnega rezidentstva.",
+    "source_title": "Davčno rezidentstvo v Sloveniji",
+    "source_url": "https://motovila.si/en/mobility-info-point/becoming-a-tax-resident-in-slovenia/"
+}
+{
+    "id": 16,
+    "question": "Ali lahko delavec sporazumno prekine pogodbo med bolniško?",
+    "answer": "Da. Delavec in delodajalec lahko kadarkoli sporazumno prekineta pogodbo o zaposlitvi, tudi med bolniško odsotnostjo. Sporazum mora biti prostovoljen in praviloma sklenjen v pisni obliki.",
+    "source_title": "Bolniški stalež",
+    "source_url": "https://www.posteno-delo.si/Vprasanja/Bolniski-stalez"
+}
+{
+    "id": 17,
+    "question": "Ali mora delavec med bolniško ostati doma?",
+    "answer": "Delavec mora spoštovati navodila zdravnika glede gibanja in zdravljenja. V določenih primerih so dovoljeni sprehodi, rehabilitacija ali druge aktivnosti, če ne ovirajo okrevanja. Kršitve navodil lahko pomenijo zlorabo bolniške odsotnosti.",
+    "source_title": "Bolniška odsotnost",
+    "source_url": "https://www.zsss.si/sindikalni-abc/bolniska-odsotnost/"
+}
+{
+    "id": 18,
+    "question": "Ali lahko tujec odpre podjetje v Sloveniji?",
+    "answer": "Da. Tujci lahko v Sloveniji ustanovijo podjetje ali registrirajo samostojno dejavnost, če izpolnjujejo zakonske pogoje. Postopek se običajno izvaja preko sistema SPOT, pri čemer so lahko potrebna dodatna dovoljenja glede prebivanja ali zaposlitve.",
+    "source_title": "SPOT – Ustanovitev podjetja",
+    "source_url": "https://spot.gov.si/"
+}
+{
+    "id": 19,
+    "question": "Kaj je eDavki?",
+    "answer": "eDavki so elektronski portal Finančne uprave Republike Slovenije, namenjen oddaji davčnih obrazcev, komunikaciji s FURS, vpogledu v davčne obveznosti ter urejanju različnih davčnih postopkov preko spleta.",
+    "source_title": "eDavki",
+    "source_url": "https://edavki.durs.si/"
+}
+{
+    "id": 20,
+    "question": "Ali lahko oseba izgubi status davčnega rezidenta Slovenije?",
+    "answer": "Da. Oseba lahko izgubi status slovenskega davčnega rezidenta, če trajno zapusti Slovenijo in prenese center svojih življenjskih interesov v drugo državo. Za uradno ureditev statusa mora posameznik običajno vložiti ustrezno vlogo pri FURS.",
+    "source_title": "FURS – Leaving Slovenia",
+    "source_url": "https://www.fu.gov.si/en/zivljenjski_dogodki_prebivalci/leaving_slovenia"
+}

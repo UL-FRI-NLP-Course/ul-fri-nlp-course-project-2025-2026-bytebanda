@@ -1,0 +1,11 @@
+{
+  "run_id": "0b476f23",
+  "questions": 20,
+  "results_jsonl": "logs/web-search-answer-eval-20-fast.jsonl",
+  "mean_token_recall_vs_gt": 0.2194,
+  "mean_token_f1_vs_gt": 0.2147,
+  "expected_source_domain_hit_rate": 0.3,
+  "mean_official_source_count": 2.4,
+  "mean_source_relevance": 0.9055,
+  "mean_llm_judge_correctness": null
+}
