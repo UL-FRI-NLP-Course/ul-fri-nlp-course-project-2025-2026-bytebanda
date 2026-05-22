@@ -53,7 +53,7 @@ echo
 echo "=== Building baseline fixed-chunk index ==="
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli \
   --build-index \
-  --raw-dir downloads/pisrs \
+  --raw-dir data/raw \
   --chunk-strategy fixed \
   --chunk-size 1200 \
   --overlap 200 \
@@ -78,7 +78,7 @@ echo
 echo "=== Building improved legal-article index ==="
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli \
   --build-index \
-  --raw-dir downloads/pisrs \
+  --raw-dir data/raw \
   --chunk-strategy legal \
   --chunk-size 1800 \
   --overlap 150 \

@@ -38,7 +38,7 @@ echo "Writing structured results to: $RESULTS_JSONL"
 
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli \
   --build-index \
-  --raw-dir downloads/pisrs
+  --raw-dir data/raw
 
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.evaluate_rag \
   --questions evaluation/tax_eval_questions.jsonl \

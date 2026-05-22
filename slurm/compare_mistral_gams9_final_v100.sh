@@ -83,7 +83,7 @@ if [[ "$REBUILD_INDEX" == "1" || ! -s "$INDEX_DIR/faiss.index" || ! -s "$INDEX_D
   echo "=== Building shared legal index ==="
   singularity exec --nv "$CONTAINER" python -m src.rag_cli \
     --build-index \
-    --raw-dir downloads/pisrs \
+    --raw-dir data/raw \
     --chunk-strategy legal \
     --chunk-size 1800 \
     --overlap 150 \

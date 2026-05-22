@@ -30,7 +30,7 @@ fi
 echo "Running in project root: $PROJECT_ROOT"
 echo "Using container: $CONTAINER"
 
-singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli --build-index --raw-dir downloads/pisrs
+singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli --build-index --raw-dir data/raw
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli --ask "Kako ZDDV-1 opredeljuje davek na dodano vrednost?"
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli --ask "Kdaj se mora davcni zavezanec identificirati za DDV?"
 singularity exec "${SINGULARITY_ARGS[@]}" "$CONTAINER" python -m src.rag_cli --ask "Kaj je predmet obdavcitve z DDV po ZDDV-1?"

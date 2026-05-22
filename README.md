@@ -14,11 +14,10 @@ taxable persons, deadlines, and deductible costs.
 
 ```text
 src/             Python RAG pipeline
-data/raw/        local raw documents, not committed
+data/raw/        raw legal documents, not committed
 data/processed/  generated chunks, not committed
 data/index/      generated FAISS index and chunk metadata, not committed
 data/eval/       generated evaluation indexes, not committed
-downloads/pisrs/ PISRS HTML files used on the ARNES server
 prompts/         system prompts for grounded tax answers
 evaluation/      evaluation question sets
 slurm/           ARNES SLURM job scripts
@@ -66,22 +65,16 @@ node.
 
 ## 3. Prepare Documents
 
-For generic local runs, put supported documents into:
+Put supported source documents into:
 
 ```text
 data/raw/
 ```
 
-Supported input formats are `.txt`, `.md`, `.pdf`, `.html`, and `.htm`.
-
-On the ARNES server used for this project, the PISRS legal HTML files are
-expected in:
-
-```text
-downloads/pisrs/
-```
-
-If the documents are somewhere else, pass that directory with `--raw-dir`.
+Supported input formats are `.txt`, `.md`, `.pdf`, `.html`, and `.htm`. On the
+ARNES server used for this project, the PISRS legal HTML files should also be in
+`data/raw/`. If the documents are somewhere else, pass that directory with
+`--raw-dir`.
 
 ## 4. Build The Index
 
@@ -104,7 +97,7 @@ On the ARNES server, build the legal index from the PISRS documents:
 ```bash
 python -m src.rag_cli \
   --build-index \
-  --raw-dir downloads/pisrs \
+  --raw-dir data/raw \
   --chunk-strategy legal \
   --chunk-size 1800 \
   --overlap 150 \
