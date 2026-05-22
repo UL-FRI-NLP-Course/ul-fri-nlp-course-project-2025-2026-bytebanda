@@ -1,13 +1,26 @@
-transformers==4.38.2
-accelerate==0.27.2
-sentence-transformers==2.6.1
-faiss-cpu
+# Core ML / RAG stack
 torch>=2.2,<2.4
-sentencepiece
-protobuf
-numpy
-pandas
-scikit-learn
-pypdf
-beautifulsoup4
-tqdm
+transformers>=4.38,<4.48
+accelerate>=0.27,<0.28
+sentence-transformers>=2.6,<2.7
+faiss-cpu>=1.7
+numpy>=1.24
+
+# Tokenizers used by local Mistral/GaMS-style models
+sentencepiece>=0.1.99
+protobuf>=4.25
+
+# Document ingestion
+beautifulsoup4>=4.12
+pypdf>=4.0
+
+# Evaluation and experiments
+pandas>=2.0
+scikit-learn>=1.3
+tqdm>=4.66
+matplotlib>=3.7
+
+# PISRS scraper notebook
+requests>=2.31
+urllib3>=2.0
+playwright>=1.40
